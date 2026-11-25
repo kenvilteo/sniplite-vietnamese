@@ -240,6 +240,10 @@ bool config_save(const Config *c)
     config_path(path, MAX_PATH);
     if (!path[0])
         return false;
+    /* the upload settings (share.c) are not in Config: kept as the file has them, or the placeholders */
+    WCHAR up_url[1024], up_token[512];
+    GetPrivateProfileStringW(L"sniplite", L"upload_url", L"YOUR_URL", up_url, COUNTOF(up_url), path);
+    GetPrivateProfileStringW(L"sniplite", L"upload_token", L"YOUR_TOKEN", up_token, COUNTOF(up_token), path);
     Str s = {0};
     str_add(&s, T(INI_1));
     str_add(&s, T(INI_2));
@@ -261,6 +265,11 @@ bool config_save(const Config *c)
     str_add(&s, L"\r\n");
     if (lang_choice() != LG_AUTO) /* kept by lang.c; without the line the language follows Windows */
         str_addf(&s, L"lang=%s\r\n", lang_code(lang_choice()));
+    str_add(&s, L"upload_url=");
+    str_add(&s, up_url);
+    str_add(&s, L"\r\nupload_token=");
+    str_add(&s, up_token);
+    str_add(&s, L"\r\n");
     /* UTF-8 without BOM: Notepad shows the comments, and the ASCII keys/values
      * read back fine through GetPrivateProfileString. */
     int n = WideCharToMultiByte(CP_UTF8, 0, s.p, s.n, NULL, 0, NULL, NULL);

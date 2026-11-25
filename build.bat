@@ -32,4 +32,11 @@ gcc %CF% -DSETUP -Wl,--subsystem,windows -o build\sniplite_win_setup_amd64.exe s
  src\util.c src\lang.c src\crt.c build\setup.res %LDFLAGS% -lkernel32 -luser32 -lgdi32 -lole32 -lshell32 -ladvapi32 -luuid -lgcc ^
  || exit /b 1
 
+rem A settings file with the upload placeholders (server/README.md); one that is there is kept.
+if not exist build\sniplite.ini (
+  echo [sniplite]
+  echo upload_url=YOUR_URL
+  echo upload_token=YOUR_TOKEN
+) > build\sniplite.ini
+
 for %%f in (build\sniplite.exe build\sniplite.com build\sniplite_win_setup_amd64.exe) do echo %%~nxf  %%~zf bytes

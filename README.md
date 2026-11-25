@@ -131,6 +131,23 @@ Yes. Run `sniplite help` to see it.
 
 <img src="pics/ui/en.png" alt="The six pages of the settings, the shortcut list and the installer">
 
+## This fork: Vietnamese, upload and similar-image search
+
+This fork ([kenvilteo/sniplite](https://github.com/kenvilteo/sniplite)) adds:
+
+- **Tiếng Việt** in the language list (follows Windows when set to Vietnamese).
+- **Upload** (toolbar arrow button or **Ctrl+U** while capturing): the capture goes to *your own* Cloudflare Worker + R2. A small window shows the link with **Open** / **Copy**, the link is copied, and `uploads.log` keeps a history. The tray menu's **Uploaded images** opens a page to view and delete them.
+- **Find similar images**: **Google** / **Bing** / **Yandex** buttons in the same window search by the uploaded link.
+
+Uploading is off until it is set up. `sniplite.ini` holds two placeholders (`build.bat` writes them, and Settings keep them):
+
+```ini
+upload_url=YOUR_URL
+upload_token=YOUR_TOKEN
+```
+
+Setting up the server (Cloudflare account, R2, `wrangler deploy`, the token) is described step by step in **[server/README.md](server/README.md)** (Vietnamese).
+
 ## Build it yourself
 
 Install [w64devkit](https://github.com/skeeto/w64devkit) (or another MinGW-w64), add its `bin` folder to PATH and run `build.bat`; the programs appear in the `build` folder. The source is in `src`: the fast parts are assembly files (`.S`), assembled by gcc with the GNU assembler, the rest is C (`.c`). No C runtime is linked, only the system libraries that come with Windows.

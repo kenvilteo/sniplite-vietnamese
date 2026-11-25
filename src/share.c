@@ -258,10 +258,18 @@ static DWORD WINAPI upload_thread(void *arg)
 /* ---- the upload window: Open, Copy and the link, like Lightshot's ---- */
 
 #define UPWIN_CLASS L"sniplite_upload"
-enum { ID_OPEN = 1, ID_COPY, ID_LINK };
+enum { ID_OPEN = 1, ID_COPY, ID_LINK, ID_GOOGLE, ID_BING, ID_YANDEX };
+
+/* the search engines' "search by image URL" pages: the link, percent-encoded, follows */
+static const WCHAR *const kSearch[] = {
+    L"https://lens.google.com/uploadbyurl?url=",
+    L"https://www.bing.com/images/searchbyimage?cbir=sbi&imgurl=",
+    L"https://yandex.com/images/search?rpt=imageview&url=",
+};
+static const WCHAR *const kEngine[] = {L"Google", L"Bing", L"Yandex"};
 
 typedef struct {
-    HWND daemon, open, copy, link;
+    HWND daemon, open, copy, link, label, engine[3];
     HFONT font;
     WCHAR url[URL_CAP];
 } UpWin;
@@ -278,6 +286,29 @@ static void open_url(const WCHAR *url)
         run(NULL, L"open", url, NULL, NULL, SW_SHOWNORMAL);
 }
 
+/* search for images like the uploaded one, in the browser */
+static void search_similar(const WCHAR *link, int engine)
+{
+    static const char hex[] = "0123456789ABCDEF";
+    WCHAR url[URL_CAP * 3 + 96];
+    lstrcpyW(url, kSearch[engine]);
+    WCHAR *o = url + lstrlenW(url);
+    for (const WCHAR *p = link; *p && o < url + COUNTOF(url) - 4; p++) {
+        WCHAR c = *p;
+        if ((c >= L'a' && c <= L'z') || (c >= L'A' && c <= L'Z') || (c >= L'0' && c <= L'9') || c == L'-' ||
+            c == L'_' || c == L'.' || c == L'~')
+            *o++ = c;
+        else if (c < 0x80) {
+            *o++ = L'%';
+            *o++ = hex[c >> 4];
+            *o++ = hex[c & 15];
+        } else
+            return; /* the server's links are ASCII */
+    }
+    *o = 0;
+    open_url(url);
+}
+
 static LRESULT CALLBACK upwin_proc(HWND h, UINT m, WPARAM wp, LPARAM lp)
 {
     UpWin *u = (UpWin *)GetWindowLongPtrW(h, GWLP_USERDATA);
@@ -291,11 +322,16 @@ static LRESULT CALLBACK upwin_proc(HWND h, UINT m, WPARAM wp, LPARAM lp)
         } else if (LOWORD(wp) == ID_COPY && u->url[0]) {
             if (clip_put_text(u->daemon, u->url))
                 SetWindowTextW(u->copy, T(PIN_COPIED));
-        }
+        } else if (LOWORD(wp) >= ID_GOOGLE && LOWORD(wp) <= ID_YANDEX && u->url[0])
+            search_similar(u->url, LOWORD(wp) - ID_GOOGLE);
         return 0;
-    case WM_CTLCOLORSTATIC: /* the read-only link: white like an edit box */
-        SetBkColor((HDC)wp, GetSysColor(COLOR_WINDOW));
-        return (LRESULT)GetSysColorBrush(COLOR_WINDOW);
+    case WM_CTLCOLORSTATIC: /* the read-only link: white like an edit box; the label: the window's */
+        if (u && (HWND)lp == u->link) {
+            SetBkColor((HDC)wp, GetSysColor(COLOR_WINDOW));
+            return (LRESULT)GetSysColorBrush(COLOR_WINDOW);
+        }
+        SetBkColor((HDC)wp, GetSysColor(COLOR_BTNFACE));
+        return (LRESULT)GetSysColorBrush(COLOR_BTNFACE);
     case WM_CLOSE:
         DestroyWindow(h);
         return 0;
@@ -349,11 +385,17 @@ static HWND upwin_create(HWND daemon, POINT at)
                               S(132), S(14), S(110), S(30), h, (HMENU)(INT_PTR)ID_COPY, inst, NULL);
     u->link = CreateWindowExW(WS_EX_CLIENTEDGE, L"EDIT", T(UP_WORKING), WS_CHILD | WS_VISIBLE | ES_READONLY | ES_AUTOHSCROLL,
                               S(252), S(16), S(250), S(26), h, (HMENU)(INT_PTR)ID_LINK, inst, NULL);
-    HWND kids[] = {u->open, u->copy, u->link};
+    u->label = CreateWindowExW(0, L"STATIC", T(UP_SIMILAR), WS_CHILD | WS_VISIBLE | SS_LEFT | SS_CENTERIMAGE,
+                               S(12), S(54), S(150), S(30), h, NULL, inst, NULL);
     for (int i = 0; i < 3; i++)
+        u->engine[i] = CreateWindowExW(0, L"BUTTON", kEngine[i], WS_CHILD | WS_VISIBLE | WS_TABSTOP | WS_DISABLED,
+                                       S(170 + 112 * i), S(54), S(104), S(30), h, (HMENU)(INT_PTR)(ID_GOOGLE + i), inst,
+                                       NULL);
+    HWND kids[] = {u->open, u->copy, u->link, u->label, u->engine[0], u->engine[1], u->engine[2]};
+    for (int i = 0; i < COUNTOF(kids); i++)
         if (kids[i] && u->font)
             SendMessageW(kids[i], WM_SETFONT, (WPARAM)u->font, FALSE);
-    RECT rc = {0, 0, S(514), S(58)};
+    RECT rc = {0, 0, S(514), S(98)};
     AdjustWindowRectExForDpi(&rc, style, FALSE, ex, dpi ? dpi : 96);
     int w = rc.right - rc.left, hh = rc.bottom - rc.top;
 #undef S
@@ -377,6 +419,8 @@ static void upwin_result(HWND h, bool ok, const WCHAR *text)
         SetWindowTextW(u->link, text);
         EnableWindow(u->open, TRUE);
         EnableWindow(u->copy, TRUE);
+        for (int i = 0; i < 3; i++)
+            EnableWindow(u->engine[i], TRUE);
         SetFocus(u->open);
     } else {
         WCHAR t[URL_CAP + 64];

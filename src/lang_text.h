@@ -1490,6 +1490,7 @@ X(UP_DONE, "已上传，链接已复制", "已上傳，連結已複製", "Upload
 X(UP_FAILED, "上传失败", "上傳失敗", "Upload failed", "アップロードに失敗しました", "업로드 실패", "Échec de l'envoi", "Hochladen fehlgeschlagen", "Error al subir", "Tải lên thất bại")
 X(UP_TITLE, "上传图片", "上傳圖片", "Uploading image", "画像のアップロード", "이미지 업로드", "Envoi de l'image", "Bild hochladen", "Subiendo imagen", "Tải ảnh lên")
 X(UP_OPEN, "打开", "開啟", "Open", "開く", "열기", "Ouvrir", "Öffnen", "Abrir", "Mở")
+X(UP_SIMILAR, "以图搜图：", "以圖搜圖：", "Find similar:", "類似画像を検索:", "유사 이미지 검색:", "Images similaires :", "Ähnliche Bilder:", "Imágenes similares:", "Tìm ảnh tương tự:")
 X(M_UPLOADS, "已上传的图片", "已上傳的圖片", "Uploaded images", "アップロードした画像", "업로드한 이미지", "Images envoyées", "Hochgeladene Bilder", "Imágenes subidas", "Ảnh đã tải lên")
 
 #endif
