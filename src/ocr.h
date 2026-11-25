@@ -67,6 +67,8 @@ int ocr_helper(int argc, WCHAR **argv); /* body of `sniplite.exe --ocr` and `--o
 /* For the helper of a quick capture, and for "also save" when no helper started: the notice in
  * the lower right corner of the monitor with that point, and the wait until it has faded. */
 void notice_corner(const WCHAR *line, const WCHAR *path, POINT on_monitor, int stay_ms);
+/* A line (and a second, smaller one, or NULL) under a point, for stay_ms: used by share.c. */
+void notice_near(const WCHAR *line, const WCHAR *more, POINT at, int stay_ms);
 void notice_wait(void);
 /* The text: rows separated by CR LF; lines of one row by `between` (a space, or a
  * tab for pasting into a spreadsheet). */

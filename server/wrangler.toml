@@ -1,0 +1,7 @@
+name = "sniplite-upload"
+main = "worker.js"
+compatibility_date = "2026-11-01"
+
+[[r2_buckets]]
+binding = "IMG"
+bucket_name = "sniplite"

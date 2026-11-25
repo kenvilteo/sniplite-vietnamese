@@ -69,6 +69,7 @@
 #define K_L 0x4C                        /* = 'L' */
 #define K_O 0x4F                        /* = 'O' */
 #define K_S 0x53                        /* = 'S' */
+#define K_U 0x55                        /* = 'U' */
 #define K_T 0x54                        /* = 'T' */
 #define K_V 0x56                        /* = 'V' */
 #define K_W 0x57                        /* = 'W' */
@@ -1020,6 +1021,8 @@ FUNC on_key
         je .Lky_ocr
         cmp ebx, K_L
         je .Lky_long
+        cmp ebx, K_U
+        je .Lky_upload
         cmp ebx, K_Z
         je .Lky_undo
         cmp ebx, K_Y
@@ -1092,6 +1095,9 @@ FUNC on_key
         jmp .Lky_finish
 .Lky_long:
         mov ecx, ACT_LONG
+        jmp .Lky_finish
+.Lky_upload:
+        mov ecx, ACT_UPLOAD
         jmp .Lky_finish
 .Lky_ocr:
         call ocr_panel                  /* the text panel, shown or hidden */

@@ -262,5 +262,20 @@
         .long 0x41200000, 0x41380000
         .long 0x41600000, 0x40F00000
         .byte 0, 0, 0, 0
+/* upload: an arrow up out of a tray */
+.Lic_upload:
+        .byte 1, 4, 0, 0
+        .long 0x40800000, 0x41480000
+        .long 0x40800000, 0x41840000
+        .long 0x41800000, 0x41840000
+        .long 0x41800000, 0x41480000
+        .byte 1, 2, 0, 0
+        .long 0x41200000, 0x40600000
+        .long 0x41200000, 0x41500000
+        .byte 1, 3, 0, 0
+        .long 0x40C00000, 0x40F00000
+        .long 0x41200000, 0x40600000
+        .long 0x41600000, 0x40F00000
+        .byte 0, 0, 0, 0
 /* the mosaic icon's grid lines, (float)(3 + 3.5 * i) */
 .Lic_mosaic_grid: .long 0x40400000, 0x40D00000, 0x41200000, 0x41580000, 0x41880000

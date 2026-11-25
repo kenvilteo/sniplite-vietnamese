@@ -10,6 +10,7 @@
 #include "overlay.h"
 #include "pin.h"
 #include "settings.h"
+#include "share.h"
 #include "shot.h"
 #include "update.h"
 #include "resource.h"
@@ -1203,7 +1204,7 @@ void ov_leave(void)
 
 /* ---- the tray menu ------------------------------------------------------------------------- */
 
-enum { TM_CAPTURE = 1, TM_PIN, TM_TOGGLE, TM_CLOSE_PINS, TM_SETTINGS, TM_HELP, TM_UPDATE, TM_ABOUT, TM_EXIT };
+enum { TM_CAPTURE = 1, TM_PIN, TM_TOGGLE, TM_CLOSE_PINS, TM_SETTINGS, TM_HELP, TM_UPDATE, TM_ABOUT, TM_EXIT, TM_UPLOADS };
 
 static void menu_item(HMENU m, UINT id, const WCHAR *text, int hk, bool enabled)
 {
@@ -1225,6 +1226,7 @@ static void tray_menu(POINT at)
     menu_item(m, TM_TOGGLE, pins && !pin_any_visible() ? T(M_SHOW_PINS) : T(M_HIDE_PINS), HK_TOGGLE, pins);
     menu_item(m, TM_CLOSE_PINS, T(M_CLOSE_PINS), 0, pins);
     AppendMenuW(m, MF_SEPARATOR, 0, NULL);
+    menu_item(m, TM_UPLOADS, T(M_UPLOADS), 0, true);
     menu_item(m, TM_SETTINGS, T(M_SETTINGS), 0, true);
     menu_item(m, TM_HELP, T(M_HELP), 0, true);
     menu_item(m, TM_UPDATE, T(M_UPDATE), 0, true);
@@ -1265,6 +1267,9 @@ static void tray_menu(POINT at)
         break;
     case TM_EXIT:
         PostMessageW(D.hwnd, WM_CLOSE, 0, 0);
+        break;
+    case TM_UPLOADS:
+        upload_open_gallery();
         break;
     }
 }
@@ -1339,6 +1344,9 @@ static LRESULT CALLBACK daemon_proc(HWND h, UINT m, WPARAM wp, LPARAM lp)
         } else if (wp == HK_OCR || wp == HK_OCRCOPY) {
             ocr_capture(wp == HK_OCRCOPY);
         }
+        return 0;
+    case WM_APP_UPLOAD_DONE:
+        upload_done(h, lp);
         return 0;
     case WM_APP_OCR_THEN:
         ocr_then((int)wp);

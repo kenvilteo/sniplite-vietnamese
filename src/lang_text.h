@@ -1299,6 +1299,7 @@ X(TIP_BACK, "置于底层", "移到最下層", "Send to back", "最背面へ移�
   "In den Hintergrund", "Enviar al fondo",
 
   "Đưa xuống dưới")
+X(TIP_UPLOAD, "上传  Ctrl+U", "上傳  Ctrl+U", "Upload  Ctrl+U", "アップロード  Ctrl+U", "업로드  Ctrl+U", "Envoyer en ligne  Ctrl+U", "Hochladen  Ctrl+U", "Subir  Ctrl+U", "Tải lên  Ctrl+U")
 /* the three sizes */
 X(TIP_SIZE0, "细  (滚轮调节)", "細  (滾輪調整)", "Thin  (wheel to change)", "細い  (ホイールで調整)",
   "가늘게  (휠로 조절)", "Fin  (molette pour changer)", "Dünn  (Mausrad zum Ändern)", "Fino  (rueda para cambiar)",
@@ -1482,5 +1483,13 @@ X(SAVE_TITLE, "保存截图", "儲存截圖", "Save the capture", "キャプチ�
   "Enregistrer la capture", "Aufnahme speichern", "Guardar captura",
 
   "Lưu ảnh chụp")
+/* uploading (share.c) */
+X(UP_NOT_SET, "尚未设置上传。请在 sniplite.ini 的 [sniplite] 中填写 upload_url 和 upload_token。", "尚未設定上傳。請在 sniplite.ini 的 [sniplite] 中填寫 upload_url 和 upload_token。", "Uploading is not set up. Put upload_url and upload_token under [sniplite] in sniplite.ini.", "アップロードが未設定です。sniplite.ini の [sniplite] に upload_url と upload_token を書いてください。", "업로드가 설정되지 않았습니다. sniplite.ini의 [sniplite]에 upload_url과 upload_token을 넣으세요.", "L'envoi n'est pas configuré. Ajoutez upload_url et upload_token sous [sniplite] dans sniplite.ini.", "Hochladen ist nicht eingerichtet. Tragen Sie upload_url und upload_token unter [sniplite] in sniplite.ini ein.", "La subida no está configurada. Añade upload_url y upload_token en [sniplite] de sniplite.ini.", "Chưa cấu hình tải lên. Thêm upload_url và upload_token vào mục [sniplite] trong sniplite.ini.")
+X(UP_WORKING, "正在上传…", "正在上傳…", "Uploading...", "アップロード中...", "업로드 중...", "Envoi en cours...", "Wird hochgeladen...", "Subiendo...", "Đang tải lên...")
+X(UP_DONE, "已上传，链接已复制", "已上傳，連結已複製", "Uploaded, link copied", "アップロードしました。リンクをコピーしました", "업로드됨, 링크 복사됨", "Envoyé, lien copié", "Hochgeladen, Link kopiert", "Subido, enlace copiado", "Đã tải lên, đã chép link")
+X(UP_FAILED, "上传失败", "上傳失敗", "Upload failed", "アップロードに失敗しました", "업로드 실패", "Échec de l'envoi", "Hochladen fehlgeschlagen", "Error al subir", "Tải lên thất bại")
+X(UP_TITLE, "上传图片", "上傳圖片", "Uploading image", "画像のアップロード", "이미지 업로드", "Envoi de l'image", "Bild hochladen", "Subiendo imagen", "Tải ảnh lên")
+X(UP_OPEN, "打开", "開啟", "Open", "開く", "열기", "Ouvrir", "Öffnen", "Abrir", "Mở")
+X(M_UPLOADS, "已上传的图片", "已上傳的圖片", "Uploaded images", "アップロードした画像", "업로드한 이미지", "Images envoyées", "Hochgeladene Bilder", "Imágenes subidas", "Ảnh đã tải lên")
 
 #endif

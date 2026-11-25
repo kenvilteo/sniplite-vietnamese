@@ -548,6 +548,13 @@ void notice_corner(const WCHAR *line, const WCHAR *path, POINT on_monitor, int s
     notice_show(line, path, stay_ms);
 }
 
+void notice_near(const WCHAR *line, const WCHAR *more, POINT at, int stay_ms)
+{
+    N.at = at;
+    N.corner = false;
+    notice_show(line, more, stay_ms);
+}
+
 /* until it has faded */
 void notice_wait(void)
 {

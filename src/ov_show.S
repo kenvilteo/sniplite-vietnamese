@@ -1098,6 +1098,18 @@ FUNC finish
         call img_destroy
         jmp .Lfi_ret
 .Lfi_notcopy:
+        cmp ebx, ACT_UPLOAD
+        jne .Lfi_notupload
+        call ov_cancel
+        mov rcx, qword ptr [rsp + FI_OUT + IMG_PX]
+        mov edx, dword ptr [rsp + FI_OUT + IMG_W]
+        mov r8d, dword ptr [rsp + FI_OUT + IMG_H]
+        mov r9, qword ptr OV(OV_DAEMON)
+        call upload_start               /* a PNG, sent on a thread of its own (share.c) */
+        lea rcx, [rsp + FI_OUT]
+        call img_destroy
+        jmp .Lfi_ret
+.Lfi_notupload:
         cmp ebx, ACT_PIN
         jne .Lfi_save
         call ov_cancel
@@ -2379,6 +2391,9 @@ FUNC on_button
         je .Lob_finish
         mov ecx, ACT_LONG
         cmp ebx, B_LONG
+        je .Lob_finish
+        mov ecx, ACT_UPLOAD
+        cmp ebx, B_UPLOAD
         je .Lob_finish
         mov ecx, ACT_PIN
         cmp ebx, B_PIN

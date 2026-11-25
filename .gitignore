@@ -2,3 +2,6 @@ build/
 *.ini
 # local tests against earlier versions of the code, not part of the repository
 tests/
+server/.dev.vars
+server/.wrangler/
+server/node_modules/
