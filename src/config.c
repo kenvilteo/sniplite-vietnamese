@@ -107,7 +107,8 @@ void config_defaults(Config *c)
     c->tray = true;
     c->pin_top = true;
     c->pin_text = true;
-    c->auto_update = true;
+    c->gdi = true; /* lighter on memory */
+    c->auto_update = false;
     c->exit_ask = false;
     c->also_save = true;
     c->detect = DETECT_DEFAULT;
@@ -215,12 +216,12 @@ bool config_load(Config *c)
             c->vk[id] = vk;
         }
     }
-    GetPrivateProfileStringW(L"sniplite", L"capture", L"dxgi", v, COUNTOF(v), path);
-    c->gdi = arg_eq(v, L"gdi");
+    GetPrivateProfileStringW(L"sniplite", L"capture", L"gdi", v, COUNTOF(v), path);
+    c->gdi = !arg_eq(v, L"dxgi");
     c->tray = GetPrivateProfileIntW(L"sniplite", L"tray", 1, path) != 0;
     c->pin_top = GetPrivateProfileIntW(L"sniplite", L"pin_top", 1, path) != 0;
     c->pin_text = GetPrivateProfileIntW(L"sniplite", L"pin_text", 1, path) != 0;
-    c->auto_update = GetPrivateProfileIntW(L"sniplite", L"auto_update", 1, path) != 0;
+    c->auto_update = GetPrivateProfileIntW(L"sniplite", L"auto_update", 0, path) != 0;
     c->exit_ask = GetPrivateProfileIntW(L"sniplite", L"exit_ask", 0, path) != 0;
     c->also_save = GetPrivateProfileIntW(L"sniplite", L"also_save", 1, path) != 0;
     c->block_fullscreen = GetPrivateProfileIntW(L"sniplite", L"block_fullscreen", 0, path) != 0;
@@ -247,6 +248,9 @@ bool config_save(const Config *c)
     WCHAR up_url[1024], up_token[512];
     GetPrivateProfileStringW(L"sniplite", L"upload_url", L"YOUR_URL", up_url, COUNTOF(up_url), path);
     GetPrivateProfileStringW(L"sniplite", L"upload_token", L"YOUR_TOKEN", up_token, COUNTOF(up_token), path);
+    WCHAR up_host[32], cb_hash[64];
+    GetPrivateProfileStringW(L"sniplite", L"upload_host", L"", up_host, COUNTOF(up_host), path);
+    GetPrivateProfileStringW(L"sniplite", L"catbox_userhash", L"", cb_hash, COUNTOF(cb_hash), path);
     Str s = {0};
     str_add(&s, T(INI_1));
     str_add(&s, T(INI_2));
@@ -272,6 +276,10 @@ bool config_save(const Config *c)
     str_add(&s, up_url);
     str_add(&s, L"\r\nupload_token=");
     str_add(&s, up_token);
+    str_add(&s, L"\r\nupload_host=");
+    str_add(&s, up_host);
+    str_add(&s, L"\r\ncatbox_userhash=");
+    str_add(&s, cb_hash);
     str_add(&s, L"\r\n");
     /* UTF-8 without BOM: Notepad shows the comments, and the ASCII keys/values
      * read back fine through GetPrivateProfileString. */

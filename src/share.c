@@ -7,7 +7,11 @@
  *
  * The PNG is written on the daemon's thread (image_save: WIC, like every other save),
  * the request runs on a thread of its own, and the outcome comes back to the daemon
- * window as WM_APP_UPLOAD_DONE. WinHTTP is loaded on demand, with the system proxy. */
+ * window as WM_APP_UPLOAD_DONE.
+ *
+ * upload_host=catbox in sniplite.ini sends to catbox.moe instead (permanent files, no upload_url or
+ * token needed): multipart POST to https://catbox.moe/user/api.php, the answer is the link as plain
+ * text. catbox_userhash=<hash> is optional and ties the files to a catbox account. WinHTTP is loaded on demand, with the system proxy. */
 #include "share.h"
 #include "image.h"
 #include "lang.h"
@@ -54,7 +58,8 @@ typedef struct {
     POINT at; /* the mouse when the user asked: the notices show there */
     WCHAR path[MAX_PATH];
     WCHAR url[URL_CAP];
-    WCHAR token[TOKEN_CAP];
+    WCHAR token[TOKEN_CAP]; /* the catbox userhash when catbox */
+    bool catbox;
 } Job;
 
 typedef struct {
@@ -96,6 +101,44 @@ static void cfg_get(const WCHAR *key, WCHAR *out, int cap)
     out[0] = 0;
     if (ini[0])
         GetPrivateProfileStringW(L"sniplite", key, L"", out, (DWORD)cap, ini);
+}
+
+#define CATBOX_API L"https://catbox.moe/user/api.php"
+#define MP_BOUNDARY "----sniplite7d3f1c9a"
+
+static bool use_catbox(void)
+{
+    WCHAR v[32];
+    cfg_get(L"upload_host", v, COUNTOF(v));
+    return !lstrcmpiW(v, L"catbox");
+}
+
+/* the catbox multipart body around the PNG; NULL on failure */
+static BYTE *mp_build(const WCHAR *userhash, const BYTE *png, DWORD size, DWORD *outlen)
+{
+    char hash[128], head[768];
+    hash[0] = 0;
+    if (userhash[0]) {
+        int n = WideCharToMultiByte(CP_UTF8, 0, userhash, -1, hash, sizeof hash - 1, NULL, NULL);
+        if (n <= 0)
+            hash[0] = 0;
+    }
+    int hn = wsprintfA(head,
+                       "--" MP_BOUNDARY "\r\nContent-Disposition: form-data; name=\"reqtype\"\r\n\r\nfileupload\r\n"
+                       "%s%s%s"
+                       "--" MP_BOUNDARY "\r\nContent-Disposition: form-data; name=\"fileToUpload\"; filename=\"sniplite.png\"\r\n"
+                       "Content-Type: image/png\r\n\r\n",
+                       hash[0] ? "--" MP_BOUNDARY "\r\nContent-Disposition: form-data; name=\"userhash\"\r\n\r\n" : "",
+                       hash, hash[0] ? "\r\n" : "");
+    static const char tail[] = "\r\n--" MP_BOUNDARY "--\r\n";
+    BYTE *b = hn > 0 ? mem_alloc((size_t)hn + size + sizeof tail) : NULL;
+    if (!b)
+        return NULL;
+    memcpy(b, head, (size_t)hn);
+    memcpy(b + hn, png, size);
+    memcpy(b + hn + size, tail, sizeof tail - 1);
+    *outlen = (DWORD)hn + size + (DWORD)sizeof tail - 1;
+    return b;
 }
 
 /* upload_url without its trailing slashes, if it is an http(s) address; its length, or 0 */
@@ -175,7 +218,17 @@ static bool send_png(const Job *j, const BYTE *body, DWORD size, WCHAR *out, int
         lstrcpynW(out, j->url, cap);
         return false;
     }
-    lstrcatW(path, L"/upload");
+    BYTE *mp = NULL;
+    const BYTE *data = body;
+    DWORD dlen = size;
+    if (j->catbox) {
+        if (!(mp = mp_build(j->token, body, size, &dlen))) {
+            lstrcpyW(out, L"memory");
+            return false;
+        }
+        data = mp;
+    } else
+        lstrcatW(path, L"/upload");
     bool ok = false;
     DWORD status = 0;
     HINTERNET s = WH.open(L"sniplite/" SNIPLITE_VERSION, WINHTTP_ACCESS_TYPE_AUTOMATIC_PROXY, WINHTTP_NO_PROXY_NAME,
@@ -193,11 +246,15 @@ static bool send_png(const Job *j, const BYTE *body, DWORD size, WCHAR *out, int
                        u.nScheme == INTERNET_SCHEME_HTTPS ? WINHTTP_FLAG_SECURE : 0);
     if (r) {
         WCHAR hdr[TOKEN_CAP + 80];
-        lstrcpyW(hdr, L"Content-Type: image/png\r\nAuthorization: Bearer ");
-        lstrcatW(hdr, j->token);
-        lstrcatW(hdr, L"\r\n");
+        if (j->catbox)
+            lstrcpyW(hdr, L"Content-Type: multipart/form-data; boundary=" L"----sniplite7d3f1c9a" L"\r\n");
+        else {
+            lstrcpyW(hdr, L"Content-Type: image/png\r\nAuthorization: Bearer ");
+            lstrcatW(hdr, j->token);
+            lstrcatW(hdr, L"\r\n");
+        }
         DWORD sz = sizeof status;
-        if (WH.send(r, hdr, (DWORD)-1, (LPVOID)body, size, size, 0) && WH.receive(r, NULL) &&
+        if (WH.send(r, hdr, (DWORD)-1, (LPVOID)data, dlen, dlen, 0) && WH.receive(r, NULL) &&
             WH.headers(r, WINHTTP_QUERY_STATUS_CODE | WINHTTP_QUERY_FLAG_NUMBER, WINHTTP_HEADER_NAME_BY_INDEX, &status,
                        &sz, WINHTTP_NO_HEADER_INDEX)) {
             char buf[4096];
@@ -205,7 +262,15 @@ static bool send_png(const Job *j, const BYTE *body, DWORD size, WCHAR *out, int
             while (total < sizeof buf - 1 && WH.read(r, buf + total, sizeof buf - 1 - total, &got) && got)
                 total += got;
             buf[total] = 0;
-            ok = status == 200 && json_str(buf, "url", out, cap);
+            if (j->catbox) { /* plain text: the link, or the reason */
+                char *e = buf;
+                while (*e && *e != '\r' && *e != '\n' && *e != ' ')
+                    e++;
+                *e = 0;
+                ok = status == 200 && !memcmp(buf, "https://", 8) &&
+                     MultiByteToWideChar(CP_UTF8, 0, buf, -1, out, cap) > 0;
+            } else
+                ok = status == 200 && json_str(buf, "url", out, cap);
         }
     }
     if (!ok) {
@@ -220,6 +285,7 @@ static bool send_png(const Job *j, const BYTE *body, DWORD size, WCHAR *out, int
         WH.close(c);
     if (s)
         WH.close(s);
+    mem_free(mp);
     return ok;
 }
 
@@ -440,12 +506,18 @@ void upload_start(const uint32_t *px, int w, int h, HWND daemon)
         return;
     j->daemon = daemon;
     j->at = at;
-    if (!base_url(j->url, COUNTOF(j->url))) {
-        mem_free(j);
-        MessageBoxW(NULL, T(UP_NOT_SET), L"sniplite", MB_OK | MB_ICONINFORMATION | MB_TOPMOST);
-        return;
+    j->catbox = use_catbox();
+    if (j->catbox) {
+        lstrcpyW(j->url, CATBOX_API);
+        cfg_get(L"catbox_userhash", j->token, COUNTOF(j->token));
+    } else {
+        if (!base_url(j->url, COUNTOF(j->url))) {
+            mem_free(j);
+            MessageBoxW(NULL, T(UP_NOT_SET), L"sniplite", MB_OK | MB_ICONINFORMATION | MB_TOPMOST);
+            return;
+        }
+        cfg_get(L"upload_token", j->token, COUNTOF(j->token));
     }
-    cfg_get(L"upload_token", j->token, COUNTOF(j->token));
     const WCHAR *why = NULL;
     WCHAR tmp[MAX_PATH];
     DWORD n = GetTempPathW(MAX_PATH, tmp);
@@ -496,6 +568,10 @@ void upload_done(HWND daemon, LPARAM lp)
 void upload_open_gallery(void)
 {
     WCHAR url[URL_CAP + 2];
+    if (use_catbox()) {
+        open_url(L"https://catbox.moe/");
+        return;
+    }
     if (!base_url(url, URL_CAP)) {
         MessageBoxW(NULL, T(UP_NOT_SET), L"sniplite", MB_OK | MB_ICONINFORMATION | MB_TOPMOST);
         return;
