@@ -1,5 +1,5 @@
 /* Every text the user sees, in every language. One row per text:
- *   X(name, 简体中文, 繁體中文, English, 日本語, 한국어, Français, Deutsch, Español)
+ *   X(name, 简体中文, 繁體中文, English, 日本語, 한국어, Français, Deutsch, Español, Tiếng Việt)
  * Included several times with different X (lang.h: the numbers S_<name>; lang.c: the
  * texts; lang.inc: the numbers for the assembly). Each program has its own rows:
  * sniplite.com (CONSOLE), the installer (SETUP), sniplite.exe (neither).
@@ -174,7 +174,28 @@ X(HELP,
   "  start --gdi usa el modo ligero, --dxgi vuelve al rápido\n"
   "  añade --json a cualquier comando para una salida legible por programas\n"
   "\n"
-  "Códigos de salida: 0 correcto, 1 error, 2 argumentos incorrectos, 3 no iniciado, 4 nada que fijar, 5 atajo en uso\n")
+  "Códigos de salida: 0 correcto, 1 error, 2 argumentos incorrectos, 3 no iniciado, 4 nada que fijar, 5 atajo en uso\n",
+
+  ": chụp màn hình nhanh, nhẹ\n"
+  "\n"
+  "  sniplite                     khởi động (đang chạy thì hiện trạng thái)\n"
+  "  sniplite capture             bắt đầu chụp, như bấm F1\n"
+  "  sniplite capture --full --out a.png        lưu cả màn hình ra file\n"
+  "  sniplite capture --rect 0,0,800,600        chép vùng đó vào clipboard\n"
+  "  sniplite pin [ảnh]           ghim ảnh, không có ảnh thì ghim clipboard\n"
+  "  sniplite ocr                 chọn vùng và đọc chữ; --copy để chép luôn\n"
+  "  sniplite settings            mở Cài đặt\n"
+  "  sniplite update              kiểm tra cập nhật; --install để cài bản mới\n"
+  "  sniplite status              xem trạng thái\n"
+  "  sniplite quit                thoát\n"
+  "\n"
+  "Mẹo:\n"
+  "  capture nhận thêm --clip (chép) và --pin (ghim), dùng chung được\n"
+  "  start có thể đặt phím tắt cho lần chạy này: --hotkey Ctrl+Alt+A (còn có --pin-hotkey, --toggle-hotkey)\n"
+  "  start --gdi dùng chế độ chụp ít bộ nhớ, --dxgi quay về chế độ nhanh nhất\n"
+  "  thêm --json vào lệnh bất kỳ để xuất kết quả cho chương trình khác đọc\n"
+  "\n"
+  "Mã thoát: 0 thành công, 1 lỗi, 2 sai tham số, 3 chưa chạy, 4 không có gì để ghim, 5 phím tắt bị chiếm\n")
 
 X(NO_EXE,
   "找不到 sniplite.exe，它必须和 sniplite.com 放在同一个文件夹里\n",
@@ -184,40 +205,56 @@ X(NO_EXE,
   "sniplite.exe를 찾을 수 없습니다. sniplite.com과 같은 폴더에 있어야 합니다\n",
   "sniplite.exe introuvable. Il doit être dans le même dossier que sniplite.com\n",
   "sniplite.exe nicht gefunden. Es muss im selben Ordner wie sniplite.com liegen\n",
-  "No se encuentra sniplite.exe. Debe estar en la misma carpeta que sniplite.com\n")
+  "No se encuentra sniplite.exe. Debe estar en la misma carpeta que sniplite.com\n",
+
+  "Không tìm thấy sniplite.exe. File này phải nằm cùng thư mục với sniplite.com\n")
 X(CANNOT_START,
   "无法启动 sniplite.exe\n", "無法啟動 sniplite.exe\n", "Cannot start sniplite.exe\n",
   "sniplite.exe を起動できません\n", "sniplite.exe를 시작할 수 없습니다\n",
   "Impossible de lancer sniplite.exe\n", "sniplite.exe lässt sich nicht starten\n",
-  "No se puede iniciar sniplite.exe\n")
+  "No se puede iniciar sniplite.exe\n",
+
+  "Không khởi động được sniplite.exe\n")
 X(START_FAILED,
   "sniplite.exe 没有正常启动\n", "sniplite.exe 沒有正常啟動\n", "sniplite.exe did not start properly\n",
   "sniplite.exe が正常に起動しませんでした\n", "sniplite.exe가 제대로 시작되지 않았습니다\n",
   "sniplite.exe n'a pas démarré correctement\n", "sniplite.exe ist nicht richtig gestartet\n",
-  "sniplite.exe no se inició correctamente\n")
+  "sniplite.exe no se inició correctamente\n",
+
+  "sniplite.exe không khởi động đúng cách\n")
 X(UPD_USAGE,
   "用法：sniplite update [--install] [--json]\n", "用法：sniplite update [--install] [--json]\n",
   "Usage: sniplite update [--install] [--json]\n", "使い方：sniplite update [--install] [--json]\n",
   "사용법: sniplite update [--install] [--json]\n", "Usage : sniplite update [--install] [--json]\n",
-  "Aufruf: sniplite update [--install] [--json]\n", "Uso: sniplite update [--install] [--json]\n")
+  "Aufruf: sniplite update [--install] [--json]\n", "Uso: sniplite update [--install] [--json]\n",
+
+  "Cách dùng: sniplite update [--install] [--json]\n")
 X(DOWNLOADING,
   "正在下载新版本...\n", "正在下載新版本...\n", "Downloading the new version...\n",
   "新バージョンをダウンロード中...\n", "새 버전 다운로드 중...\n",
   "Téléchargement de la nouvelle version...\n", "Neue Version wird heruntergeladen...\n",
-  "Descargando la nueva versión...\n")
+  "Descargando la nueva versión...\n",
+
+  "Đang tải bản mới...\n")
 X(UPDATED,
   "已更新到 %s\n", "已更新到 %s\n", "Updated to %s\n", "%s に更新しました\n", "업데이트 완료: %s\n",
-  "Mis à jour vers %s\n", "Auf %s aktualisiert\n", "Actualizado a %s\n")
+  "Mis à jour vers %s\n", "Auf %s aktualisiert\n", "Actualizado a %s\n",
+
+  "Đã cập nhật lên %s\n")
 X(NET_FAILED,
   "检查失败，请检查网络\n", "檢查失敗，請確認網路\n", "Check failed. Is the network up?\n",
   "確認に失敗しました。ネットワークを確認してください\n", "확인 실패. 네트워크를 확인하세요\n",
   "Échec de la recherche. Vérifiez le réseau\n", "Suche fehlgeschlagen. Netzwerk prüfen\n",
-  "Error al buscar. Revisa la conexión\n")
+  "Error al buscar. Revisa la conexión\n",
+
+  "Kiểm tra thất bại. Mạng có hoạt động không?\n")
 X(UPD_FAILED,
   "更新失败，请稍后再试\n", "更新失敗，請稍後再試\n", "Update failed. Try again later\n",
   "更新に失敗しました。後でもう一度お試しください\n", "업데이트 실패. 나중에 다시 시도하세요\n",
   "Échec de la mise à jour. Réessayez plus tard\n", "Update fehlgeschlagen. Später erneut versuchen\n",
-  "Error al actualizar. Inténtalo más tarde\n")
+  "Error al actualizar. Inténtalo más tarde\n",
+
+  "Cập nhật thất bại. Hãy thử lại sau\n")
 X(NEWER,
   "有新版本 %s（现在是 %s），运行 sniplite update --install 安装\n",
   "有新版本 %s（現在是 %s），執行 sniplite update --install 安裝\n",
@@ -226,66 +263,94 @@ X(NEWER,
   "새 버전 %s (현재 %s). sniplite update --install로 설치하세요\n",
   "Nouvelle version %s (actuelle : %s). Lancez sniplite update --install pour l'installer\n",
   "Neue Version %s (installiert: %s). Mit sniplite update --install installieren\n",
-  "Nueva versión %s (actual: %s). Ejecuta sniplite update --install para instalarla\n")
+  "Nueva versión %s (actual: %s). Ejecuta sniplite update --install para instalarla\n",
+
+  "Có bản mới %s (bản này là %s). Chạy sniplite update --install để cài\n")
 X(NO_RELEASE,
   "还没有发布的版本\n", "還沒有發布的版本\n", "No release yet\n", "まだリリースがありません\n",
   "아직 공개된 버전이 없습니다\n", "Aucune version publiée\n", "Noch keine Version veröffentlicht\n",
-  "Aún no hay versiones\n")
+  "Aún no hay versiones\n",
+
+  "Chưa có bản phát hành nào\n")
 X(LATEST,
   "已是最新版本 %s\n", "已是最新版本 %s\n", "%s is the latest version\n", "%s は最新バージョンです\n",
   "최신 버전입니다 (%s)\n", "%s est la dernière version\n", "%s ist die neueste Version\n",
-  "%s es la última versión\n")
+  "%s es la última versión\n",
+
+  "%s là bản mới nhất\n")
 X(NOT_RUNNING,
   "sniplite 没有在运行\n", "sniplite 沒有在執行\n", "sniplite is not running\n",
   "sniplite は起動していません\n", "sniplite가 실행 중이 아닙니다\n", "sniplite n'est pas lancé\n",
-  "sniplite läuft nicht\n", "sniplite no está en ejecución\n")
+  "sniplite läuft nicht\n", "sniplite no está en ejecución\n",
+
+  "sniplite chưa chạy\n")
 X(NO_CONNECT,
   "无法连接 sniplite 后台进程\n", "無法連線到 sniplite 背景處理程序\n",
   "Cannot reach the sniplite background process\n", "sniplite のバックグラウンドプロセスに接続できません\n",
   "sniplite 백그라운드 프로세스에 연결할 수 없습니다\n",
   "Impossible de joindre le processus d'arrière-plan de sniplite\n",
   "Der Hintergrundprozess von sniplite ist nicht erreichbar\n",
-  "No se puede conectar con el proceso en segundo plano de sniplite\n")
+  "No se puede conectar con el proceso en segundo plano de sniplite\n",
+
+  "Không kết nối được tiến trình nền của sniplite\n")
 
 #elif defined(SETUP)
 
 X(FONT, "Microsoft YaHei UI", "Microsoft JhengHei UI", "Segoe UI", "Yu Gothic UI", "Malgun Gothic", "Segoe UI",
-  "Segoe UI", "Segoe UI")
+  "Segoe UI", "Segoe UI",
+
+  "Segoe UI")
 X(S_CAPTION,
   "安装 sniplite", "安裝 sniplite", "Install sniplite", "sniplite のインストール", "sniplite 설치",
-  "Installer sniplite", "sniplite installieren", "Instalar sniplite")
+  "Installer sniplite", "sniplite installieren", "Instalar sniplite",
+
+  "Cài sniplite")
 X(S_SUB,
   "极度轻量的快速截图贴图工具", "極度輕量的快速截圖貼圖工具", "A tiny, fast screenshot and pin tool",
   "超軽量で高速なスクリーンショット＆ピン留めツール", "아주 가볍고 빠른 화면 캡처, 고정 도구",
   "Captures et épingles, ultralégères et rapides", "Winzig und schnell: Screenshots und Pins",
-  "Capturar y fijar, rápido y ultraligero")
+  "Capturar y fijar, rápido y ultraligero",
+
+  "Công cụ chụp và ghim màn hình nhỏ gọn, nhanh")
 X(S_PATH,
   "安装到 %s", "安裝到 %s", "Install to %s", "インストール先：%s", "설치 위치: %s", "Installer dans %s",
-  "Installieren in %s", "Instalar en %s")
+  "Installieren in %s", "Instalar en %s",
+
+  "Cài vào %s")
 X(S_BROWSE,
   "更改位置…", "變更位置…", "Change folder…", "場所を変更…", "위치 변경…", "Changer le dossier…",
-  "Ordner ändern…", "Cambiar carpeta…")
+  "Ordner ändern…", "Cambiar carpeta…",
+
+  "Đổi thư mục…")
 X(S_AUTOSTART,
   "开机启动", "開機啟動", "Start with Windows", "Windows 起動時に実行", "Windows 시작 시 실행",
-  "Lancer au démarrage", "Mit Windows starten", "Iniciar con Windows")
+  "Lancer au démarrage", "Mit Windows starten", "Iniciar con Windows",
+
+  "Khởi động cùng Windows")
 X(S_OCR,
   "同时安装文字识别模块（另下载 12 MB）", "同時安裝文字辨識模組（另下載 12 MB）", "Also install text recognition (12 MB download)",
   "文字認識モジュールも導入 (12 MB ダウンロード)", "텍스트 인식 모듈도 설치 (12 MB 다운로드)",
   "Installer aussi la reconnaissance de texte (12 Mo)", "Texterkennung mitinstallieren (12 MB Download)",
-  "Instalar también el reconocimiento de texto (12 MB)")
-X(S_INSTALL, "安装", "安裝", "Install", "インストール", "설치", "Installer", "Installieren", "Instalar")
-X(S_CANCEL, "取消", "取消", "Cancel", "キャンセル", "취소", "Annuler", "Abbrechen", "Cancelar")
+  "Instalar también el reconocimiento de texto (12 MB)",
+
+  "Cài thêm nhận dạng chữ (tải 12 MB)")
+X(S_INSTALL, "安装", "安裝", "Install", "インストール", "설치", "Installer", "Installieren", "Instalar", "Cài")
+X(S_CANCEL, "取消", "取消", "Cancel", "キャンセル", "취소", "Annuler", "Abbrechen", "Cancelar", "Hủy")
 X(S_DONE_OWN,
   "装好了，sniplite 已在后台运行。", "裝好了，sniplite 已在背景執行。",
   "Done. sniplite is running in the background.", "完了しました。sniplite はバックグラウンドで実行中です。",
   "설치 완료. sniplite가 백그라운드에서 실행 중입니다.", "C'est prêt. sniplite tourne en arrière-plan.",
-  "Fertig. sniplite läuft im Hintergrund.", "Listo. sniplite se ejecuta en segundo plano.")
+  "Fertig. sniplite läuft im Hintergrund.", "Listo. sniplite se ejecuta en segundo plano.",
+
+  "Xong. sniplite đang chạy nền.")
 X(S_DONE,
   "装好了，按 F1 截图，按 F3 贴图。", "裝好了，按 F1 截圖，按 F3 貼圖。",
   "Done. Press F1 to capture, F3 to pin.", "完了しました。F1 でキャプチャ、F3 でピン留めできます。",
   "설치 완료. 캡처는 F1, 고정은 F3입니다.", "C'est prêt. F1 pour capturer, F3 pour épingler.",
-  "Fertig. F1 zum Aufnehmen, F3 zum Anheften.", "Listo. F1 para capturar, F3 para fijar.")
-X(S_FINISH, "完成", "完成", "Finish", "完了", "완료", "Terminer", "Fertig", "Finalizar")
+  "Fertig. F1 zum Aufnehmen, F3 zum Anheften.", "Listo. F1 para capturar, F3 para fijar.",
+
+  "Xong. Bấm F1 để chụp, F3 để ghim.")
+X(S_FINISH, "完成", "完成", "Finish", "完了", "완료", "Terminer", "Fertig", "Finalizar", "Hoàn tất")
 X(S_FAILED,
   "安装失败：无法写入程序文件。", "安裝失敗：無法寫入程式檔案。",
   "Install failed: cannot write the program files.",
@@ -293,27 +358,37 @@ X(S_FAILED,
   "설치 실패: 프로그램 파일을 쓸 수 없습니다.",
   "Échec de l'installation : impossible d'écrire les fichiers du programme.",
   "Installation fehlgeschlagen: Programmdateien lassen sich nicht schreiben.",
-  "Error al instalar: no se pueden escribir los archivos del programa.")
+  "Error al instalar: no se pueden escribir los archivos del programa.",
+
+  "Cài thất bại: không ghi được file chương trình.")
 /* also the name of the Start menu shortcut (install.h) */
 X(UNINST_TITLE,
   "卸载 sniplite", "解除安裝 sniplite", "Uninstall sniplite", "sniplite のアンインストール", "sniplite 제거",
-  "Désinstaller sniplite", "sniplite deinstallieren", "Desinstalar sniplite")
+  "Désinstaller sniplite", "sniplite deinstallieren", "Desinstalar sniplite",
+
+  "Gỡ sniplite")
 
 #else
 
 /* the font of every window and of the text drawn on screenshots and pins */
 X(FONT, "Microsoft YaHei UI", "Microsoft JhengHei UI", "Segoe UI", "Yu Gothic UI", "Malgun Gothic", "Segoe UI",
-  "Segoe UI", "Segoe UI")
+  "Segoe UI", "Segoe UI",
+
+  "Segoe UI")
 
 /* ---- replies to commands (main.c) ---- */
 X(ERR_MISSING_VALUE,
   "%s 后面缺少参数值\n", "%s 後面缺少參數值\n", "%s needs a value\n", "%s に値がありません\n",
-  "%s 뒤에 값이 없습니다\n", "%s : valeur manquante\n", "%s braucht einen Wert\n", "%s necesita un valor\n")
+  "%s 뒤에 값이 없습니다\n", "%s : valeur manquante\n", "%s braucht einen Wert\n", "%s necesita un valor\n",
+
+  "%s cần một giá trị\n")
 X(ERR_UNKNOWN_ARG,
   "不认识的参数：%s（用 sniplite help 查看用法）\n", "未知的參數：%s（用 sniplite help 查看用法）\n",
   "Unknown option: %s (see sniplite help)\n", "不明なオプション：%s（使い方は sniplite help）\n",
   "알 수 없는 옵션: %s (sniplite help 참고)\n", "Option inconnue : %s (voir sniplite help)\n",
-  "Unbekannte Option: %s (siehe sniplite help)\n", "Opción desconocida: %s (ver sniplite help)\n")
+  "Unbekannte Option: %s (siehe sniplite help)\n", "Opción desconocida: %s (ver sniplite help)\n",
+
+  "Tùy chọn không rõ: %s (xem sniplite help)\n")
 X(ERR_BAD_HOTKEY,
   "无法识别的热键：%s（例：F1、Ctrl+Alt+A、Shift+F3、none）\n",
   "無法辨識的快速鍵：%s（例：F1、Ctrl+Alt+A、Shift+F3、none）\n",
@@ -322,122 +397,188 @@ X(ERR_BAD_HOTKEY,
   "잘못된 단축키: %s (예: F1, Ctrl+Alt+A, Shift+F3, none)\n",
   "Raccourci invalide : %s (ex. F1, Ctrl+Alt+A, Shift+F3, none)\n",
   "Ungültiges Tastenkürzel: %s (z. B. F1, Ctrl+Alt+A, Shift+F3, none)\n",
-  "Atajo no válido: %s (p. ej. F1, Ctrl+Alt+A, Shift+F3, none)\n")
+  "Atajo no válido: %s (p. ej. F1, Ctrl+Alt+A, Shift+F3, none)\n",
+
+  "Phím tắt không hợp lệ: %s (ví dụ F1, Ctrl+Alt+A, Shift+F3, none)\n")
 X(ERR_GDI_DXGI,
   "--gdi 和 --dxgi 只能选一个\n", "--gdi 和 --dxgi 只能選一個\n", "Use --gdi or --dxgi, not both\n",
   "--gdi と --dxgi は同時に使えません\n", "--gdi와 --dxgi는 함께 쓸 수 없습니다\n",
-  "--gdi ou --dxgi, pas les deux\n", "Nur --gdi oder --dxgi, nicht beides\n", "Usa --gdi o --dxgi, no ambos\n")
+  "--gdi ou --dxgi, pas les deux\n", "Nur --gdi oder --dxgi, nicht beides\n", "Usa --gdi o --dxgi, no ambos\n",
+
+  "Chỉ dùng --gdi hoặc --dxgi, không dùng cả hai\n")
 /* status: the hotkey labels in the order of HK_*, at most 15 columns wide */
 X(ST_HK_CAPTURE,
   "截图热键", "截圖快速鍵", "Capture key", "キャプチャキー", "캡처 단축키", "Touche capture", "Aufnahmetaste",
-  "Atajo capturar")
+  "Atajo capturar",
+
+  "Phím chụp")
 X(ST_HK_QUICK,
   "快速截屏热键", "快速截圖快速鍵", "Quick capture", "クイック撮影", "빠른 캡처", "Capture rapide", "Schnellaufnahme",
-  "Captura rápida")
+  "Captura rápida",
+
+  "Chụp nhanh")
 X(ST_HK_PIN,
   "贴图热键", "貼圖快速鍵", "Pin key", "ピン留めキー", "고정 단축키", "Touche épingle", "Pin-Taste",
-  "Atajo fijar")
+  "Atajo fijar",
+
+  "Phím ghim")
 X(ST_HK_TOGGLE,
   "显示/隐藏贴图", "隱藏/顯示貼圖", "Show/hide pins", "ピン表示切替", "고정 표시/숨김", "Voir/masquer",
-  "Pins ein/aus", "Ver/ocultar")
-X(ST_HK_OCR, "识别文字热键", "辨識文字快速鍵", "Read text key", "文字認識キー", "인식 단축키", "Touche texte", "Texttaste", "Atajo texto")
+  "Pins ein/aus", "Ver/ocultar",
+
+  "Ẩn/hiện ghim")
+X(ST_HK_OCR, "识别文字热键", "辨識文字快速鍵", "Read text key", "文字認識キー", "인식 단축키", "Touche texte", "Texttaste", "Atajo texto", "Phím đọc chữ")
 X(ST_HK_OCRCOPY, "复制文字热键", "複製文字快速鍵", "Copy text key", "文字コピーキー", "복사 단축키", "Touche copie", "Kopiertaste",
-  "Atajo copiar")
+  "Atajo copiar",
+
+  "Phím chép chữ")
 X(ST_RUNNING,
   "sniplite %s 正在后台运行（PID %lu）\n", "sniplite %s 正在背景執行（PID %lu）\n",
   "sniplite %s is running (PID %lu)\n", "sniplite %s 実行中（PID %lu）\n", "sniplite %s 실행 중 (PID %lu)\n",
-  "sniplite %s est lancé (PID %lu)\n", "sniplite %s läuft (PID %lu)\n", "sniplite %s en ejecución (PID %lu)\n")
-X(UNSET, "未设置", "未設定", "None", "未設定", "없음", "Aucun", "Nicht belegt", "Sin asignar")
+  "sniplite %s est lancé (PID %lu)\n", "sniplite %s läuft (PID %lu)\n", "sniplite %s en ejecución (PID %lu)\n",
+
+  "sniplite %s đang chạy (PID %lu)\n")
+X(UNSET, "未设置", "未設定", "None", "未設定", "없음", "Aucun", "Nicht belegt", "Sin asignar", "Không có")
 X(ST_HK_FAILED,
   "（注册失败：可能已被其他程序占用）", "（註冊失敗：可能已被其他程式佔用）",
   " (failed: another app may be using it)", "（登録失敗：他のアプリが使用中かもしれません）",
   " (등록 실패: 다른 앱이 사용 중일 수 있음)", " (échec : peut-être pris par une autre appli)",
-  " (fehlgeschlagen: evtl. von anderer App belegt)", " (falló: puede que lo use otra app)")
+  " (fehlgeschlagen: evtl. von anderer App belegt)", " (falló: puede que lo use otra app)",
+
+  " (thất bại: có thể app khác đang dùng)")
 X(ST_BACKEND,
   "截屏方式", "截圖方式", "Capture mode", "キャプチャ方式", "캡처 방식", "Mode capture", "Aufnahmemodus",
-  "Modo de captura")
+  "Modo de captura",
+
+  "Chế độ chụp")
 X(ST_DXGI,
   "DXGI 显卡直读", "DXGI 顯示卡直讀", "DXGI (GPU)", "DXGI（GPU 直接取得）", "DXGI (GPU)", "DXGI (GPU)",
-  "DXGI (GPU)", "DXGI (GPU)")
+  "DXGI (GPU)", "DXGI (GPU)",
+
+  "DXGI (GPU)")
 X(ST_DXGI_STARTING,
   "DXGI 初始化中", "DXGI 初始化中", "DXGI starting", "DXGI 初期化中", "DXGI 초기화 중", "DXGI démarre",
-  "DXGI startet", "Iniciando DXGI")
-X(ST_PINS, "贴图数量", "貼圖數量", "Pins", "ピンの数", "고정 이미지 수", "Épingles", "Pins", "Fijadas")
+  "DXGI startet", "Iniciando DXGI",
+
+  "DXGI đang khởi động")
+X(ST_PINS, "贴图数量", "貼圖數量", "Pins", "ピンの数", "고정 이미지 수", "Épingles", "Pins", "Fijadas", "Ảnh ghim")
 X(ST_LAST,
   "上次截图", "上次截圖", "Last capture", "前回", "마지막 캡처", "Dernière fois", "Letzte Aufnahme",
-  "Última captura")
+  "Última captura",
+
+  "Lần chụp gần nhất")
 /* "<1> 12.3 <2> 4.5 <3> 6.7 <4>" */
 X(ST_LAST_1,
   "热键到画面出现 ", "快速鍵到畫面出現 ", "key to screen ", "キーから表示まで ", "키 입력부터 표시까지 ",
-  "de la touche à l'écran ", "Taste bis Bild ", "de tecla a pantalla ")
+  "de la touche à l'écran ", "Taste bis Bild ", "de tecla a pantalla ",
+
+  "từ phím tới màn hình ")
 X(ST_LAST_2, " ms（抓屏 ", " ms（擷取 ", " ms (grab ", " ms（取得 ", " ms (캡처 ", " ms (capture ", " ms (Erfassen ",
-  " ms (captura ")
-X(ST_LAST_3, "，绘制 ", "，繪製 ", ", draw ", "、描画 ", ", 그리기 ", ", dessin ", ", Zeichnen ", ", dibujo ")
-X(ST_LAST_4, "）\n", "）\n", ")\n", "）\n", ")\n", ")\n", ")\n", ")\n")
+  " ms (captura ",
+
+  " ms (lấy ảnh ")
+X(ST_LAST_3, "，绘制 ", "，繪製 ", ", draw ", "、描画 ", ", 그리기 ", ", dessin ", ", Zeichnen ", ", dibujo ", ", vẽ ")
+X(ST_LAST_4, "）\n", "）\n", ")\n", "）\n", ")\n", ")\n", ")\n", ")\n", ")\n")
 /* tray icon tooltip */
 X(TRAY_CAPTURE,
   "\n截屏 %s", "\n截圖 %s", "\nCapture %s", "\nキャプチャ %s", "\n캡처 %s", "\nCapturer %s", "\nAufnehmen %s",
-  "\nCapturar %s")
+  "\nCapturar %s",
+
+  "\n"
+  "Chụp %s")
 X(TRAY_PIN,
   "\n贴图 %s", "\n貼圖 %s", "\nPin %s", "\nピン留め %s", "\n고정 %s", "\nÉpingler %s", "\nAnheften %s",
-  "\nFijar %s")
+  "\nFijar %s",
+
+  "\n"
+  "Ghim %s")
 X(UPD_BALLOON_TITLE,
   "sniplite 有新版本", "sniplite 有新版本", "sniplite update", "sniplite の新バージョン", "sniplite 새 버전",
-  "Mise à jour de sniplite", "sniplite-Update", "Actualización de sniplite")
+  "Mise à jour de sniplite", "sniplite-Update", "Actualización de sniplite",
+
+  "Cập nhật sniplite")
 X(UPD_BALLOON_TEXT,
   "%s 已发布，点这里更新。", "%s 已發布，點這裡更新。", "%s is out. Click to update.",
   "%s が公開されました。クリックで更新できます。", "%s 출시. 클릭하여 업데이트하세요.",
   "%s est disponible. Cliquez pour mettre à jour.", "%s ist da. Zum Aktualisieren klicken.",
-  "%s disponible. Haz clic para actualizar.")
+  "%s disponible. Haz clic para actualizar.",
+
+  "Đã có %s. Bấm để cập nhật.")
 X(CAP_FAILED,
   "截屏失败\n", "截圖失敗\n", "Capture failed\n", "キャプチャに失敗しました\n", "캡처 실패\n",
-  "Échec de la capture\n", "Aufnahme fehlgeschlagen\n", "Error al capturar\n")
+  "Échec de la capture\n", "Aufnahme fehlgeschlagen\n", "Error al capturar\n",
+
+  "Chụp thất bại\n")
 X(CAP_OUTSIDE,
   "区域不在屏幕范围内\n", "區域不在螢幕範圍內\n", "The area is off screen\n", "範囲が画面の外です\n",
   "영역이 화면 밖입니다\n", "Zone hors de l'écran\n", "Bereich liegt außerhalb des Bildschirms\n",
-  "Zona fuera de la pantalla\n")
+  "Zona fuera de la pantalla\n",
+
+  "Vùng chọn nằm ngoài màn hình\n")
 X(NO_MEMORY,
   "内存不足\n", "記憶體不足\n", "Out of memory\n", "メモリ不足\n", "메모리 부족\n", "Mémoire insuffisante\n",
-  "Zu wenig Speicher\n", "Memoria insuficiente\n")
+  "Zu wenig Speicher\n", "Memoria insuficiente\n",
+
+  "Hết bộ nhớ\n")
 /* "<1> 4.5 <2>" */
 X(CAP_DONE_1,
   "已截取 %d×%d（抓屏 ", "已截圖 %d×%d（擷取 ", "Captured %d×%d (grab ", "%d×%d をキャプチャしました（取得 ",
-  "%d×%d 캡처됨 (캡처 ", "Capturé %d×%d (capture ", "%d×%d aufgenommen (Erfassen ", "Capturado %d×%d (captura ")
-X(CAP_DONE_2, " ms）\n", " ms）\n", " ms)\n", " ms）\n", " ms)\n", " ms)\n", " ms)\n", " ms)\n")
+  "%d×%d 캡처됨 (캡처 ", "Capturé %d×%d (capture ", "%d×%d aufgenommen (Erfassen ", "Capturado %d×%d (captura ",
+
+  "Đã chụp %d×%d (lấy ảnh ")
+X(CAP_DONE_2, " ms）\n", " ms）\n", " ms)\n", " ms）\n", " ms)\n", " ms)\n", " ms)\n", " ms)\n", " ms)\n")
 X(SAVED,
   "已保存：%s\n", "已儲存：%s\n", "Saved: %s\n", "保存しました：%s\n", "저장됨: %s\n", "Enregistré : %s\n",
-  "Gespeichert: %s\n", "Guardado: %s\n")
+  "Gespeichert: %s\n", "Guardado: %s\n",
+
+  "Đã lưu: %s\n")
 X(SAVE_FAILED,
   "保存失败：%s\n", "儲存失敗：%s\n", "Save failed: %s\n", "保存に失敗しました：%s\n", "저장 실패: %s\n",
-  "Échec de l'enregistrement : %s\n", "Speichern fehlgeschlagen: %s\n", "Error al guardar: %s\n")
+  "Échec de l'enregistrement : %s\n", "Speichern fehlgeschlagen: %s\n", "Error al guardar: %s\n",
+
+  "Lưu thất bại: %s\n")
 X(COPIED,
   "已复制到剪贴板\n", "已複製到剪貼簿\n", "Copied to the clipboard\n", "クリップボードにコピーしました\n",
   "클립보드에 복사됨\n", "Copié dans le presse-papiers\n", "In die Zwischenablage kopiert\n",
-  "Copiado al portapapeles\n")
+  "Copiado al portapapeles\n",
+
+  "Đã chép vào clipboard\n")
 X(COPY_FAILED,
   "复制到剪贴板失败\n", "複製到剪貼簿失敗\n", "Copy to the clipboard failed\n",
   "クリップボードへのコピーに失敗しました\n", "클립보드 복사 실패\n", "Échec de la copie\n",
-  "Kopieren fehlgeschlagen\n", "Error al copiar\n")
+  "Kopieren fehlgeschlagen\n", "Error al copiar\n",
+
+  "Chép vào clipboard thất bại\n")
 X(PINNED,
   "已贴到屏幕\n", "已貼到螢幕\n", "Pinned to the screen\n", "画面にピン留めしました\n", "화면에 고정됨\n",
-  "Épinglé à l'écran\n", "Angeheftet\n", "Fijado en pantalla\n")
+  "Épinglé à l'écran\n", "Angeheftet\n", "Fijado en pantalla\n",
+
+  "Đã ghim lên màn hình\n")
 X(PIN_FAILED,
   "贴图失败\n", "貼圖失敗\n", "Pin failed\n", "ピン留めに失敗しました\n", "고정 실패\n",
-  "Échec de l'épinglage\n", "Anheften fehlgeschlagen\n", "Error al fijar\n")
+  "Échec de l'épinglage\n", "Anheften fehlgeschlagen\n", "Error al fijar\n",
+
+  "Ghim thất bại\n")
 X(CAPTURING,
   "正在截图中\n", "正在截圖\n", "A capture is in progress\n", "キャプチャ中です\n", "캡처 중입니다\n",
-  "Capture en cours\n", "Eine Aufnahme läuft bereits\n", "Captura en curso\n")
+  "Capture en cours\n", "Eine Aufnahme läuft bereits\n", "Captura en curso\n",
+
+  "Đang có một lần chụp\n")
 X(ERR_NEED_RECT,
   "--out / --clip / --pin 需要和 --rect 或 --full 一起用\n",
   "--out / --clip / --pin 需要和 --rect 或 --full 一起用\n",
   "--out / --clip / --pin need --rect or --full\n", "--out / --clip / --pin には --rect か --full が必要です\n",
   "--out / --clip / --pin은 --rect 또는 --full과 함께 써야 합니다\n",
   "--out / --clip / --pin exigent --rect ou --full\n", "--out / --clip / --pin brauchen --rect oder --full\n",
-  "--out / --clip / --pin requieren --rect o --full\n")
+  "--out / --clip / --pin requieren --rect o --full\n",
+
+  "--out / --clip / --pin cần --rect hoặc --full\n")
 X(CAP_CANNOT,
   "无法开始截图\n", "無法開始截圖\n", "Cannot start a capture\n", "キャプチャを開始できません\n",
   "캡처를 시작할 수 없습니다\n", "Impossible de lancer la capture\n", "Aufnahme lässt sich nicht starten\n",
-  "No se puede iniciar la captura\n")
+  "No se puede iniciar la captura\n",
+
+  "Không bắt đầu chụp được\n")
 X(ERR_RECT,
   "--rect 的格式是 X,Y,宽,高，例如 --rect 0,0,800,600\n", "--rect 的格式是 X,Y,寬,高，例如 --rect 0,0,800,600\n",
   "--rect takes X,Y,width,height, e.g. --rect 0,0,800,600\n",
@@ -445,68 +586,100 @@ X(ERR_RECT,
   "--rect 형식은 X,Y,너비,높이입니다 (예: --rect 0,0,800,600)\n",
   "--rect attend X,Y,largeur,hauteur, ex. --rect 0,0,800,600\n",
   "--rect erwartet X,Y,Breite,Höhe, z. B. --rect 0,0,800,600\n",
-  "--rect usa X,Y,ancho,alto, p. ej. --rect 0,0,800,600\n")
+  "--rect usa X,Y,ancho,alto, p. ej. --rect 0,0,800,600\n",
+
+  "--rect nhận X,Y,rộng,cao, ví dụ --rect 0,0,800,600\n")
 X(ERR_READ_IMAGE,
   "无法读取图片：%s\n", "無法讀取圖片：%s\n", "Cannot read the image: %s\n", "画像を読み込めません：%s\n",
   "이미지를 읽을 수 없습니다: %s\n", "Image illisible : %s\n", "Bild nicht lesbar: %s\n",
-  "No se puede leer la imagen: %s\n")
+  "No se puede leer la imagen: %s\n",
+
+  "Không đọc được ảnh: %s\n")
 X(CLIP_EMPTY,
   "剪贴板里没有图片或文字\n", "剪貼簿裡沒有圖片或文字\n", "No image or text in the clipboard\n",
   "クリップボードに画像もテキストもありません\n", "클립보드에 이미지나 텍스트가 없습니다\n",
   "Ni image ni texte dans le presse-papiers\n", "Kein Bild oder Text in der Zwischenablage\n",
-  "No hay imagen ni texto en el portapapeles\n")
+  "No hay imagen ni texto en el portapapeles\n",
+
+  "Clipboard không có ảnh hay chữ\n")
 /* the same while text is not pinned (G_PIN_TEXT off) */
 X(CLIP_NO_IMAGE,
   "剪贴板里没有图片\n", "剪貼簿裡沒有圖片\n", "No image in the clipboard\n", "クリップボードに画像がありません\n",
   "클립보드에 이미지가 없습니다\n", "Aucune image dans le presse-papiers\n", "Kein Bild in der Zwischenablage\n",
-  "No hay ninguna imagen en el portapapeles\n")
+  "No hay ninguna imagen en el portapapeles\n",
+
+  "Clipboard không có ảnh\n")
 X(CLIP_FAILED,
   "读取剪贴板失败\n", "讀取剪貼簿失敗\n", "Cannot read the clipboard\n", "クリップボードを読み取れません\n",
   "클립보드를 읽을 수 없습니다\n", "Presse-papiers illisible\n", "Zwischenablage nicht lesbar\n",
-  "No se puede leer el portapapeles\n")
+  "No se puede leer el portapapeles\n",
+
+  "Không đọc được clipboard\n")
 X(PIN_DONE,
   "已贴图 %d×%d\n", "已貼圖 %d×%d\n", "Pinned %d×%d\n", "%d×%d をピン留めしました\n", "%d×%d 고정됨\n",
-  "Épinglé %d×%d\n", "%d×%d angeheftet\n", "Fijado %d×%d\n")
+  "Épinglé %d×%d\n", "%d×%d angeheftet\n", "Fijado %d×%d\n",
+
+  "Đã ghim %d×%d\n")
 X(QUIT_DONE,
   "sniplite 已退出\n", "sniplite 已結束\n", "sniplite has quit\n", "sniplite を終了しました\n",
-  "sniplite 종료됨\n", "sniplite est fermé\n", "sniplite beendet\n", "sniplite se ha cerrado\n")
+  "sniplite 종료됨\n", "sniplite est fermé\n", "sniplite beendet\n", "sniplite se ha cerrado\n",
+
+  "sniplite đã thoát\n")
 X(ERR_SETTINGS,
   "无法打开首选项\n", "無法開啟偏好設定\n", "Cannot open Settings\n", "設定を開けません\n",
   "설정을 열 수 없습니다\n", "Impossible d'ouvrir les préférences\n", "Einstellungen lassen sich nicht öffnen\n",
-  "No se pueden abrir los ajustes\n")
+  "No se pueden abrir los ajustes\n",
+
+  "Không mở được Cài đặt\n")
 X(ERR_UNKNOWN_CMD,
   "不认识的命令：%s（用 sniplite help 查看用法）\n", "未知的指令：%s（用 sniplite help 查看用法）\n",
   "Unknown command: %s (see sniplite help)\n", "不明なコマンド：%s（使い方は sniplite help）\n",
   "알 수 없는 명령: %s (sniplite help 참고)\n", "Commande inconnue : %s (voir sniplite help)\n",
-  "Unbekannter Befehl: %s (siehe sniplite help)\n", "Comando desconocido: %s (ver sniplite help)\n")
+  "Unbekannter Befehl: %s (siehe sniplite help)\n", "Comando desconocido: %s (ver sniplite help)\n",
+
+  "Lệnh không rõ: %s (xem sniplite help)\n")
 
 /* ---- tray menu ---- */
-X(M_CAPTURE, "截屏", "截圖", "Capture", "キャプチャ", "캡처", "Capturer", "Aufnehmen", "Capturar")
-X(M_PIN, "贴图", "貼圖", "Pin", "ピン留め", "고정", "Épingler", "Anheften", "Fijar")
+X(M_CAPTURE, "截屏", "截圖", "Capture", "キャプチャ", "캡처", "Capturer", "Aufnehmen", "Capturar", "Chụp")
+X(M_PIN, "贴图", "貼圖", "Pin", "ピン留め", "고정", "Épingler", "Anheften", "Fijar", "Ghim")
 X(M_SHOW_PINS,
   "显示所有贴图", "顯示所有貼圖", "Show all pins", "すべてのピンを表示", "고정 이미지 모두 표시",
-  "Afficher les épingles", "Alle Pins einblenden", "Mostrar las fijadas")
+  "Afficher les épingles", "Alle Pins einblenden", "Mostrar las fijadas",
+
+  "Hiện tất cả ảnh ghim")
 X(M_HIDE_PINS,
   "隐藏所有贴图", "隱藏所有貼圖", "Hide all pins", "すべてのピンを隠す", "고정 이미지 모두 숨기기",
-  "Masquer les épingles", "Alle Pins ausblenden", "Ocultar las fijadas")
+  "Masquer les épingles", "Alle Pins ausblenden", "Ocultar las fijadas",
+
+  "Ẩn tất cả ảnh ghim")
 X(M_CLOSE_PINS,
   "关闭所有贴图", "關閉所有貼圖", "Close all pins", "すべてのピンを閉じる", "고정 이미지 모두 닫기",
-  "Fermer les épingles", "Alle Pins schließen", "Cerrar las fijadas")
+  "Fermer les épingles", "Alle Pins schließen", "Cerrar las fijadas",
+
+  "Đóng tất cả ảnh ghim")
 X(M_SETTINGS, "首选项...", "偏好設定...", "Settings...", "設定...", "설정...", "Préférences...",
-  "Einstellungen...", "Ajustes...")
-X(M_HELP, "帮助", "說明", "Help", "ヘルプ", "도움말", "Aide", "Hilfe", "Ayuda")
+  "Einstellungen...", "Ajustes...",
+
+  "Cài đặt...")
+X(M_HELP, "帮助", "說明", "Help", "ヘルプ", "도움말", "Aide", "Hilfe", "Ayuda", "Trợ giúp")
 X(M_UPDATE,
   "检查更新", "檢查更新", "Check for updates", "更新を確認", "업데이트 확인", "Rechercher des mises à jour",
-  "Nach Updates suchen", "Buscar actualizaciones")
+  "Nach Updates suchen", "Buscar actualizaciones",
+
+  "Kiểm tra cập nhật")
 X(M_ABOUT,
   "关于 sniplite", "關於 sniplite", "About sniplite", "sniplite について", "sniplite 정보",
-  "À propos de sniplite", "Über sniplite", "Acerca de sniplite")
-X(M_EXIT, "退出", "結束", "Quit", "終了", "종료", "Quitter", "Beenden", "Salir")
+  "À propos de sniplite", "Über sniplite", "Acerca de sniplite",
+
+  "Giới thiệu sniplite")
+X(M_EXIT, "退出", "結束", "Quit", "終了", "종료", "Quitter", "Beenden", "Salir", "Thoát")
 X(TAGLINE,
   "轻量、快速的截图与贴图工具", "輕量、快速的截圖與貼圖工具", "A light, fast screenshot and pin tool",
   "軽くて速いスクリーンショット＆ピン留めツール", "가볍고 빠른 화면 캡처, 고정 도구",
   "Captures et épingles, légères et rapides", "Schlank und schnell: Screenshots und Pins",
-  "Capturar y fijar, rápido y ligero")
+  "Capturar y fijar, rápido y ligero",
+
+  "Công cụ chụp và ghim màn hình nhẹ, nhanh")
 X(HK_WARN_1,
   "有热键注册失败，可能已被其他程序（比如 Snipaste）占用：\n\n",
   "有快速鍵註冊失敗，可能已被其他程式（例如 Snipaste）佔用：\n\n",
@@ -515,35 +688,49 @@ X(HK_WARN_1,
   "일부 단축키를 등록하지 못했습니다. 다른 앱(예: Snipaste)이 사용 중일 수 있습니다:\n\n",
   "Raccourcis indisponibles, peut-être pris par une autre appli (Snipaste, par exemple) :\n\n",
   "Einige Tastenkürzel sind schon belegt, evtl. von einer anderen App (etwa Snipaste):\n\n",
-  "No se pudieron registrar algunos atajos. Puede que otra app (como Snipaste) los use:\n\n")
+  "No se pudieron registrar algunos atajos. Puede que otra app (como Snipaste) los use:\n\n",
+
+  "Không đăng ký được một số phím tắt. Có thể app khác (ví dụ Snipaste) đang dùng chúng:\n"
+  "\n")
 X(HK_WARN_2,
   "\n可以在托盘图标的首选项里换一个。", "\n可以在系統匣圖示的偏好設定裡換一個。",
   "\nChange them in Settings, from the tray icon.", "\nトレイアイコンの設定から変更できます。",
   "\n트레이 아이콘의 설정에서 바꿀 수 있습니다.",
   "\nChangez-les dans les préférences, depuis l'icône de la zone de notification.",
   "\nÄndern lassen sie sich in den Einstellungen über das Tray-Symbol.",
-  "\nCámbialos en los ajustes, desde el icono de la bandeja.")
+  "\nCámbialos en los ajustes, desde el icono de la bandeja.",
+
+  "\n"
+  "Đổi phím trong Cài đặt, mở từ icon ở khay hệ thống.")
 
 /* ---- preferences (settings.c, sniplite.rc) ---- */
 X(SETTINGS_TITLE,
   "sniplite 首选项", "sniplite 偏好設定", "sniplite Settings", "sniplite 設定", "sniplite 설정",
-  "Préférences de sniplite", "sniplite-Einstellungen", "Ajustes de sniplite")
+  "Préférences de sniplite", "sniplite-Einstellungen", "Ajustes de sniplite",
+
+  "Cài đặt sniplite")
 X(SHORTCUTS_TITLE,
   "sniplite 快捷键", "sniplite 快速鍵", "sniplite Shortcuts", "sniplite ショートカット", "sniplite 단축키",
-  "Raccourcis de sniplite", "sniplite-Tastenkürzel", "Atajos de sniplite")
+  "Raccourcis de sniplite", "sniplite-Tastenkürzel", "Atajos de sniplite",
+
+  "Phím tắt sniplite")
 /* the tabs, in the order of PG_* */
-X(TAB_GENERAL, "常规", "一般", "General", "全般", "일반", "Général", "Allgemein", "General")
-X(TAB_CAPTURE, "截屏", "截圖", "Capture", "キャプチャ", "캡처", "Capture", "Aufnahme", "Captura")
-X(TAB_HOTKEYS, "控制", "快速鍵", "Hotkeys", "ホットキー", "단축키", "Raccourcis", "Tasten", "Atajos")
-X(TAB_UPDATE, "更新", "更新", "Update", "更新", "업데이트", "Mise à jour", "Update", "Actualización")
-X(TAB_OCR, "文字识别", "文字辨識", "OCR", "OCR", "OCR", "OCR", "OCR", "OCR")
-X(TAB_ABOUT, "关于", "關於", "About", "情報", "정보", "À propos", "Info", "Acerca de")
+X(TAB_GENERAL, "常规", "一般", "General", "全般", "일반", "Général", "Allgemein", "General", "Chung")
+X(TAB_CAPTURE, "截屏", "截圖", "Capture", "キャプチャ", "캡처", "Capture", "Aufnahme", "Captura", "Chụp")
+X(TAB_HOTKEYS, "控制", "快速鍵", "Hotkeys", "ホットキー", "단축키", "Raccourcis", "Tasten", "Atajos", "Phím tắt")
+X(TAB_UPDATE, "更新", "更新", "Update", "更新", "업데이트", "Mise à jour", "Update", "Actualización", "Cập nhật")
+X(TAB_OCR, "文字识别", "文字辨識", "OCR", "OCR", "OCR", "OCR", "OCR", "OCR", "OCR")
+X(TAB_ABOUT, "关于", "關於", "About", "情報", "정보", "À propos", "Info", "Acerca de", "Giới thiệu")
 X(G_AUTOSTART,
   "开机启动", "開機啟動", "Start with Windows", "Windows 起動時に実行", "Windows 시작 시 실행",
-  "Lancer au démarrage", "Mit Windows starten", "Iniciar con Windows")
+  "Lancer au démarrage", "Mit Windows starten", "Iniciar con Windows",
+
+  "Khởi động cùng Windows")
 X(G_TRAY,
   "显示托盘图标", "顯示系統匣圖示", "Show the tray icon", "トレイアイコンを表示", "트레이 아이콘 표시",
-  "Icône dans la zone de notification", "Tray-Symbol anzeigen", "Mostrar el icono de la bandeja")
+  "Icône dans la zone de notification", "Tray-Symbol anzeigen", "Mostrar el icono de la bandeja",
+
+  "Hiện icon ở khay hệ thống")
 X(G_TRAY_HIDDEN,
   "托盘图标已隐藏 打开首选项的方法：\n\t1- 再次运行sniplite.exe\n\t2- 贴图时 右键菜单打开首选项",
   "系統匣圖示已隱藏 開啟偏好設定的方法：\n\t1- 再次執行sniplite.exe\n\t2- 貼圖時 右鍵選單開啟偏好設定",
@@ -552,38 +739,62 @@ X(G_TRAY_HIDDEN,
   "트레이 아이콘을 숨겼습니다. 설정을 여는 방법:\n\t1- sniplite.exe를 다시 실행\n\t2- 고정 이미지를 마우스 오른쪽 버튼으로 클릭하고 설정 선택",
   "L'icône est masquée. Pour ouvrir les préférences :\n\t1- Relancez sniplite.exe\n\t2- Clic droit sur une épingle, puis Préférences",
   "Das Tray-Symbol ist ausgeblendet. So öffnen Sie die Einstellungen:\n\t1- sniplite.exe erneut starten\n\t2- Rechtsklick auf einen Pin, dann Einstellungen",
-  "El icono está oculto. Para abrir los ajustes:\n\t1- Vuelve a iniciar sniplite.exe\n\t2- Clic derecho en una imagen fijada y elige Ajustes")
+  "El icono está oculto. Para abrir los ajustes:\n\t1- Vuelve a iniciar sniplite.exe\n\t2- Clic derecho en una imagen fijada y elige Ajustes",
+
+  "Icon ở khay đang ẩn. Để mở Cài đặt:\n"
+  "\t1- Chạy lại sniplite.exe\n"
+  "\t2- Bấm chuột phải vào một ảnh ghim và chọn Cài đặt")
 X(G_PIN_TOP,
   "贴图置顶", "貼圖置頂", "Keep pins on top", "ピンを常に手前に表示", "고정 이미지를 항상 위에",
-  "Épingles toujours au premier plan", "Pins immer im Vordergrund", "Imágenes fijadas siempre visibles")
+  "Épingles toujours au premier plan", "Pins immer im Vordergrund", "Imágenes fijadas siempre visibles",
+
+  "Giữ ảnh ghim trên cùng")
 X(G_PIN_TEXT,
   "剪贴板文字贴图", "剪貼簿文字貼圖", "Pin clipboard text", "クリップボードのテキストをピン留めする",
   "클립보드의 텍스트 고정", "Épingler le texte du presse-papiers", "Text aus der Zwischenablage anheften",
-  "Fijar el texto del portapapeles")
-X(G_LANG, "语言:", "語言:", "Language:", "言語:", "언어:", "Langue :", "Sprache:", "Idioma:")
+  "Fijar el texto del portapapeles",
+
+  "Ghim chữ trong clipboard")
+X(G_LANG, "语言:", "語言:", "Language:", "言語:", "언어:", "Langue :", "Sprache:", "Idioma:", "Ngôn ngữ:")
 X(G_LANG_AUTO, "自动（%s）", "自動（%s）", "Auto (%s)", "自動（%s）", "자동 (%s)", "Auto (%s)", "Automatisch (%s)",
-  "Automático (%s)")
+  "Automático (%s)",
+
+  "Tự động (%s)")
 X(G_THEME, "工具栏主题:", "工具列主題:", "Toolbar theme:", "ツールバーのテーマ:", "도구 모음 테마:", "Thème de la barre :",
-  "Design der Leiste:", "Tema de la barra:")
+  "Design der Leiste:", "Tema de la barra:",
+
+  "Kiểu thanh công cụ:")
 X(G_THEME_AUTO, "跟随系统", "跟隨系統", "Same as Windows", "Windows に合わせる", "Windows 설정 따름", "Comme Windows",
-  "Wie Windows", "Como Windows")
-X(G_THEME_LIGHT, "浅色", "淺色", "Light", "ライト", "밝게", "Clair", "Hell", "Claro")
-X(G_THEME_DARK, "深色", "深色", "Dark", "ダーク", "어둡게", "Sombre", "Dunkel", "Oscuro")
+  "Wie Windows", "Como Windows",
+
+  "Theo Windows")
+X(G_THEME_LIGHT, "浅色", "淺色", "Light", "ライト", "밝게", "Clair", "Hell", "Claro", "Sáng")
+X(G_THEME_DARK, "深色", "深色", "Dark", "ダーク", "어둡게", "Sombre", "Dunkel", "Oscuro", "Tối")
 X(G_INI_GROUP,
   "配置文件存储位置", "設定檔位置", "Settings file", "設定ファイルの場所", "설정 파일 위치",
-  "Fichier de réglages", "Einstellungsdatei", "Archivo de ajustes")
-X(G_PATH, "路径:", "路徑:", "Path:", "パス:", "경로:", "Chemin :", "Pfad:", "Ruta:")
+  "Fichier de réglages", "Einstellungsdatei", "Archivo de ajustes",
+
+  "File cài đặt")
+X(G_PATH, "路径:", "路徑:", "Path:", "パス:", "경로:", "Chemin :", "Pfad:", "Ruta:", "Đường dẫn:")
 X(G_OPEN_DIR,
   "打开所在文件夹", "開啟資料夾", "Open folder", "フォルダーを開く", "폴더 열기", "Ouvrir le dossier",
-  "Ordner öffnen", "Abrir carpeta")
-X(G_OPEN_INI, "打开", "開啟", "Open", "開く", "열기", "Ouvrir", "Öffnen", "Abrir")
+  "Ordner öffnen", "Abrir carpeta",
+
+  "Mở thư mục")
+X(G_OPEN_INI, "打开", "開啟", "Open", "開く", "열기", "Ouvrir", "Öffnen", "Abrir", "Mở")
 X(DEFAULTS, "恢复默认", "還原預設值", "Reset", "既定に戻す", "기본값 복원", "Réinitialiser", "Zurücksetzen",
-  "Restablecer")
-X(C_MODE, "截屏方式:", "截圖方式:", "Mode:", "方式:", "방식:", "Mode :", "Modus:", "Modo:")
+  "Restablecer",
+
+  "Khôi phục")
+X(C_MODE, "截屏方式:", "截圖方式:", "Mode:", "方式:", "방식:", "Mode :", "Modus:", "Modo:", "Chế độ:")
 X(C_DXGI, "极速（DXGI）", "極速（DXGI）", "Fast (DXGI)", "高速（DXGI）", "고속 (DXGI)", "Rapide (DXGI)",
-  "Schnell (DXGI)", "Rápido (DXGI)")
+  "Schnell (DXGI)", "Rápido (DXGI)",
+
+  "Nhanh (DXGI)")
 X(C_GDI, "省内存（GDI）", "省記憶體（GDI）", "Low memory (GDI)", "省メモリ（GDI）", "메모리 절약 (GDI)",
-  "Économe (GDI)", "Sparsam (GDI)", "Ligero (GDI)")
+  "Économe (GDI)", "Sparsam (GDI)", "Ligero (GDI)",
+
+  "Ít bộ nhớ (GDI)")
 /* the tooltips of the two ways to capture */
 X(C_DXGI_TIP,
   "直接读取显卡画面，常驻约 50 MB 驱动内存。", "直接讀取顯示卡畫面，驅動程式約佔 50 MB 記憶體。",
@@ -592,7 +803,9 @@ X(C_DXGI_TIP,
   "GPU에서 화면을 직접 읽으며 드라이버가 약 50MB를 계속 씁니다.",
   "Lit l'écran depuis le GPU, le pilote occupe environ 50 Mo.",
   "Liest das Bild von der GPU und belegt dauerhaft etwa 50 MB Treiberspeicher.",
-  "Lee la pantalla desde la GPU y ocupa unos 50 MB de memoria del controlador.")
+  "Lee la pantalla desde la GPU y ocupa unos 50 MB de memoria del controlador.",
+
+  "Đọc màn hình từ GPU, giữ khoảng 50 MB bộ nhớ driver.")
 X(C_GDI_TIP,
   "不占额外内存，多屏高分辨率时会慢一些。", "不佔額外記憶體，多螢幕高解析度時會慢一些。",
   "Keeps no extra memory, but is a little slower on big screens.",
@@ -600,48 +813,74 @@ X(C_GDI_TIP,
   "추가 메모리는 없지만 고해상도 다중 모니터에서는 조금 느립니다.",
   "Aucune mémoire en plus, mais un peu plus lent sur de grands écrans.",
   "Kein zusätzlicher Speicher, aber auf großen Bildschirmen etwas langsamer.",
-  "Sin memoria extra, pero algo más lento en pantallas grandes.")
+  "Sin memoria extra, pero algo más lento en pantallas grandes.",
+
+  "Không tốn thêm bộ nhớ, nhưng chậm hơn chút trên màn hình lớn.")
 /* what a capture offers under the mouse, in the order of DETECT_* */
-X(C_DETECT, "自动识别:", "自動辨識:", "Detect:", "自動検出:", "자동 감지:", "Détection :", "Erkennung:", "Detección:")
+X(C_DETECT, "自动识别:", "自動辨識:", "Detect:", "自動検出:", "자동 감지:", "Détection :", "Erkennung:", "Detección:", "Nhận diện:")
 X(C_DETECT_CONTROLS,
   "窗口和控件", "視窗和控制項", "Windows and controls", "ウィンドウとコントロール", "창과 컨트롤",
-  "Fenêtres et contrôles", "Fenster und Steuerelemente", "Ventanas y controles")
+  "Fenêtres et contrôles", "Fenster und Steuerelemente", "Ventanas y controles",
+
+  "Cửa sổ và control")
 X(C_DETECT_WINDOWS, "仅窗口", "僅視窗", "Windows only", "ウィンドウのみ", "창만", "Fenêtres seulement", "Nur Fenster",
-  "Solo ventanas")
+  "Solo ventanas",
+
+  "Chỉ cửa sổ")
 X(C_DETECT_ELEMENTS,
   "窗口和界面元素", "視窗和介面元素", "Windows and UI elements", "ウィンドウと UI 要素", "창과 UI 요소",
-  "Fenêtres et éléments d'interface", "Fenster und Oberflächenelemente", "Ventanas y elementos de interfaz")
+  "Fenêtres et éléments d'interface", "Fenster und Oberflächenelemente", "Ventanas y elementos de interfaz",
+
+  "Cửa sổ và thành phần giao diện")
 X(C_EXIT_ASK,
   "退出截屏时提示", "結束截圖時提示", "Ask before leaving a capture", "キャプチャ終了時に確認する", "캡처를 종료할 때 확인",
   "Demander avant de quitter une capture", "Vor dem Verlassen einer Aufnahme fragen",
-  "Preguntar antes de salir de una captura")
+  "Preguntar antes de salir de una captura",
+
+  "Hỏi trước khi bỏ một lần chụp")
 X(C_SAVE_DIR,
   "默认保存位置", "預設儲存位置", "Default save location", "既定の保存先", "기본 저장 위치",
-  "Dossier d'enregistrement par défaut", "Standardspeicherort", "Carpeta de guardado predeterminada")
-X(C_CHANGE, "更改…", "變更…", "Change…", "変更…", "변경…", "Changer…", "Ändern…", "Cambiar…")
+  "Dossier d'enregistrement par défaut", "Standardspeicherort", "Carpeta de guardado predeterminada",
+
+  "Thư mục lưu mặc định")
+X(C_CHANGE, "更改…", "變更…", "Change…", "変更…", "변경…", "Changer…", "Ändern…", "Cambiar…", "Đổi…")
 X(C_NAME, "文件名格式:", "檔案名稱格式:", "File name format:", "ファイル名の形式:", "파일 이름 형식:", "Format du nom :",
-  "Dateinamenformat:", "Formato del nombre:")
+  "Dateinamenformat:", "Formato del nombre:",
+
+  "Định dạng tên file:")
 X(C_ALSO_SAVE,
   "截图时同时保存文件", "截圖時同時儲存檔案", "Also save each capture as a file", "キャプチャ時にファイルにも保存する",
   "캡처할 때 파일로도 저장", "Enregistrer aussi chaque capture dans un fichier",
-  "Aufnahmen zusätzlich als Datei speichern", "Guardar también cada captura en un archivo")
+  "Aufnahmen zusätzlich als Datei speichern", "Guardar también cada captura en un archivo",
+
+  "Lưu thêm mỗi lần chụp ra file")
 /* the question itself (main.c): its text, its box, its button */
 X(LEAVE_ASK,
   "确认退出本次截屏？", "確定要結束這次截圖嗎？", "Leave this capture?", "このキャプチャを終了しますか？", "이 캡처를 종료할까요?",
-  "Quitter cette capture ?", "Diese Aufnahme verlassen?", "¿Salir de esta captura?")
+  "Quitter cette capture ?", "Diese Aufnahme verlassen?", "¿Salir de esta captura?",
+
+  "Bỏ lần chụp này?")
 X(LEAVE_KEEP, "退出时提示", "結束時提示", "Ask when leaving", "終了時に確認する", "종료할 때 확인", "Demander en quittant",
-  "Beim Verlassen fragen", "Preguntar al salir")
-X(LEAVE_YES, "退出", "結束", "Leave", "終了", "종료", "Quitter", "Verlassen", "Salir")
-X(H_CAPTURE, "截屏:", "截圖:", "Capture:", "キャプチャ:", "캡처:", "Capturer :", "Aufnehmen:", "Capturar:")
+  "Beim Verlassen fragen", "Preguntar al salir",
+
+  "Hỏi khi bỏ chụp")
+X(LEAVE_YES, "退出", "結束", "Leave", "終了", "종료", "Quitter", "Verlassen", "Salir", "Bỏ")
+X(H_CAPTURE, "截屏:", "截圖:", "Capture:", "キャプチャ:", "캡처:", "Capturer :", "Aufnehmen:", "Capturar:", "Chụp:")
 X(H_QUICK, "快速截屏:", "快速截圖:", "Quick capture:", "クイック撮影:", "빠른 캡처:", "Capture rapide :", "Schnellaufnahme:",
-  "Captura rápida:")
-X(H_PIN, "贴图:", "貼圖:", "Pin:", "ピン留め:", "고정:", "Épingler :", "Anheften:", "Fijar:")
+  "Captura rápida:",
+
+  "Chụp nhanh:")
+X(H_PIN, "贴图:", "貼圖:", "Pin:", "ピン留め:", "고정:", "Épingler :", "Anheften:", "Fijar:", "Ghim:")
 X(H_TOGGLE,
   "隐藏/显示所有贴图:", "隱藏/顯示所有貼圖:", "Hide/show pins:", "ピン表示切替:", "고정 표시/숨김:",
-  "Masquer/afficher :", "Pins ein/aus:", "Ocultar/mostrar:")
-X(H_OCR, "识别文字:", "辨識文字:", "Read text:", "文字認識:", "텍스트 인식:", "Lire le texte :", "Text erkennen:", "Leer texto:")
+  "Masquer/afficher :", "Pins ein/aus:", "Ocultar/mostrar:",
+
+  "Ẩn/hiện ghim:")
+X(H_OCR, "识别文字:", "辨識文字:", "Read text:", "文字認識:", "텍스트 인식:", "Lire le texte :", "Text erkennen:", "Leer texto:", "Đọc chữ:")
 X(H_OCRCOPY, "复制文字:", "複製文字:", "Copy text:", "文字コピー:", "텍스트 복사:", "Copier le texte :", "Text kopieren:",
-  "Copiar texto:")
+  "Copiar texto:",
+
+  "Chép chữ:")
 X(H_HINT,
   "单击输入框后按下新的快捷键，Backspace 清除。", "點一下輸入框後按下新的快速鍵，Backspace 清除。",
   "Click a field, then press the new keys. Backspace clears it.",
@@ -649,47 +888,73 @@ X(H_HINT,
   "입력란을 클릭하고 새 단축키를 누르세요. Backspace로 지웁니다.",
   "Cliquez sur un champ, puis tapez le raccourci. Retour arrière l'efface.",
   "Feld anklicken, dann die neuen Tasten drücken. Die Rücktaste löscht.",
-  "Haz clic en un campo y pulsa las teclas. Retroceso lo borra.")
+  "Haz clic en un campo y pulsa las teclas. Retroceso lo borra.",
+
+  "Bấm vào một ô rồi nhấn tổ hợp phím mới. Backspace để xóa.")
 X(H_FULLSCREEN,
   "全屏程序（如游戏）在前台时让出快捷键", "全螢幕程式（如遊戲）在前景時讓出快速鍵", "Leave the hotkeys to full-screen apps (like games)",
   "全画面のアプリ（ゲームなど）にホットキーを譲る", "전체 화면 앱(게임 등)에 단축키 양보",
   "Laisser les raccourcis aux applis plein écran (jeux…)", "Vollbild-Apps (z. B. Spielen) die Tastenkürzel überlassen",
-  "Ceder los atajos en pantalla completa (juegos, etc.)")
+  "Ceder los atajos en pantalla completa (juegos, etc.)",
+
+  "Nhường phím tắt cho app toàn màn hình (như game)")
 X(H_APPS,
   "让出快捷键的程序:", "讓出快速鍵的程式:", "Leave the hotkeys to:", "ホットキーを譲るアプリ:", "단축키를 양보할 앱:",
-  "Laisser les raccourcis à :", "Tastenkürzel überlassen:", "Ceder los atajos a:")
-X(H_APPS_BTN, "管理", "管理", "Manage", "管理", "관리", "Gérer", "Verwalten", "Gestionar")
+  "Laisser les raccourcis à :", "Tastenkürzel überlassen:", "Ceder los atajos a:",
+
+  "Nhường phím tắt cho:")
+X(H_APPS_BTN, "管理", "管理", "Manage", "管理", "관리", "Gérer", "Verwalten", "Gestionar", "Quản lý")
 /* the window that lists them, and the one that takes them as text */
 X(APPS_TITLE,
   "让出快捷键的程序", "讓出快速鍵的程式", "Apps the hotkeys are left to", "ホットキーを譲るアプリ",
   "단축키를 양보할 앱", "Applis auxquelles laisser les raccourcis", "Apps, denen die Tastenkürzel überlassen werden",
-  "Apps a las que ceder los atajos")
-X(APPS_NEW, "新建(&N)", "新增(&N)", "&New", "新規(&N)", "새로 만들기(&N)", "&Nouveau", "&Neu", "&Nuevo")
-X(APPS_EDIT, "编辑(&E)", "編輯(&E)", "&Edit", "編集(&E)", "편집(&E)", "&Modifier", "&Bearbeiten", "&Editar")
+  "Apps a las que ceder los atajos",
+
+  "Các app được nhường phím tắt")
+X(APPS_NEW, "新建(&N)", "新增(&N)", "&New", "新規(&N)", "새로 만들기(&N)", "&Nouveau", "&Neu", "&Nuevo", "&Mới")
+X(APPS_EDIT, "编辑(&E)", "編輯(&E)", "&Edit", "編集(&E)", "편집(&E)", "&Modifier", "&Bearbeiten", "&Editar", "&Sửa")
 X(APPS_BROWSE, "浏览(&B)…", "瀏覽(&B)…", "&Browse…", "参照(&B)…", "찾아보기(&B)…", "Pa&rcourir…", "Durc&hsuchen…",
-  "E&xaminar…")
-X(APPS_DELETE, "删除(&D)", "刪除(&D)", "&Delete", "削除(&D)", "삭제(&D)", "&Supprimer", "&Löschen", "E&liminar")
+  "E&xaminar…",
+
+  "&Duyệt…")
+X(APPS_DELETE, "删除(&D)", "刪除(&D)", "&Delete", "削除(&D)", "삭제(&D)", "&Supprimer", "&Löschen", "E&liminar", "&Xóa")
 X(APPS_TEXT, "编辑文本(&T)…", "編輯文字(&T)…", "Edit &text…", "テキストを編集(&T)…", "텍스트 편집(&T)…",
-  "Modifier le &texte…", "&Text bearbeiten…", "Editar &texto…")
+  "Modifier le &texte…", "&Text bearbeiten…", "Editar &texto…",
+
+  "Sửa dạng &văn bản…")
 X(APPS_TEXT_LABEL,
   "程序的文件名，用 | 隔开:", "程式的檔案名稱，以 | 隔開:", "File names of the apps, with | between them:",
   "アプリのファイル名（| で区切る）:", "앱 파일 이름 (|로 구분):", "Noms de fichier des applis, séparés par | :",
-  "Dateinamen der Apps, getrennt durch |:", "Nombres de archivo de las apps, separados por |:")
+  "Dateinamen der Apps, getrennt durch |:", "Nombres de archivo de las apps, separados por |:",
+
+  "Tên file của các app, ngăn cách bằng |:")
 X(APPS_FILTER, "程序 (*.exe)", "程式 (*.exe)", "Programs (*.exe)", "プログラム (*.exe)", "프로그램 (*.exe)",
-  "Programmes (*.exe)", "Programme (*.exe)", "Programas (*.exe)")
+  "Programmes (*.exe)", "Programme (*.exe)", "Programas (*.exe)",
+
+  "Chương trình (*.exe)")
 X(H_BUILTIN, "内置快捷键", "內建快速鍵", "Shortcuts", "ショートカット", "단축키 목록", "Aide-mémoire",
-  "Tastenkürzel", "Ver atajos")
-X(OK_BTN, "确定", "確定", "OK", "OK", "확인", "OK", "OK", "Aceptar")
+  "Tastenkürzel", "Ver atajos",
+
+  "Phím tắt")
+X(OK_BTN, "确定", "確定", "OK", "OK", "확인", "OK", "OK", "Aceptar", "OK")
 X(U_VERSION,
   "当前版本：%s", "目前版本：%s", "Version %s", "現在のバージョン：%s", "현재 버전: %s", "Version %s",
-  "Version %s", "Versión %s")
+  "Version %s", "Versión %s",
+
+  "Phiên bản %s")
 X(U_CHECK_BTN, "检查更新", "檢查更新", "Check now", "更新を確認", "지금 확인", "Rechercher", "Jetzt suchen",
-  "Buscar")
+  "Buscar",
+
+  "Kiểm tra ngay")
 X(U_INSTALL_BTN, "立即更新", "立即更新", "Update now", "今すぐ更新", "지금 업데이트", "Mettre à jour",
-  "Aktualisieren", "Actualizar")
+  "Aktualisieren", "Actualizar",
+
+  "Cập nhật ngay")
 X(U_AUTO,
   "自动检查更新", "自動檢查更新", "Check for updates automatically", "自動で更新を確認", "업데이트 자동 확인",
-  "Recherche automatique", "Automatisch nach Updates suchen", "Buscar automáticamente")
+  "Recherche automatique", "Automatisch nach Updates suchen", "Buscar automáticamente",
+
+  "Tự động kiểm tra cập nhật")
 X(U_HINT,
   "只向 GitHub 查询最新版本号，不上传任何数据。", "只向 GitHub 查詢最新版本號，不上傳任何資料。",
   "Only asks GitHub for the latest version. Nothing is uploaded.",
@@ -697,90 +962,146 @@ X(U_HINT,
   "GitHub에서 최신 버전만 확인하며 데이터는 보내지 않습니다.",
   "Demande seulement la dernière version à GitHub. Rien n'est envoyé.",
   "Fragt bei GitHub nur die neueste Version ab. Es wird nichts hochgeladen.",
-  "Solo consulta en GitHub la última versión. No se envía nada.")
+  "Solo consulta en GitHub la última versión. No se envía nada.",
+
+  "Chỉ hỏi GitHub phiên bản mới nhất. Không gửi dữ liệu nào lên.")
 X(A_LICENSE,
   "开源许可：MIT License", "開源授權：MIT License", "License: MIT", "ライセンス：MIT License",
-  "라이선스: MIT", "Licence : MIT", "Lizenz: MIT", "Licencia: MIT")
+  "라이선스: MIT", "Licence : MIT", "Lizenz: MIT", "Licencia: MIT",
+
+  "Giấy phép: MIT")
 X(HKF_PRESS, "按下快捷键", "按下快速鍵", "Press the keys", "キーを押してください", "단축키를 누르세요",
-  "Tapez le raccourci", "Tasten drücken", "Pulsa las teclas")
+  "Tapez le raccourci", "Tasten drücken", "Pulsa las teclas",
+
+  "Nhấn phím")
 /* the shortcut list: three groups, then what each row does and its keys */
-X(SC_G_CAPTURE, "截图", "截圖", "Capture", "キャプチャ", "캡처", "Capture", "Aufnahme", "Captura")
-X(SC_G_PIN, "贴图", "貼圖", "Pins", "ピン留め", "고정", "Épingles", "Pins", "Fijadas")
-X(SC_G_TIPS, "小技巧", "小技巧", "Tips", "ヒント", "팁", "Astuces", "Tipps", "Trucos")
+X(SC_G_CAPTURE, "截图", "截圖", "Capture", "キャプチャ", "캡처", "Capture", "Aufnahme", "Captura", "Chụp")
+X(SC_G_PIN, "贴图", "貼圖", "Pins", "ピン留め", "고정", "Épingles", "Pins", "Fijadas", "Ảnh ghim")
+X(SC_G_TIPS, "小技巧", "小技巧", "Tips", "ヒント", "팁", "Astuces", "Tipps", "Trucos", "Mẹo")
 X(SC_START, "开始截图", "開始截圖", "Start a capture", "キャプチャ開始", "캡처 시작", "Lancer une capture",
-  "Aufnahme starten", "Capturar")
+  "Aufnahme starten", "Capturar",
+
+  "Bắt đầu chụp")
 X(SC_QUICK,
   "全屏截图并保存", "全螢幕截圖並儲存", "Save the whole screen", "全画面を保存", "전체 화면 저장",
-  "Enregistrer tout l'écran", "Ganzen Bildschirm speichern", "Guardar toda la pantalla")
+  "Enregistrer tout l'écran", "Ganzen Bildschirm speichern", "Guardar toda la pantalla",
+
+  "Lưu cả màn hình")
 X(SC_WINDOW,
   "选中整个窗口", "選取整個視窗", "Select a whole window", "ウィンドウ全体を選択", "창 전체 선택",
-  "Sélectionner une fenêtre", "Ganzes Fenster wählen", "Seleccionar una ventana")
-X(SC_COPY, "复制", "複製", "Copy", "コピー", "복사", "Copier", "Kopieren", "Copiar")
-X(SC_SAVE, "保存", "儲存", "Save", "保存", "저장", "Enregistrer", "Speichern", "Guardar")
+  "Sélectionner une fenêtre", "Ganzes Fenster wählen", "Seleccionar una ventana",
+
+  "Chọn cả cửa sổ")
+X(SC_COPY, "复制", "複製", "Copy", "コピー", "복사", "Copier", "Kopieren", "Copiar", "Chép")
+X(SC_SAVE, "保存", "儲存", "Save", "保存", "저장", "Enregistrer", "Speichern", "Guardar", "Lưu")
 X(SC_PIN, "贴到屏幕", "貼到螢幕", "Pin to the screen", "画面にピン留め", "화면에 고정", "Épingler à l'écran",
-  "Anheften", "Fijar en pantalla")
+  "Anheften", "Fijar en pantalla",
+
+  "Ghim lên màn hình")
 X(SC_OCR, "识别文字", "辨識文字", "Recognize text", "文字を読み取る", "텍스트 인식", "Reconnaître le texte", "Text erkennen",
-  "Reconocer texto")
+  "Reconocer texto",
+
+  "Nhận dạng chữ")
 X(SC_LONG, "长截图", "長截圖", "Scrolling capture", "スクロールキャプチャ", "스크롤 캡처", "Capture défilante", "Scrollaufnahme",
-  "Captura con desplazamiento")
-X(SC_CANCEL, "退出", "取消", "Cancel", "キャンセル", "취소", "Quitter", "Abbrechen", "Cancelar")
-X(SC_UNDO, "撤销", "復原", "Undo", "元に戻す", "실행 취소", "Annuler", "Rückgängig", "Deshacer")
+  "Captura con desplazamiento",
+
+  "Chụp cuộn")
+X(SC_CANCEL, "退出", "取消", "Cancel", "キャンセル", "취소", "Quitter", "Abbrechen", "Cancelar", "Hủy")
+X(SC_UNDO, "撤销", "復原", "Undo", "元に戻す", "실행 취소", "Annuler", "Rückgängig", "Deshacer", "Hoàn tác")
 X(SC_PIN_CLIP,
   "把剪贴板贴出来", "把剪貼簿貼出來", "Pin the clipboard", "クリップボードをピン留め", "클립보드 내용 고정",
-  "Épingler le presse-papiers", "Zwischenablage anheften", "Fijar el portapapeles")
-X(SC_ZOOM, "放大缩小", "縮放", "Zoom", "拡大縮小", "확대/축소", "Zoom", "Zoomen", "Zoom")
-X(SC_OPACITY, "调透明度", "調整透明度", "Opacity", "不透明度", "불투명도", "Opacité", "Deckkraft", "Opacidad")
-X(SC_CLOSE, "关掉", "關閉", "Close", "閉じる", "닫기", "Fermer", "Schließen", "Cerrar")
+  "Épingler le presse-papiers", "Zwischenablage anheften", "Fijar el portapapeles",
+
+  "Ghim clipboard")
+X(SC_ZOOM, "放大缩小", "縮放", "Zoom", "拡大縮小", "확대/축소", "Zoom", "Zoomen", "Zoom", "Phóng to/thu nhỏ")
+X(SC_OPACITY, "调透明度", "調整透明度", "Opacity", "不透明度", "불투명도", "Opacité", "Deckkraft", "Opacidad", "Độ mờ đục")
+X(SC_CLOSE, "关掉", "關閉", "Close", "閉じる", "닫기", "Fermer", "Schließen", "Cerrar", "Đóng")
 X(SC_GROW,
   "选大一点 / 小一点", "選大一點 / 小一點", "Bigger / smaller area", "範囲を広く / 狭く", "영역 넓게 / 좁게",
-  "Zone plus grande / petite", "Bereich größer / kleiner", "Zona mayor / menor")
+  "Zone plus grande / petite", "Bereich größer / kleiner", "Zona mayor / menor",
+
+  "Vùng lớn hơn / nhỏ hơn")
 X(SC_NUDGE, "挪一个像素", "移動一個像素", "Move by one pixel", "1 ピクセル移動", "1픽셀 이동",
-  "Déplacer d'un pixel", "Um 1 Pixel verschieben", "Mover un píxel")
+  "Déplacer d'un pixel", "Um 1 Pixel verschieben", "Mover un píxel",
+
+  "Dịch 1 pixel")
 X(SC_NUDGE10, "挪十个像素", "移動十個像素", "Move by ten pixels", "10 ピクセル移動", "10픽셀 이동",
-  "Déplacer de dix pixels", "Um 10 Pixel verschieben", "Mover diez píxeles")
+  "Déplacer de dix pixels", "Um 10 Pixel verschieben", "Mover diez píxeles",
+
+  "Dịch 10 pixel")
 X(SC_COLOR, "取颜色", "取色", "Pick a color", "色を取得", "색상 추출", "Prélever une couleur", "Farbe kopieren",
-  "Copiar el color")
-X(K_CLICK, "单击", "點一下", "Click", "クリック", "클릭", "Clic", "Klick", "Clic")
+  "Copiar el color",
+
+  "Lấy màu")
+X(K_CLICK, "单击", "點一下", "Click", "クリック", "클릭", "Clic", "Klick", "Clic", "Bấm chuột")
 X(K_ENTER_DBL,
   "Enter 或 双击", "Enter 或 點兩下", "Enter or double-click", "Enter またはダブルクリック", "Enter 또는 더블클릭",
-  "Enter ou double-clic", "Enter oder Doppelklick", "Enter o doble clic")
-X(K_WHEEL, "滚轮", "滾輪", "Wheel", "ホイール", "휠", "Molette", "Mausrad", "Rueda")
+  "Enter ou double-clic", "Enter oder Doppelklick", "Enter o doble clic",
+
+  "Enter hoặc bấm đúp")
+X(K_WHEEL, "滚轮", "滾輪", "Wheel", "ホイール", "휠", "Molette", "Mausrad", "Rueda", "Con lăn")
 X(K_CTRL_WHEEL, "Ctrl+滚轮", "Ctrl+滾輪", "Ctrl+Wheel", "Ctrl+ホイール", "Ctrl+휠", "Ctrl+Molette", "Ctrl+Mausrad",
-  "Ctrl+Rueda")
+  "Ctrl+Rueda",
+
+  "Ctrl+Con lăn")
 X(K_DBL_ESC,
   "双击 或 Esc", "點兩下 或 Esc", "Double-click or Esc", "ダブルクリックまたは Esc", "더블클릭 또는 Esc",
-  "Double-clic ou Esc", "Doppelklick oder Esc", "Doble clic o Esc")
+  "Double-clic ou Esc", "Doppelklick oder Esc", "Doble clic o Esc",
+
+  "Bấm đúp hoặc Esc")
 X(K_WHEEL_CAP,
   "截图时滚轮", "截圖時滾輪", "Wheel while capturing", "キャプチャ中にホイール", "캡처 중 휠",
-  "Molette pendant la capture", "Mausrad bei der Aufnahme", "Rueda al capturar")
+  "Molette pendant la capture", "Mausrad bei der Aufnahme", "Rueda al capturar",
+
+  "Con lăn khi đang chụp")
 X(K_ARROWS, "方向键、W A S D", "方向鍵、W A S D", "Arrow keys, W A S D", "矢印キー、W A S D", "방향키, W A S D",
-  "Flèches, W A S D", "Pfeiltasten, W A S D", "Flechas, W A S D")
+  "Flèches, W A S D", "Pfeiltasten, W A S D", "Flechas, W A S D",
+
+  "Phím mũi tên, W A S D")
 X(K_SHIFT_SAME, "同时按住 Shift", "同時按住 Shift", "The same with Shift", "Shift を押しながら", "Shift를 누른 채",
-  "Les mêmes avec Shift", "Dieselben mit Shift", "Las mismas con Shift")
+  "Les mêmes avec Shift", "Dieselben mit Shift", "Las mismas con Shift",
+
+  "Như trên, giữ Shift")
 X(K_C_CAP,
   "截图时按 C", "截圖時按 C", "C while capturing", "キャプチャ中に C", "캡처 중 C", "C pendant la capture",
-  "C bei der Aufnahme", "C al capturar")
+  "C bei der Aufnahme", "C al capturar",
+
+  "C khi đang chụp")
 X(SC_UNSET, "（未设置）", "（未設定）", "(none)", "（未設定）", "(없음)", "(aucun)", "(nicht belegt)",
-  "(sin asignar)")
+  "(sin asignar)",
+
+  "(không có)")
 /* the update page's status line */
 X(U_CHECKING, "正在检查...", "正在檢查...", "Checking...", "確認中...", "확인 중...", "Recherche...",
-  "Suche läuft...", "Buscando...")
+  "Suche läuft...", "Buscando...",
+
+  "Đang kiểm tra...")
 X(U_CHECK_FAILED, "检查失败。", "檢查失敗。", "Check failed.", "確認に失敗しました。", "확인 실패.",
-  "Échec de la recherche.", "Suche fehlgeschlagen.", "Error al buscar.")
+  "Échec de la recherche.", "Suche fehlgeschlagen.", "Error al buscar.",
+
+  "Kiểm tra thất bại.")
 X(U_NEWER,
   "有新版本：%s", "有新版本：%s", "New version: %s", "新バージョン：%s", "새 버전: %s",
-  "Nouvelle version : %s", "Neue Version: %s", "Nueva versión: %s")
+  "Nouvelle version : %s", "Neue Version: %s", "Nueva versión: %s",
+
+  "Bản mới: %s")
 X(U_LATEST,
   "已是最新版本。", "已是最新版本。", "You're up to date.", "最新バージョンです。", "최신 버전입니다.",
-  "Vous êtes à jour.", "Alles aktuell.", "Estás al día.")
+  "Vous êtes à jour.", "Alles aktuell.", "Estás al día.",
+
+  "Bạn đang dùng bản mới nhất.")
 X(U_NONE,
   "还没有发布的版本。", "還沒有發布的版本。", "No release yet.", "まだリリースがありません。",
   "아직 공개된 버전이 없습니다.", "Aucune version publiée.", "Noch keine Version veröffentlicht.",
-  "Aún no hay versiones.")
+  "Aún no hay versiones.",
+
+  "Chưa có bản phát hành.")
 X(U_NET_FAILED,
   "检查失败，请检查网络。", "檢查失敗，請確認網路。", "Check failed. Is the network up?",
   "確認に失敗。接続を確認してください。", "확인 실패. 네트워크를 확인하세요.", "Échec. Vérifiez le réseau.",
-  "Fehlgeschlagen. Netzwerk prüfen.", "Error. Revisa la conexión.")
+  "Fehlgeschlagen. Netzwerk prüfen.", "Error. Revisa la conexión.",
+
+  "Kiểm tra thất bại. Mạng có hoạt động không?")
 X(U_CONFIRM,
   "更新时 sniplite 会重新启动，屏幕上的贴图会关掉。\n要继续吗？",
   "更新時 sniplite 會重新啟動，螢幕上的貼圖會關掉。\n要繼續嗎？",
@@ -789,36 +1110,55 @@ X(U_CONFIRM,
   "업데이트하면 sniplite가 다시 시작되고 화면의 고정 이미지가 닫힙니다.\n계속할까요?",
   "La mise à jour relance sniplite et ferme les épingles à l'écran.\nContinuer ?",
   "Das Update startet sniplite neu und schließt die Pins auf dem Bildschirm.\nFortfahren?",
-  "Al actualizar, sniplite se reinicia y se cierran las imágenes fijadas.\n¿Continuar?")
+  "Al actualizar, sniplite se reinicia y se cierran las imágenes fijadas.\n¿Continuar?",
+
+  "Cập nhật sẽ khởi động lại sniplite và đóng các ảnh ghim trên màn hình.\n"
+  "Tiếp tục?")
 X(U_DOWNLOADING, "正在下载...", "正在下載...", "Downloading...", "ダウンロード中...", "다운로드 중...",
-  "Téléchargement...", "Download läuft...", "Descargando...")
+  "Téléchargement...", "Download läuft...", "Descargando...",
+
+  "Đang tải...")
 X(U_DOWNLOAD_PCT,
   "正在下载... %d%%", "正在下載... %d%%", "Downloading... %d%%", "ダウンロード中... %d%%", "다운로드 중... %d%%",
-  "Téléchargement... %d%%", "Download läuft... %d%%", "Descargando... %d%%")
+  "Téléchargement... %d%%", "Download läuft... %d%%", "Descargando... %d%%",
+
+  "Đang tải... %d%%")
 X(U_DOWNLOAD_FAILED,
   "下载失败，请稍后再试。", "下載失敗，請稍後再試。", "Download failed. Try again later.",
   "ダウンロード失敗。後でお試しください。", "다운로드 실패. 나중에 다시 시도하세요.",
-  "Échec. Réessayez plus tard.", "Fehlgeschlagen. Später erneut versuchen.", "Error. Inténtalo más tarde.")
+  "Échec. Réessayez plus tard.", "Fehlgeschlagen. Später erneut versuchen.", "Error. Inténtalo más tarde.",
+
+  "Tải thất bại. Hãy thử lại sau.")
 X(U_INSTALLING, "正在安装...", "正在安裝...", "Installing...", "インストール中...", "설치 중...",
-  "Installation...", "Installation läuft...", "Instalando...")
+  "Installation...", "Installation läuft...", "Instalando...",
+
+  "Đang cài...")
 X(U_INSTALL_FAILED,
   "安装失败。", "安裝失敗。", "Install failed.", "インストールに失敗しました。", "설치 실패.",
-  "Échec de l'installation.", "Installation fehlgeschlagen.", "Error al instalar.")
+  "Échec de l'installation.", "Installation fehlgeschlagen.", "Error al instalar.",
+
+  "Cài thất bại.")
 X(AUTOSTART_ADD_FAILED,
   "无法创建开机启动快捷方式。", "無法建立開機啟動捷徑。", "Cannot create the startup shortcut.",
   "スタートアップのショートカットを作成できません。", "시작 프로그램 바로 가기를 만들 수 없습니다.",
   "Impossible de créer le raccourci de démarrage.", "Die Autostart-Verknüpfung lässt sich nicht anlegen.",
-  "No se puede crear el acceso directo de inicio.")
+  "No se puede crear el acceso directo de inicio.",
+
+  "Không tạo được shortcut khởi động.")
 X(AUTOSTART_DEL_FAILED,
   "无法删除开机启动快捷方式。", "無法刪除開機啟動捷徑。", "Cannot remove the startup shortcut.",
   "スタートアップのショートカットを削除できません。", "시작 프로그램 바로 가기를 삭제할 수 없습니다.",
   "Impossible de supprimer le raccourci de démarrage.", "Die Autostart-Verknüpfung lässt sich nicht löschen.",
-  "No se puede quitar el acceso directo de inicio.")
+  "No se puede quitar el acceso directo de inicio.",
+
+  "Không xóa được shortcut khởi động.")
 
 /* ---- uninstall (uninstall.c); the title is also the Start menu shortcut's name ---- */
 X(UNINST_TITLE,
   "卸载 sniplite", "解除安裝 sniplite", "Uninstall sniplite", "sniplite のアンインストール", "sniplite 제거",
-  "Désinstaller sniplite", "sniplite deinstallieren", "Desinstalar sniplite")
+  "Désinstaller sniplite", "sniplite deinstallieren", "Desinstalar sniplite",
+
+  "Gỡ sniplite")
 X(UNINST_CONFIRM,
   "要卸载 sniplite 吗？\n程序、设置和快捷方式都会删除。", "要解除安裝 sniplite 嗎？\n程式、設定和捷徑都會刪除。",
   "Uninstall sniplite?\nThe program, its settings and shortcuts will be removed.",
@@ -826,11 +1166,16 @@ X(UNINST_CONFIRM,
   "sniplite를 제거할까요?\n프로그램, 설정, 바로 가기가 모두 삭제됩니다.",
   "Désinstaller sniplite ?\nLe programme, ses réglages et ses raccourcis seront supprimés.",
   "sniplite deinstallieren?\nProgramm, Einstellungen und Verknüpfungen werden entfernt.",
-  "¿Desinstalar sniplite?\nSe eliminarán el programa, sus ajustes y sus accesos directos.")
+  "¿Desinstalar sniplite?\nSe eliminarán el programa, sus ajustes y sus accesos directos.",
+
+  "Gỡ sniplite?\n"
+  "Chương trình, cài đặt và shortcut của nó sẽ bị xóa.")
 X(UNINST_DONE,
   "sniplite 已卸载。", "sniplite 已解除安裝。", "sniplite was uninstalled.",
   "sniplite をアンインストールしました。", "sniplite가 제거되었습니다.", "sniplite a été désinstallé.",
-  "sniplite wurde deinstalliert.", "sniplite se ha desinstalado.")
+  "sniplite wurde deinstalliert.", "sniplite se ha desinstalado.",
+
+  "Đã gỡ sniplite.")
 
 /* ---- the comments at the top of sniplite.ini (config.c) ---- */
 X(INI_1,
@@ -840,7 +1185,9 @@ X(INI_1,
   "; sniplite 설정 (이 파일을 지우면 기본값으로 돌아갑니다)\r\n",
   "; Réglages de sniplite (supprimez ce fichier pour les réinitialiser)\r\n",
   "; sniplite-Einstellungen (Datei löschen setzt sie zurück)\r\n",
-  "; Ajustes de sniplite (borra este archivo para restablecerlos)\r\n")
+  "; Ajustes de sniplite (borra este archivo para restablecerlos)\r\n",
+
+  "; cài đặt sniplite (xóa file này để về mặc định)\r\n")
 X(INI_2,
   "; 热键写法：F1、Ctrl+Alt+A、Shift+PrtSc，none 表示不用\r\n",
   "; 快速鍵寫法：F1、Ctrl+Alt+A、Shift+PrtSc，none 表示不用\r\n",
@@ -849,165 +1196,263 @@ X(INI_2,
   "; 단축키 형식: F1, Ctrl+Alt+A, Shift+PrtSc, 사용하지 않으면 none\r\n",
   "; raccourcis : F1, Ctrl+Alt+A, Shift+PrtSc, ou none\r\n",
   "; Tastenkürzel: F1, Ctrl+Alt+A, Shift+PrtSc oder none\r\n",
-  "; atajos: F1, Ctrl+Alt+A, Shift+PrtSc, o none\r\n")
+  "; atajos: F1, Ctrl+Alt+A, Shift+PrtSc, o none\r\n",
+
+  "; phím tắt: F1, Ctrl+Alt+A, Shift+PrtSc, hoặc none\r\n")
 X(INI_3,
   "; capture：dxgi 最快，gdi 最省内存\r\n", "; capture：dxgi 最快，gdi 最省記憶體\r\n",
   "; capture: dxgi is the fastest, gdi uses the least memory\r\n", "; capture：dxgi は最速、gdi は省メモリ\r\n",
   "; capture: dxgi가 가장 빠르고 gdi가 메모리를 가장 적게 씁니다\r\n",
   "; capture : dxgi est le plus rapide, gdi le plus économe en mémoire\r\n",
   "; capture: dxgi ist am schnellsten, gdi braucht am wenigsten Speicher\r\n",
-  "; capture: dxgi es el más rápido, gdi el que menos memoria usa\r\n")
+  "; capture: dxgi es el más rápido, gdi el que menos memoria usa\r\n",
+
+  "; capture: dxgi nhanh nhất, gdi tốn ít bộ nhớ nhất\r\n")
 
 /* ---- the capture overlay (ov_*.S) ---- */
 /* tool bar tooltips: the tools in the order of the buttons */
 X(TIP_TOOL1, "矩形  Ctrl+1", "矩形  Ctrl+1", "Rectangle  Ctrl+1", "四角形  Ctrl+1", "사각형  Ctrl+1",
-  "Rectangle  Ctrl+1", "Rechteck  Ctrl+1", "Rectángulo  Ctrl+1")
+  "Rectangle  Ctrl+1", "Rechteck  Ctrl+1", "Rectángulo  Ctrl+1",
+
+  "Hình chữ nhật  Ctrl+1")
 X(TIP_TOOL2, "椭圆  Ctrl+2", "橢圓  Ctrl+2", "Ellipse  Ctrl+2", "楕円  Ctrl+2", "타원  Ctrl+2", "Ellipse  Ctrl+2",
-  "Ellipse  Ctrl+2", "Elipse  Ctrl+2")
+  "Ellipse  Ctrl+2", "Elipse  Ctrl+2",
+
+  "Hình elip  Ctrl+2")
 X(TIP_TOOL3, "直线  Ctrl+3", "直線  Ctrl+3", "Line  Ctrl+3", "直線  Ctrl+3", "직선  Ctrl+3", "Ligne  Ctrl+3",
-  "Linie  Ctrl+3", "Línea  Ctrl+3")
+  "Linie  Ctrl+3", "Línea  Ctrl+3",
+
+  "Đường thẳng  Ctrl+3")
 X(TIP_TOOL4, "箭头  Ctrl+4", "箭頭  Ctrl+4", "Arrow  Ctrl+4", "矢印  Ctrl+4", "화살표  Ctrl+4", "Flèche  Ctrl+4",
-  "Pfeil  Ctrl+4", "Flecha  Ctrl+4")
+  "Pfeil  Ctrl+4", "Flecha  Ctrl+4",
+
+  "Mũi tên  Ctrl+4")
 X(TIP_TOOL5, "画笔  Ctrl+5", "畫筆  Ctrl+5", "Pen  Ctrl+5", "ペン  Ctrl+5", "펜  Ctrl+5", "Crayon  Ctrl+5",
-  "Stift  Ctrl+5", "Lápiz  Ctrl+5")
+  "Stift  Ctrl+5", "Lápiz  Ctrl+5",
+
+  "Bút  Ctrl+5")
 X(TIP_TOOL6, "记号笔  Ctrl+6", "螢光筆  Ctrl+6", "Marker  Ctrl+6", "マーカー  Ctrl+6", "형광펜  Ctrl+6",
-  "Surligneur  Ctrl+6", "Textmarker  Ctrl+6", "Resaltador  Ctrl+6")
+  "Surligneur  Ctrl+6", "Textmarker  Ctrl+6", "Resaltador  Ctrl+6",
+
+  "Bút dạ quang  Ctrl+6")
 X(TIP_TOOL7, "马赛克  Ctrl+7", "馬賽克  Ctrl+7", "Mosaic  Ctrl+7", "モザイク  Ctrl+7", "모자이크  Ctrl+7",
-  "Mosaïque  Ctrl+7", "Verpixeln  Ctrl+7", "Mosaico  Ctrl+7")
+  "Mosaïque  Ctrl+7", "Verpixeln  Ctrl+7", "Mosaico  Ctrl+7",
+
+  "Làm mờ  Ctrl+7")
 X(TIP_TOOL8, "文字  Ctrl+8", "文字  Ctrl+8", "Text  Ctrl+8", "テキスト  Ctrl+8", "텍스트  Ctrl+8", "Texte  Ctrl+8",
-  "Text  Ctrl+8", "Texto  Ctrl+8")
+  "Text  Ctrl+8", "Texto  Ctrl+8",
+
+  "Chữ  Ctrl+8")
 X(TIP_TOOL9, "序号  Ctrl+9", "序號  Ctrl+9", "Number  Ctrl+9", "番号  Ctrl+9", "번호  Ctrl+9", "Numéro  Ctrl+9",
-  "Nummer  Ctrl+9", "Número  Ctrl+9")
-X(TIP_TOOL10, "聚光灯", "聚光燈", "Spotlight", "スポットライト", "스포트라이트", "Projecteur", "Spotlight", "Foco")
-X(TIP_TOOL11, "放大镜", "放大鏡", "Magnifier", "拡大鏡", "돋보기", "Loupe", "Lupe", "Lupa")
+  "Nummer  Ctrl+9", "Número  Ctrl+9",
+
+  "Đánh số  Ctrl+9")
+X(TIP_TOOL10, "聚光灯", "聚光燈", "Spotlight", "スポットライト", "스포트라이트", "Projecteur", "Spotlight", "Foco", "Làm nổi bật")
+X(TIP_TOOL11, "放大镜", "放大鏡", "Magnifier", "拡大鏡", "돋보기", "Loupe", "Lupe", "Lupa", "Kính lúp")
 X(TIP_UNDO, "撤销  Ctrl+Z", "復原  Ctrl+Z", "Undo  Ctrl+Z", "元に戻す  Ctrl+Z", "실행 취소  Ctrl+Z",
-  "Annuler  Ctrl+Z", "Rückgängig  Ctrl+Z", "Deshacer  Ctrl+Z")
+  "Annuler  Ctrl+Z", "Rückgängig  Ctrl+Z", "Deshacer  Ctrl+Z",
+
+  "Hoàn tác  Ctrl+Z")
 X(TIP_REDO, "重做  Ctrl+Y", "重做  Ctrl+Y", "Redo  Ctrl+Y", "やり直し  Ctrl+Y", "다시 실행  Ctrl+Y",
-  "Rétablir  Ctrl+Y", "Wiederholen  Ctrl+Y", "Rehacer  Ctrl+Y")
+  "Rétablir  Ctrl+Y", "Wiederholen  Ctrl+Y", "Rehacer  Ctrl+Y",
+
+  "Làm lại  Ctrl+Y")
 X(TIP_PIN,
   "贴到屏幕  Ctrl+T / F3", "貼到螢幕  Ctrl+T / F3", "Pin to the screen  Ctrl+T / F3", "画面にピン留め  Ctrl+T / F3",
   "화면에 고정  Ctrl+T / F3", "Épingler à l'écran  Ctrl+T / F3", "Anheften  Ctrl+T / F3",
-  "Fijar en pantalla  Ctrl+T / F3")
+  "Fijar en pantalla  Ctrl+T / F3",
+
+  "Ghim lên màn hình  Ctrl+T / F3")
 X(TIP_SAVE, "保存  Ctrl+S", "儲存  Ctrl+S", "Save  Ctrl+S", "保存  Ctrl+S", "저장  Ctrl+S", "Enregistrer  Ctrl+S",
-  "Speichern  Ctrl+S", "Guardar  Ctrl+S")
+  "Speichern  Ctrl+S", "Guardar  Ctrl+S",
+
+  "Lưu  Ctrl+S")
 X(TIP_QUIT, "退出  Esc", "取消  Esc", "Cancel  Esc", "キャンセル  Esc", "취소  Esc", "Quitter  Esc", "Abbrechen  Esc",
-  "Cancelar  Esc")
+  "Cancelar  Esc",
+
+  "Hủy  Esc")
 X(TIP_COPY,
   "复制  Enter / Ctrl+C", "複製  Enter / Ctrl+C", "Copy  Enter / Ctrl+C", "コピー  Enter / Ctrl+C",
-  "복사  Enter / Ctrl+C", "Copier  Enter / Ctrl+C", "Kopieren  Enter / Ctrl+C", "Copiar  Enter / Ctrl+C")
+  "복사  Enter / Ctrl+C", "Copier  Enter / Ctrl+C", "Kopieren  Enter / Ctrl+C", "Copiar  Enter / Ctrl+C",
+
+  "Chép  Enter / Ctrl+C")
 X(TIP_OCR,
   "识别文字  Ctrl+O", "辨識文字  Ctrl+O", "Recognize text  Ctrl+O", "文字を読み取る  Ctrl+O", "텍스트 인식  Ctrl+O",
-  "Reconnaître le texte  Ctrl+O", "Text erkennen  Ctrl+O", "Reconocer texto  Ctrl+O")
+  "Reconnaître le texte  Ctrl+O", "Text erkennen  Ctrl+O", "Reconocer texto  Ctrl+O",
+
+  "Nhận dạng chữ  Ctrl+O")
 X(TIP_OCRCOPY, "复制文字  Ctrl+Shift+C", "複製文字  Ctrl+Shift+C", "Copy text  Ctrl+Shift+C", "テキストをコピー  Ctrl+Shift+C",
   "텍스트 복사  Ctrl+Shift+C", "Copier le texte  Ctrl+Shift+C", "Text kopieren  Ctrl+Shift+C",
-  "Copiar texto  Ctrl+Shift+C")
+  "Copiar texto  Ctrl+Shift+C",
+
+  "Chép chữ  Ctrl+Shift+C")
 X(TIP_LONG, "长截图  Ctrl+L", "長截圖  Ctrl+L", "Scrolling capture  Ctrl+L", "スクロールキャプチャ  Ctrl+L", "스크롤 캡처  Ctrl+L",
-  "Capture défilante  Ctrl+L", "Scrollaufnahme  Ctrl+L", "Captura con desplazamiento  Ctrl+L")
+  "Capture défilante  Ctrl+L", "Scrollaufnahme  Ctrl+L", "Captura con desplazamiento  Ctrl+L",
+
+  "Chụp cuộn  Ctrl+L")
 /* in the property bar, but two of the commands (B_FRONT and B_BACK follow B_LONG) */
 X(TIP_FRONT, "置于顶层", "移到最上層", "Bring to front", "最前面へ移動", "맨 앞으로 가져오기", "Mettre au premier plan",
-  "In den Vordergrund", "Traer al frente")
+  "In den Vordergrund", "Traer al frente",
+
+  "Đưa lên trên")
 X(TIP_BACK, "置于底层", "移到最下層", "Send to back", "最背面へ移動", "맨 뒤로 보내기", "Mettre à l'arrière-plan",
-  "In den Hintergrund", "Enviar al fondo")
+  "In den Hintergrund", "Enviar al fondo",
+
+  "Đưa xuống dưới")
 /* the three sizes */
 X(TIP_SIZE0, "细  (滚轮调节)", "細  (滾輪調整)", "Thin  (wheel to change)", "細い  (ホイールで調整)",
-  "가늘게  (휠로 조절)", "Fin  (molette pour changer)", "Dünn  (Mausrad zum Ändern)", "Fino  (rueda para cambiar)")
+  "가늘게  (휠로 조절)", "Fin  (molette pour changer)", "Dünn  (Mausrad zum Ändern)", "Fino  (rueda para cambiar)",
+
+  "Mảnh  (lăn chuột để đổi)")
 X(TIP_SIZE1, "中  (滚轮调节)", "中  (滾輪調整)", "Medium  (wheel to change)", "普通  (ホイールで調整)",
   "보통  (휠로 조절)", "Moyen  (molette pour changer)", "Mittel  (Mausrad zum Ändern)",
-  "Medio  (rueda para cambiar)")
+  "Medio  (rueda para cambiar)",
+
+  "Vừa  (lăn chuột để đổi)")
 X(TIP_SIZE2, "粗  (滚轮调节)", "粗  (滾輪調整)", "Thick  (wheel to change)", "太い  (ホイールで調整)",
   "굵게  (휠로 조절)", "Épais  (molette pour changer)", "Dick  (Mausrad zum Ändern)",
-  "Grueso  (rueda para cambiar)")
+  "Grueso  (rueda para cambiar)",
+
+  "Dày  (lăn chuột để đổi)")
 /* the magnifier's three sizes: its factors, the same in every language */
-X(TIP_ZOOM2, "×2", "×2", "×2", "×2", "×2", "×2", "×2", "×2")
-X(TIP_ZOOM3, "×3", "×3", "×3", "×3", "×3", "×3", "×3", "×3")
-X(TIP_ZOOM4, "×4", "×4", "×4", "×4", "×4", "×4", "×4", "×4")
+X(TIP_ZOOM2, "×2", "×2", "×2", "×2", "×2", "×2", "×2", "×2", "×2")
+X(TIP_ZOOM3, "×3", "×3", "×3", "×3", "×3", "×3", "×3", "×3", "×3")
+X(TIP_ZOOM4, "×4", "×4", "×4", "×4", "×4", "×4", "×4", "×4", "×4")
 /* the eight colors in the order of the swatches */
-X(COLOR_RED, "红色", "紅色", "Red", "赤", "빨강", "Rouge", "Rot", "Rojo")
-X(COLOR_ORANGE, "橙色", "橙色", "Orange", "オレンジ", "주황", "Orange", "Orange", "Naranja")
-X(COLOR_YELLOW, "黄色", "黃色", "Yellow", "黄", "노랑", "Jaune", "Gelb", "Amarillo")
-X(COLOR_GREEN, "绿色", "綠色", "Green", "緑", "초록", "Vert", "Grün", "Verde")
-X(COLOR_BLUE, "蓝色", "藍色", "Blue", "青", "파랑", "Bleu", "Blau", "Azul")
-X(COLOR_PURPLE, "紫色", "紫色", "Purple", "紫", "보라", "Violet", "Violett", "Morado")
-X(COLOR_BLACK, "黑色", "黑色", "Black", "黒", "검정", "Noir", "Schwarz", "Negro")
-X(COLOR_WHITE, "白色", "白色", "White", "白", "흰색", "Blanc", "Weiß", "Blanco")
+X(COLOR_RED, "红色", "紅色", "Red", "赤", "빨강", "Rouge", "Rot", "Rojo", "Đỏ")
+X(COLOR_ORANGE, "橙色", "橙色", "Orange", "オレンジ", "주황", "Orange", "Orange", "Naranja", "Cam")
+X(COLOR_YELLOW, "黄色", "黃色", "Yellow", "黄", "노랑", "Jaune", "Gelb", "Amarillo", "Vàng")
+X(COLOR_GREEN, "绿色", "綠色", "Green", "緑", "초록", "Vert", "Grün", "Verde", "Xanh lá")
+X(COLOR_BLUE, "蓝色", "藍色", "Blue", "青", "파랑", "Bleu", "Blau", "Azul", "Xanh dương")
+X(COLOR_PURPLE, "紫色", "紫色", "Purple", "紫", "보라", "Violet", "Violett", "Morado", "Tím")
+X(COLOR_BLACK, "黑色", "黑色", "Black", "黒", "검정", "Noir", "Schwarz", "Negro", "Đen")
+X(COLOR_WHITE, "白色", "白色", "White", "白", "흰색", "Blanc", "Weiß", "Blanco", "Trắng")
 X(OV_SAVE_FAILED,
   "保存失败，请检查路径和权限。", "儲存失敗，請檢查路徑和權限。", "Save failed. Check the path and permissions.",
   "保存に失敗しました。パスと権限を確認してください。", "저장 실패. 경로와 권한을 확인하세요.",
   "Échec de l'enregistrement. Vérifiez le chemin et les droits.",
-  "Speichern fehlgeschlagen. Pfad und Rechte prüfen.", "Error al guardar. Revisa la ruta y los permisos.")
+  "Speichern fehlgeschlagen. Pfad und Rechte prüfen.", "Error al guardar. Revisa la ruta y los permisos.",
+
+  "Lưu thất bại. Kiểm tra đường dẫn và quyền ghi.")
 
 /* ---- pins (pin.c) ---- */
 X(PIN_OPACITY, "不透明度 %d%%", "不透明度 %d%%", "Opacity %d%%", "不透明度 %d%%", "불투명도 %d%%", "Opacité %d%%",
-  "Deckkraft %d%%", "Opacidad %d%%")
-X(PIN_COPIED, "已复制", "已複製", "Copied", "コピーしました", "복사됨", "Copié", "Kopiert", "Copiado")
-X(PIN_SAVED, "已保存", "已儲存", "Saved", "保存しました", "저장됨", "Enregistré", "Gespeichert", "Guardado")
+  "Deckkraft %d%%", "Opacidad %d%%",
+
+  "Độ mờ đục %d%%")
+X(PIN_COPIED, "已复制", "已複製", "Copied", "コピーしました", "복사됨", "Copié", "Kopiert", "Copiado", "Đã chép")
+X(PIN_SAVED, "已保存", "已儲存", "Saved", "保存しました", "저장됨", "Enregistré", "Gespeichert", "Guardado", "Đã lưu")
 X(PIN_SAVE_FAILED, "保存失败", "儲存失敗", "Save failed", "保存できません", "저장 실패", "Échec", "Fehlgeschlagen",
-  "Error al guardar")
+  "Error al guardar",
+
+  "Lưu thất bại")
 X(PM_COPY, "复制\tCtrl+C", "複製\tCtrl+C", "Copy\tCtrl+C", "コピー\tCtrl+C", "복사\tCtrl+C", "Copier\tCtrl+C",
-  "Kopieren\tCtrl+C", "Copiar\tCtrl+C")
+  "Kopieren\tCtrl+C", "Copiar\tCtrl+C",
+
+  "Chép\tCtrl+C")
 X(PM_SAVE,
   "另存为...\tCtrl+S", "另存新檔...\tCtrl+S", "Save as...\tCtrl+S", "名前を付けて保存...\tCtrl+S",
   "다른 이름으로 저장...\tCtrl+S", "Enregistrer sous...\tCtrl+S", "Speichern unter...\tCtrl+S",
-  "Guardar como...\tCtrl+S")
+  "Guardar como...\tCtrl+S",
+
+  "Lưu thành...\tCtrl+S")
 X(PM_RESET, "恢复原始大小", "原始大小", "Original size", "元のサイズに戻す", "원래 크기로", "Taille d'origine",
-  "Originalgröße", "Tamaño original")
+  "Originalgröße", "Tamaño original",
+
+  "Kích thước gốc")
 X(PM_CLOSE, "关闭\tEsc", "關閉\tEsc", "Close\tEsc", "閉じる\tEsc", "닫기\tEsc", "Fermer\tEsc", "Schließen\tEsc",
-  "Cerrar\tEsc")
+  "Cerrar\tEsc",
+
+  "Đóng\tEsc")
 X(PM_OCR, "复制文字", "複製文字", "Copy text", "テキストをコピー", "텍스트 복사", "Copier le texte", "Text kopieren",
-  "Copiar texto")
+  "Copiar texto",
+
+  "Chép chữ")
 X(PM_TOP_ALL, "置顶所有贴图", "置頂所有貼圖", "All pins on top", "すべてのピンを手前に表示", "모든 고정 이미지를 위에",
-  "Toutes les épingles au premier plan", "Alle Pins im Vordergrund", "Todas las imágenes siempre visibles")
+  "Toutes les épingles au premier plan", "Alle Pins im Vordergrund", "Todas las imágenes siempre visibles",
+
+  "Mọi ảnh ghim trên cùng")
 X(PM_TOP, "置顶这个贴图", "置頂這張貼圖", "This pin on top", "このピンを手前に表示", "이 고정 이미지를 위에",
-  "Cette épingle au premier plan", "Diesen Pin im Vordergrund", "Esta imagen siempre visible")
+  "Cette épingle au premier plan", "Diesen Pin im Vordergrund", "Esta imagen siempre visible",
+
+  "Ảnh ghim này trên cùng")
 
 /* ---- text recognition (ocr.c) ---- */
 X(OCR_WORKING, "正在识别...", "正在辨識...", "Reading the text...", "読み取り中...", "인식 중...",
-  "Lecture du texte...", "Text wird erkannt...", "Leyendo el texto...")
+  "Lecture du texte...", "Text wird erkannt...", "Leyendo el texto...",
+
+  "Đang đọc chữ...")
 X(OCR_COPIED, "文字已复制", "文字已複製", "Text copied", "テキストをコピーしました", "텍스트 복사됨", "Texte copié",
-  "Text kopiert", "Texto copiado")
+  "Text kopiert", "Texto copiado",
+
+  "Đã chép chữ")
 X(QUICK_SAVED, "截图已保存", "截圖已儲存", "Screenshot saved", "スクリーンショットを保存しました", "스크린샷 저장됨",
-  "Capture enregistrée", "Screenshot gespeichert", "Captura guardada")
+  "Capture enregistrée", "Screenshot gespeichert", "Captura guardada",
+
+  "Đã lưu ảnh chụp")
 X(OCR_NONE, "没有识别到文字", "沒有辨識到文字", "No text found", "文字が見つかりません", "텍스트를 찾지 못했습니다",
-  "Aucun texte trouvé", "Kein Text gefunden", "No se encontró texto")
+  "Aucun texte trouvé", "Kein Text gefunden", "No se encontró texto",
+
+  "Không tìm thấy chữ")
 X(OCR_MISSING,
   "还没有安装文字识别模块", "尚未安裝文字辨識模組", "The text recognition module is not installed",
   "文字認識モジュールがインストールされていません", "텍스트 인식 모듈이 설치되지 않았습니다",
   "Le module de reconnaissance de texte n'est pas installé", "Das Texterkennungsmodul ist nicht installiert",
-  "El módulo de reconocimiento de texto no está instalado")
+  "El módulo de reconocimiento de texto no está instalado",
+
+  "Chưa cài module nhận dạng chữ")
 X(OCR_FAILED, "识别失败", "辨識失敗", "Text recognition failed", "文字認識に失敗しました", "텍스트 인식 실패",
-  "Échec de la reconnaissance", "Texterkennung fehlgeschlagen", "Error al reconocer el texto")
-X(OCR_COPY, "复制", "複製", "Copy", "コピー", "복사", "Copier", "Kopieren", "Copiar")
-X(OCR_TABLE, "表格", "表格", "Table", "表", "표", "Tableau", "Tabelle", "Tabla")
+  "Échec de la reconnaissance", "Texterkennung fehlgeschlagen", "Error al reconocer el texto",
+
+  "Nhận dạng chữ thất bại")
+X(OCR_COPY, "复制", "複製", "Copy", "コピー", "복사", "Copier", "Kopieren", "Copiar", "Chép")
+X(OCR_TABLE, "表格", "表格", "Table", "表", "표", "Tableau", "Tabelle", "Tabla", "Bảng")
 
 /* ---- the long screenshot (scroll.c) ---- */
 X(LONG_HINT, "滚动页面，自动拼接", "捲動頁面，自動拼接", "Scroll the page: it is stitched as you go", "ページをスクロールすると自動でつなぎます",
   "페이지를 스크롤하면 자동으로 이어 붙입니다", "Faites défiler la page : elle est assemblée au fur et à mesure",
-  "Seite scrollen: sie wird laufend zusammengesetzt", "Desplaza la página: se va uniendo sola")
+  "Seite scrollen: sie wird laufend zusammengesetzt", "Desplaza la página: se va uniendo sola",
+
+  "Cuộn trang: ảnh được ghép dần khi bạn cuộn")
 X(LONG_LOST, "滚得太快了，往回滚一点", "捲得太快了，往回捲一點", "Too fast: scroll back a little", "速すぎます。少し戻してください", "너무 빠릅니다. 조금 되돌려 주세요",
   "Trop vite : revenez un peu en arrière", "Zu schnell: ein Stück zurückscrollen",
-  "Demasiado rápido: vuelve un poco atrás")
+  "Demasiado rápido: vuelve un poco atrás",
+
+  "Nhanh quá: cuộn ngược lại một chút")
 X(LONG_FULL, "已经到最大长度", "已達最大長度", "As long as it can get", "これ以上は長くできません", "최대 길이에 도달했습니다",
-  "Longueur maximale atteinte", "Maximale Länge erreicht", "Longitud máxima alcanzada")
+  "Longueur maximale atteinte", "Maximale Länge erreicht", "Longitud máxima alcanzada",
+
+  "Đã dài tối đa")
 
 /* ---- preferences: the text recognition page (settings.c, ocr_get.c) ---- */
 X(O_STATE_NONE, "文字识别模块：未安装", "文字辨識模組：未安裝", "Text recognition module: not installed", "文字認識モジュール: 未インストール",
   "텍스트 인식 모듈: 설치되지 않음", "Module de reconnaissance de texte : non installé", "Texterkennungsmodul: nicht installiert",
-  "Módulo de reconocimiento de texto: no instalado")
+  "Módulo de reconocimiento de texto: no instalado",
+
+  "Module nhận dạng chữ: chưa cài")
 X(O_STATE_OK, "文字识别模块：已安装（%d MB）", "文字辨識模組：已安裝（%d MB）", "Text recognition module: installed (%d MB)",
   "文字認識モジュール: インストール済み (%d MB)", "텍스트 인식 모듈: 설치됨 (%d MB)", "Module de reconnaissance de texte : installé (%d Mo)",
-  "Texterkennungsmodul: installiert (%d MB)", "Módulo de reconocimiento de texto: instalado (%d MB)")
+  "Texterkennungsmodul: installiert (%d MB)", "Módulo de reconocimiento de texto: instalado (%d MB)",
+
+  "Module nhận dạng chữ: đã cài (%d MB)")
 X(O_INSTALL_BTN, "下载并安装", "下載並安裝", "Download and install", "ダウンロードして導入", "다운로드 및 설치", "Télécharger et installer",
-  "Laden und installieren", "Descargar e instalar")
-X(O_CANCEL_BTN, "取消", "取消", "Cancel", "キャンセル", "취소", "Annuler", "Abbrechen", "Cancelar")
-X(O_REMOVE_BTN, "删除模块", "移除模組", "Remove", "削除", "제거", "Supprimer", "Entfernen", "Quitar")
+  "Laden und installieren", "Descargar e instalar",
+
+  "Tải và cài")
+X(O_CANCEL_BTN, "取消", "取消", "Cancel", "キャンセル", "취소", "Annuler", "Abbrechen", "Cancelar", "Hủy")
+X(O_REMOVE_BTN, "删除模块", "移除模組", "Remove", "削除", "제거", "Supprimer", "Entfernen", "Quitar", "Gỡ")
 X(O_CHECK_FAILED, "下载的文件校验没有通过，请再试一次。", "下載的檔案驗證失敗，請再試一次。", "The download did not pass verification. Try again.",
   "ダウンロードしたファイルを検証できませんでした。もう一度お試しください。", "다운로드한 파일을 확인하지 못했습니다. 다시 시도하세요.",
   "Le fichier téléchargé n'a pas pu être vérifié. Réessayez.",
   "Der Download hat die Prüfung nicht bestanden. Bitte erneut versuchen.",
-  "La descarga no superó la verificación. Inténtalo de nuevo.")
+  "La descarga no superó la verificación. Inténtalo de nuevo.",
+
+  "File tải về không qua được kiểm tra. Hãy thử lại.")
 X(O_WRITE_FAILED, "无法写入程序所在的文件夹。", "無法寫入程式所在的資料夾。", "Cannot write to the program's folder.", "プログラムのフォルダーに書き込めません。",
   "프로그램 폴더에 쓸 수 없습니다.", "Impossible d'écrire dans le dossier du programme.",
-  "In den Programmordner kann nicht geschrieben werden.", "No se puede escribir en la carpeta del programa.")
+  "In den Programmordner kann nicht geschrieben werden.", "No se puede escribir en la carpeta del programa.",
+
+  "Không ghi được vào thư mục chương trình.")
 X(O_HINT,
   "可选模块，下载约 12 MB，装好后占 23 MB。用来识别截图里的文字和表格，全部在本机完成，不联网。\n模型是 PaddleOCR PP-OCRv6，运行库是 ONNX Runtime，从 sniplite 的 GitHub 发布页下载，附带它们的许可证。",
   "選用模組，下載約 12 MB，安裝後佔 23 MB。用來辨識截圖裡的文字和表格，全部在本機完成，不連網。\n模型是 PaddleOCR PP-OCRv6，執行庫是 ONNX Runtime，從 sniplite 的 GitHub 發布頁下載，附帶它們的授權條款。",
@@ -1016,7 +1461,10 @@ X(O_HINT,
   "선택 모듈: 다운로드 약 12 MB, 설치 후 23 MB. 캡처의 글자와 표를 이 컴퓨터에서만 읽습니다.\n모델은 PaddleOCR PP-OCRv6, 런타임은 ONNX Runtime이며 sniplite의 GitHub 릴리스에서 라이선스와 함께 받습니다.",
   "Facultatif : 12 Mo à télécharger, 23 Mo installés. Lit le texte et les tableaux d'une capture, entièrement sur cet ordinateur.\nModèles : PaddleOCR PP-OCRv6. Moteur : ONNX Runtime. Source : la page GitHub de sniplite, avec leurs licences.",
   "Optional: 12 MB Download, 23 MB installiert. Liest Text und Tabellen einer Aufnahme, vollständig auf diesem Computer.\nModelle: PaddleOCR PP-OCRv6. Laufzeit: ONNX Runtime. Geladen von der GitHub-Seite von sniplite, samt Lizenzen.",
-  "Opcional: 12 MB de descarga, 23 MB instalado. Lee el texto y las tablas de una captura, todo en este equipo.\nModelos: PaddleOCR PP-OCRv6. Motor: ONNX Runtime. Se descargan de la página de sniplite en GitHub, con sus licencias.")
+  "Opcional: 12 MB de descarga, 23 MB instalado. Lee el texto y las tablas de una captura, todo en este equipo.\nModelos: PaddleOCR PP-OCRv6. Motor: ONNX Runtime. Se descargan de la página de sniplite en GitHub, con sus licencias.",
+
+  "Tùy chọn: tải 12 MB, chiếm 23 MB khi cài. Đọc chữ và bảng trong ảnh chụp, hoàn toàn trên máy này.\n"
+  "Model: PaddleOCR PP-OCRv6. Runtime: ONNX Runtime. Tải từ trang releases của sniplite trên GitHub, kèm giấy phép.")
 
 /* ---- the save dialog (image.S); | stands for the separator between filter parts ---- */
 X(SAVE_FILTER,
@@ -1027,8 +1475,12 @@ X(SAVE_FILTER,
   "PNG 이미지 (*.png)|*.png|JPEG 이미지 (*.jpg)|*.jpg;*.jpeg|BMP 이미지 (*.bmp)|*.bmp|",
   "Image PNG (*.png)|*.png|Image JPEG (*.jpg)|*.jpg;*.jpeg|Image BMP (*.bmp)|*.bmp|",
   "PNG-Bild (*.png)|*.png|JPEG-Bild (*.jpg)|*.jpg;*.jpeg|BMP-Bild (*.bmp)|*.bmp|",
-  "Imagen PNG (*.png)|*.png|Imagen JPEG (*.jpg)|*.jpg;*.jpeg|Imagen BMP (*.bmp)|*.bmp|")
+  "Imagen PNG (*.png)|*.png|Imagen JPEG (*.jpg)|*.jpg;*.jpeg|Imagen BMP (*.bmp)|*.bmp|",
+
+  "Ảnh PNG (*.png)|*.png|Ảnh JPEG (*.jpg)|*.jpg;*.jpeg|Ảnh BMP (*.bmp)|*.bmp|")
 X(SAVE_TITLE, "保存截图", "儲存截圖", "Save the capture", "キャプチャを保存", "캡처 저장",
-  "Enregistrer la capture", "Aufnahme speichern", "Guardar captura")
+  "Enregistrer la capture", "Aufnahme speichern", "Guardar captura",
+
+  "Lưu ảnh chụp")
 
 #endif

@@ -18,7 +18,7 @@ enum {
 };
 
 /* the languages, in the order of the columns of lang_text.h */
-enum { LG_AUTO = -1, LG_ZH_CN, LG_ZH_TW, LG_EN, LG_JA, LG_KO, LG_FR, LG_DE, LG_ES, LG_COUNT };
+enum { LG_AUTO = -1, LG_ZH_CN, LG_ZH_TW, LG_EN, LG_JA, LG_KO, LG_FR, LG_DE, LG_ES, LG_VI, LG_COUNT };
 
 extern const WCHAR *const *g_tr; /* the texts of the language in use, by S_<name> */
 #define T(name) (g_tr[S_##name])

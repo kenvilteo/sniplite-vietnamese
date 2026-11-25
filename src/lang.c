@@ -7,7 +7,7 @@
  * Chinese one the first time its language is used, and stays. */
 #include "lang.h"
 
-#define X(name, zh, tw, en, ja, ko, fr, de, es) L##zh,
+#define X(name, zh, tw, en, ja, ko, fr, de, es, vi) L##zh,
 static const WCHAR *const kChinese[S_COUNT] = {
 #include "lang_text.h"
 };
@@ -17,38 +17,43 @@ static const WCHAR *const kChinese[S_COUNT] = {
 #define W(text) L##text L"\0"
 #define A(text) text "\0"
 
-#define X(name, zh, tw, en, ja, ko, fr, de, es) W(tw)
+#define X(name, zh, tw, en, ja, ko, fr, de, es, vi) W(tw)
 static const WCHAR kTw[] =
 #include "lang_text.h"
     ;
 #undef X
-#define X(name, zh, tw, en, ja, ko, fr, de, es) A(en)
+#define X(name, zh, tw, en, ja, ko, fr, de, es, vi) A(en)
 static const char kEn[] =
 #include "lang_text.h"
     ;
 #undef X
-#define X(name, zh, tw, en, ja, ko, fr, de, es) W(ja)
+#define X(name, zh, tw, en, ja, ko, fr, de, es, vi) W(ja)
 static const WCHAR kJa[] =
 #include "lang_text.h"
     ;
 #undef X
-#define X(name, zh, tw, en, ja, ko, fr, de, es) W(ko)
+#define X(name, zh, tw, en, ja, ko, fr, de, es, vi) W(ko)
 static const WCHAR kKo[] =
 #include "lang_text.h"
     ;
 #undef X
-#define X(name, zh, tw, en, ja, ko, fr, de, es) A(fr)
+#define X(name, zh, tw, en, ja, ko, fr, de, es, vi) A(fr)
 static const char kFr[] =
 #include "lang_text.h"
     ;
 #undef X
-#define X(name, zh, tw, en, ja, ko, fr, de, es) A(de)
+#define X(name, zh, tw, en, ja, ko, fr, de, es, vi) A(de)
 static const char kDe[] =
 #include "lang_text.h"
     ;
 #undef X
-#define X(name, zh, tw, en, ja, ko, fr, de, es) A(es)
+#define X(name, zh, tw, en, ja, ko, fr, de, es, vi) A(es)
 static const char kEs[] =
+#include "lang_text.h"
+    ;
+#undef X
+#define X(name, zh, tw, en, ja, ko, fr, de, es, vi) A(vi)
+static const char kVi[] =
 #include "lang_text.h"
     ;
 #undef X
@@ -67,6 +72,7 @@ static const struct {
     {L"fr", L"Français", kFr, sizeof kFr, true},
     {L"de", L"Deutsch", kDe, sizeof kDe, true},
     {L"es", L"Español", kEs, sizeof kEs, true},
+    {L"vi", L"Tiếng Việt", kVi, sizeof kVi, true},
 };
 
 const WCHAR *const *g_tr = kChinese;
@@ -120,6 +126,8 @@ int lang_system(void)
         return LG_DE;
     case LANG_SPANISH:
         return LG_ES;
+    case LANG_VIETNAMESE:
+        return LG_VI;
     }
     return LG_EN;
 }
