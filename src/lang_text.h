@@ -317,6 +317,25 @@ X(S_PATH,
   "Installieren in %s", "Instalar en %s",
 
   "Cài vào %s")
+X(S_LANG,
+  "语言", "語言", "Language", "言語", "언어", "Langue", "Sprache", "Idioma",
+
+  "Ngôn ngữ")
+X(S_DIR,
+  "安装位置", "安裝位置", "Install folder", "インストール先", "설치 위치", "Dossier d'installation",
+  "Installationsordner", "Carpeta de instalación",
+
+  "Thư mục cài đặt")
+X(S_UPURL,
+  "上传地址（可选）", "上傳網址（可選）", "Upload URL (optional)", "アップロード URL（任意）", "업로드 URL (선택)",
+  "URL d'envoi (facultatif)", "Upload-URL (optional)", "URL de subida (opcional)",
+
+  "Upload URL (không bắt buộc)")
+X(S_UPTOKEN,
+  "上传令牌（可选）", "上傳權杖（可選）", "Upload token (optional)", "アップロードトークン（任意）", "업로드 토큰 (선택)",
+  "Jeton d'envoi (facultatif)", "Upload-Token (optional)", "Token de subida (opcional)",
+
+  "Upload token (không bắt buộc)")
 X(S_BROWSE,
   "更改位置…", "變更位置…", "Change folder…", "場所を変更…", "위치 변경…", "Changer le dossier…",
   "Ordner ändern…", "Cambiar carpeta…",
@@ -328,12 +347,12 @@ X(S_AUTOSTART,
 
   "Khởi động cùng Windows")
 X(S_OCR,
-  "同时安装文字识别模块（另下载 12 MB）", "同時安裝文字辨識模組（另下載 12 MB）", "Also install text recognition (12 MB download)",
-  "文字認識モジュールも導入 (12 MB ダウンロード)", "텍스트 인식 모듈도 설치 (12 MB 다운로드)",
-  "Installer aussi la reconnaissance de texte (12 Mo)", "Texterkennung mitinstallieren (12 MB Download)",
-  "Instalar también el reconocimiento de texto (12 MB)",
+  "同时安装文字识别模块（另下载 43 MB）", "同時安裝文字辨識模組（另下載 43 MB）", "Also install text recognition (43 MB download)",
+  "文字認識モジュールも導入 (43 MB ダウンロード)", "텍스트 인식 모듈도 설치 (43 MB 다운로드)",
+  "Installer aussi la reconnaissance de texte (43 Mo)", "Texterkennung mitinstallieren (43 MB Download)",
+  "Instalar también el reconocimiento de texto (43 MB)",
 
-  "Cài thêm nhận dạng chữ (tải 12 MB)")
+  "Cài thêm nhận dạng chữ (tải 43 MB)")
 X(S_INSTALL, "安装", "安裝", "Install", "インストール", "설치", "Installer", "Installieren", "Instalar", "Cài")
 X(S_CANCEL, "取消", "取消", "Cancel", "キャンセル", "취소", "Annuler", "Abbrechen", "Cancelar", "Hủy")
 X(S_DONE_OWN,

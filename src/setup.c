@@ -9,8 +9,10 @@
  *
  * The install folder: the one given with /D=, else where sniplite is installed already
  * (the folder its Start menu shortcut points into), else %LOCALAPPDATA%\Programs\sniplite.
- * A first install may choose another folder in the window; an installation is replaced
- * where it is (to move it, uninstall it first).
+ * The window shows that folder to change (typed or picked), and two optional boxes, upload_url and
+ * upload_token (from sniplite.ini there, else the environment variables UPLOAD_SNIPLITE_URL and
+ * UPLOAD_SNIPLITE_TOKEN), written to sniplite.ini there when filled. Installing into another folder leaves the
+ * old copy where it was: the Start menu entries follow the new one.
  *
  *   sniplite_win_setup_amd64.exe            window: the folder, and two checkboxes: start with
  *                                           Windows, and the text recognition module (off unless
@@ -20,8 +22,8 @@
  *   ... "/D=C:\some folder\sniplite"        into that folder (a whole path; not a drive by itself)
  * Exit code 0 = installed, 1 = failed or cancelled.
  *
- * The window speaks the language sniplite is set to (an installed sniplite.ini),
- * else the language of Windows. */
+ * The window speaks the language sniplite is set to (an installed sniplite.ini), else Vietnamese; a list
+ * in it changes that, and the choice is written to sniplite.ini (lang=) so sniplite speaks it too. */
 #include "common.h"
 #include "install.h"
 #include "resource.h"
@@ -30,6 +32,7 @@
 
 static struct {
     WCHAR dir[MAX_PATH], exe[MAX_PATH];
+    WCHAR up_url[1024], up_token[512]; /* what sniplite.ini has now, for the two boxes */
     HFONT title_font;
     bool done;
 } I;
@@ -68,12 +71,6 @@ static bool make_link(const WCHAR *lnk, const WCHAR *args)
         IShellLinkW_Release(sl);
     }
     return ok;
-}
-
-static bool autostart_on(void)
-{
-    WCHAR p[MAX_PATH];
-    return special(CSIDL_STARTUP, STARTUP_LNK, p) && exists(p);
 }
 
 /* I.dir and I.exe from a path: made whole, without a last backslash. Not a drive by
@@ -337,11 +334,75 @@ static bool install(int autostart, bool ocr)
     return ok;
 }
 
-static void show_path(HWND h)
+/* one of sniplite.ini's upload settings: empty when there is none, or it is still the placeholder
+ * sniplite writes (YOUR_URL, YOUR_TOKEN) */
+static void ini_upload(const WCHAR *ini, const WCHAR *key, const WCHAR *placeholder, WCHAR *out, int cap)
 {
-    WCHAR t[MAX_PATH + 64];
-    wsprintfW(t, T(S_PATH), I.dir);
-    SetDlgItemTextW(h, IDC_S_PATH, t);
+    out[0] = 0;
+    if (exists(ini))
+        GetPrivateProfileStringW(L"sniplite", key, L"", out, (DWORD)cap, ini);
+    if (!lstrcmpW(out, placeholder))
+        out[0] = 0;
+}
+
+static void trim(WCHAR *s)
+{
+    int n = lstrlenW(s), a = 0;
+    while (n > 0 && s[n - 1] <= L' ')
+        s[--n] = 0;
+    while (s[a] && s[a] <= L' ')
+        a++;
+    if (a)
+        memmove(s, s + a, ((size_t)n - (size_t)a + 1) * sizeof(WCHAR));
+}
+
+/* The two boxes of the window, into sniplite.ini of the folder installed to: only what was typed and is not
+ * there already; an empty box leaves the file as it is. The file is made when it is not there; sniplite
+ * writes the rest of it, keeping these, the next time its settings are saved. */
+static void save_upload(HWND h)
+{
+    WCHAR ini[MAX_PATH], url[1024], tok[512], now[1024];
+    if (!join(ini, I.dir, L"sniplite.ini"))
+        return;
+    GetDlgItemTextW(h, IDC_S_UPURL, url, COUNTOF(url));
+    GetDlgItemTextW(h, IDC_S_UPTOKEN, tok, COUNTOF(tok));
+    trim(url);
+    trim(tok);
+    if (url[0]) {
+        ini_upload(ini, L"upload_url", L"YOUR_URL", now, COUNTOF(now));
+        if (lstrcmpW(now, url))
+            WritePrivateProfileStringW(L"sniplite", L"upload_url", url, ini);
+    }
+    if (tok[0]) {
+        ini_upload(ini, L"upload_token", L"YOUR_TOKEN", now, COUNTOF(now));
+        if (lstrcmpW(now, tok))
+            WritePrivateProfileStringW(L"sniplite", L"upload_token", tok, ini);
+    }
+}
+
+/* every text of the window, in the language in use: at the start, and when another is chosen */
+static void set_texts(HWND h)
+{
+    SetWindowTextW(h, T(S_CAPTION));
+    SetDlgItemTextW(h, IDC_S_SUB, T(S_SUB));
+    SetDlgItemTextW(h, IDC_S_LANG_L, T(S_LANG));
+    SetDlgItemTextW(h, IDC_S_AUTOSTART, T(S_AUTOSTART));
+    SetDlgItemTextW(h, IDC_S_OCR, T(S_OCR));
+    SetDlgItemTextW(h, IDC_S_BROWSE, T(S_BROWSE));
+    SetDlgItemTextW(h, IDC_S_DIR_L, T(S_DIR));
+    SetDlgItemTextW(h, IDC_S_UPURL_L, T(S_UPURL));
+    SetDlgItemTextW(h, IDC_S_UPTOKEN_L, T(S_UPTOKEN));
+    SetDlgItemTextW(h, IDOK, I.done ? T(S_FINISH) : T(S_INSTALL));
+    SetDlgItemTextW(h, IDCANCEL, T(S_CANCEL));
+}
+
+/* the chosen language into sniplite.ini of the folder installed to, so the program speaks it too */
+static void save_lang(HWND h)
+{
+    WCHAR ini[MAX_PATH];
+    int sel = (int)SendDlgItemMessageW(h, IDC_S_LANG, CB_GETCURSEL, 0, 0);
+    if (sel >= 0 && sel < LG_COUNT && join(ini, I.dir, L"sniplite.ini"))
+        WritePrivateProfileStringW(L"sniplite", L"lang", lang_code(sel), ini);
 }
 
 static INT_PTR CALLBACK dlg_proc(HWND h, UINT m, WPARAM wp, LPARAM lp)
@@ -363,19 +424,32 @@ static INT_PTR CALLBACK dlg_proc(HWND h, UINT m, WPARAM wp, LPARAM lp)
         I.title_font = CreateFontIndirectW(&lf);
         SendDlgItemMessageW(h, IDC_S_TITLE, WM_SETFONT, (WPARAM)I.title_font, TRUE);
         SetDlgItemTextW(h, IDC_S_TITLE, L"sniplite " SNIPLITE_VERSION);
-        SetWindowTextW(h, T(S_CAPTION));
-        SetDlgItemTextW(h, IDC_S_SUB, T(S_SUB));
-        SetDlgItemTextW(h, IDC_S_AUTOSTART, T(S_AUTOSTART));
-        SetDlgItemTextW(h, IDC_S_OCR, T(S_OCR));
-        SetDlgItemTextW(h, IDC_S_BROWSE, T(S_BROWSE));
-        SetDlgItemTextW(h, IDOK, T(S_INSTALL));
-        SetDlgItemTextW(h, IDCANCEL, T(S_CANCEL));
-        show_path(h);
-        /* first install: on by default, and the folder can be chosen; reinstall/upgrade:
-         * the current choice, where it is */
-        CheckDlgButton(h, IDC_S_AUTOSTART, !exists(I.exe) || autostart_on() ? BST_CHECKED : BST_UNCHECKED);
-        if (exists(I.exe))
-            ShowWindow(GetDlgItem(h, IDC_S_BROWSE), SW_HIDE);
+        for (int i = 0; i < LG_COUNT; i++) /* each in its own words */
+            SendDlgItemMessageW(h, IDC_S_LANG, CB_ADDSTRING, 0, (LPARAM)lang_name(i));
+        SendDlgItemMessageW(h, IDC_S_LANG, CB_SETCURSEL, (WPARAM)(lang_choice() == LG_AUTO ? lang_system() : lang_choice()), 0);
+        set_texts(h);
+        ShowWindow(GetDlgItem(h, IDC_S_DONE), SW_HIDE);
+        SetDlgItemTextW(h, IDC_S_DIR, I.dir);
+        SendDlgItemMessageW(h, IDC_S_DIR, EM_LIMITTEXT, MAX_PATH - 1, 0);
+        SendDlgItemMessageW(h, IDC_S_UPURL, EM_LIMITTEXT, COUNTOF(I.up_url) - 1, 0);
+        SendDlgItemMessageW(h, IDC_S_UPTOKEN, EM_LIMITTEXT, COUNTOF(I.up_token) - 1, 0);
+        { /* what an installation has already, else the user's environment variables: a new machine or folder
+           * starts from what was set once, and either can be changed in the boxes */
+            WCHAR ini[MAX_PATH];
+            I.up_url[0] = I.up_token[0] = 0;
+            if (join(ini, I.dir, L"sniplite.ini")) {
+                ini_upload(ini, L"upload_url", L"YOUR_URL", I.up_url, COUNTOF(I.up_url));
+                ini_upload(ini, L"upload_token", L"YOUR_TOKEN", I.up_token, COUNTOF(I.up_token));
+            }
+            if (!I.up_url[0] && !GetEnvironmentVariableW(L"UPLOAD_SNIPLITE_URL", I.up_url, COUNTOF(I.up_url)))
+                I.up_url[0] = 0;
+            if (!I.up_token[0] && !GetEnvironmentVariableW(L"UPLOAD_SNIPLITE_TOKEN", I.up_token, COUNTOF(I.up_token)))
+                I.up_token[0] = 0;
+            SetDlgItemTextW(h, IDC_S_UPURL, I.up_url);
+            SetDlgItemTextW(h, IDC_S_UPTOKEN, I.up_token);
+        }
+        CheckDlgButton(h, IDC_S_AUTOSTART, BST_CHECKED); /* both options start ticked */
+        CheckDlgButton(h, IDC_S_OCR, BST_CHECKED);
         SetForegroundWindow(h);
         return TRUE;
     }
@@ -385,6 +459,15 @@ static INT_PTR CALLBACK dlg_proc(HWND h, UINT m, WPARAM wp, LPARAM lp)
                 EndDialog(h, 0);
                 return TRUE;
             }
+            WCHAR typed[MAX_PATH];
+            GetDlgItemTextW(h, IDC_S_DIR, typed, COUNTOF(typed));
+            trim(typed);
+            if (!set_dir(typed)) { /* not a folder that can be one: say so, stay */
+                MessageBoxW(h, T(S_FAILED), T(S_CAPTION), MB_OK | MB_ICONERROR);
+                SetFocus(GetDlgItem(h, IDC_S_DIR));
+                return TRUE;
+            }
+            SetDlgItemTextW(h, IDC_S_DIR, I.dir);
             EnableWindow(GetDlgItem(h, IDOK), FALSE);
             EnableWindow(GetDlgItem(h, IDCANCEL), FALSE);
             EnableWindow(GetDlgItem(h, IDC_S_BROWSE), FALSE);
@@ -395,10 +478,14 @@ static INT_PTR CALLBACK dlg_proc(HWND h, UINT m, WPARAM wp, LPARAM lp)
                 I.done = true;
                 WCHAR ini[MAX_PATH]; /* own settings may use other keys */
                 bool own = join(ini, I.dir, L"sniplite.ini") && exists(ini);
-                SetDlgItemTextW(h, IDC_S_PATH, own ? T(S_DONE_OWN) : T(S_DONE));
-                ShowWindow(GetDlgItem(h, IDC_S_AUTOSTART), SW_HIDE);
-                ShowWindow(GetDlgItem(h, IDC_S_OCR), SW_HIDE);
-                ShowWindow(GetDlgItem(h, IDC_S_BROWSE), SW_HIDE);
+                save_upload(h);
+                save_lang(h);
+                SetDlgItemTextW(h, IDC_S_DONE, own ? T(S_DONE_OWN) : T(S_DONE));
+                ShowWindow(GetDlgItem(h, IDC_S_DONE), SW_SHOW);
+                static const int gone[] = {IDC_S_LANG_L, IDC_S_LANG, IDC_S_DIR_L, IDC_S_DIR, IDC_S_BROWSE, IDC_S_UPURL_L, IDC_S_UPURL,
+                                           IDC_S_UPTOKEN_L, IDC_S_UPTOKEN, IDC_S_AUTOSTART, IDC_S_OCR};
+                for (int i = 0; i < COUNTOF(gone); i++)
+                    ShowWindow(GetDlgItem(h, gone[i]), SW_HIDE);
                 ShowWindow(GetDlgItem(h, IDCANCEL), SW_HIDE);
                 SetDlgItemTextW(h, IDOK, T(S_FINISH));
                 EnableWindow(GetDlgItem(h, IDOK), TRUE);
@@ -416,8 +503,20 @@ static INT_PTR CALLBACK dlg_proc(HWND h, UINT m, WPARAM wp, LPARAM lp)
             EndDialog(h, I.done ? 0 : 1);
             return TRUE;
         }
+        if (LOWORD(wp) == IDC_S_LANG && HIWORD(wp) == CBN_SELCHANGE) {
+            int sel = (int)SendDlgItemMessageW(h, IDC_S_LANG, CB_GETCURSEL, 0, 0);
+            if (sel >= 0 && sel < LG_COUNT) {
+                lang_choose(sel);
+                set_texts(h);
+                if (I.done) { /* the message too */
+                    WCHAR ini[MAX_PATH];
+                    SetDlgItemTextW(h, IDC_S_DONE, join(ini, I.dir, L"sniplite.ini") && exists(ini) ? T(S_DONE_OWN) : T(S_DONE));
+                }
+            }
+            return TRUE;
+        }
         if (LOWORD(wp) == IDC_S_BROWSE && browse(h)) {
-            show_path(h);
+            SetDlgItemTextW(h, IDC_S_DIR, I.dir);
             return TRUE;
         }
         break;
@@ -455,6 +554,8 @@ int WINAPI wWinMain(HINSTANCE inst, HINSTANCE prev, PWSTR cmdline, int show)
             return 1;
     }
     lang_init(join(ini, I.dir, L"sniplite.ini") ? ini : L"");
+    if (!silent && !update && lang_choice() == LG_AUTO)
+        lang_choose(LG_VI); /* the window, until another is chosen: Vietnamese */
     if (silent || update)
         return install(update || exists(I.exe) ? -1 : 1, false) ? 0 : 1;
     return (int)lang_dialog_box(inst, IDD_SETUP, NULL, dlg_proc);

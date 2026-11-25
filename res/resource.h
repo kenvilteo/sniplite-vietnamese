@@ -123,5 +123,14 @@
 #define IDC_S_AUTOSTART 204
 #define IDC_S_OCR 205
 #define IDC_S_BROWSE 206
+#define IDC_S_DIR 240 /* the install folder, to type or to pick */
+#define IDC_S_DIR_L 241
+#define IDC_S_UPURL_L 242
+#define IDC_S_UPURL 243
+#define IDC_S_UPTOKEN_L 244
+#define IDC_S_UPTOKEN 245
+#define IDC_S_DONE 246
+#define IDC_S_LANG_L 247
+#define IDC_S_LANG 248
 #define IDR_APP_EXE 210
 #define IDR_APP_COM 211
