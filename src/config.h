@@ -25,7 +25,7 @@ typedef struct {
     WCHAR block_apps[256];            /* no hotkeys while a program of these is in front: file names, | between them */
 } Config;
 
-void config_defaults(Config *c);             /* Snipaste-compatible: F1 / F3 / Shift+F3; Shift+F1 quick; for text F4 / Shift+F4 */
+void config_defaults(Config *c);             /* F1 capture, Shift+F1 quick, F4 pin, Shift+F4 hide/show pins; for text F2 read, F3 copy */
 bool config_load(Config *c);                 /* defaults + sniplite.ini if present */
 bool config_save(const Config *c);
 void config_set_pin_top(bool on);            /* that one setting, changed from a pin's menu: into the file */

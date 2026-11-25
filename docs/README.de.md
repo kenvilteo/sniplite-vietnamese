@@ -48,10 +48,10 @@ Dazu gibt es zwei portable Versionen ohne Installation: `sniplite_<Version>_port
 | --- | --- |
 | **F1** | Aufnehmen |
 | **Shift+F1** | Schnellaufnahme: der Bildschirm unter der Maus direkt in eine Datei (Ordner in den Einstellungen) |
-| **F3** | Kopiertes Bild oder kopierten Text anheften |
-| **Shift+F3** | Alle Pins aus- / einblenden |
-| **F4** | Aufnehmen und Text erkennen (mit dem Texterkennungsmodul) |
-| **Shift+F4** | Aufnehmen und Text kopieren |
+| **F4** | Kopiertes Bild oder kopierten Text anheften |
+| **Shift+F4** | Alle Pins aus- / einblenden |
+| **F2** | Aufnehmen und Text erkennen (mit dem Texterkennungsmodul) |
+| **F3** | Aufnehmen und Text kopieren |
 | **Enter** | Aufnahme kopieren |
 | **Ctrl+S** | Aufnahme speichern |
 | **Ctrl+T** | Aufnahme anheften |
@@ -89,7 +89,7 @@ Die Teile, die schnell sein müssen (Aufnahme, Komposition, Zeichnen und Aufnahm
 
 **Wie bekomme ich den Text aus einem Screenshot?**
 
-Einen Bereich auswählen und auf die Text-Schaltfläche klicken (Ctrl+O): Der Text erscheint in einem Feld neben der Auswahl und lässt sich markieren, bearbeiten und kopieren. Eine Tabelle behält ihre Spalten und landet in einer Tabellenkalkulation Zelle für Zelle, auf Wunsch auch als Markdown. Ctrl+Shift+C kopiert den Text sofort. Dafür braucht es das Texterkennungsmodul (12 MB; PaddleOCR-Modelle PP-OCRv6 mit ONNX Runtime, vollständig auf dem eigenen Computer): auf der Seite OCR der Einstellungen installieren, im Installer ankreuzen oder die portable Version mit OCR nehmen. Solange es fehlt, werden die Text-Schaltflächen nicht angezeigt. F4 und Shift+F4 starten eine Aufnahme, die den Text sofort erkennt oder kopiert.
+Einen Bereich auswählen und auf die Text-Schaltfläche klicken (Ctrl+O): Der Text erscheint in einem Feld neben der Auswahl und lässt sich markieren, bearbeiten und kopieren. Eine Tabelle behält ihre Spalten und landet in einer Tabellenkalkulation Zelle für Zelle, auf Wunsch auch als Markdown. Ctrl+Shift+C kopiert den Text sofort. Dafür braucht es das Texterkennungsmodul (12 MB; PaddleOCR-Modelle PP-OCRv6 mit ONNX Runtime, vollständig auf dem eigenen Computer): auf der Seite OCR der Einstellungen installieren, im Installer ankreuzen oder die portable Version mit OCR nehmen. Solange es fehlt, werden die Text-Schaltflächen nicht angezeigt. F2 und F3 starten eine Aufnahme, die den Text sofort erkennt oder kopiert.
 
 **Wie mache ich eine Scrollaufnahme?**
 

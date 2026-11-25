@@ -363,12 +363,12 @@ X(S_DONE_OWN,
 
   "Xong. sniplite đang chạy nền.")
 X(S_DONE,
-  "装好了，按 F1 截图，按 F3 贴图。", "裝好了，按 F1 截圖，按 F3 貼圖。",
-  "Done. Press F1 to capture, F3 to pin.", "完了しました。F1 でキャプチャ、F3 でピン留めできます。",
-  "설치 완료. 캡처는 F1, 고정은 F3입니다.", "C'est prêt. F1 pour capturer, F3 pour épingler.",
-  "Fertig. F1 zum Aufnehmen, F3 zum Anheften.", "Listo. F1 para capturar, F3 para fijar.",
+  "装好了，按 F1 截图，按 F4 贴图。", "裝好了，按 F1 截圖，按 F4 貼圖。",
+  "Done. Press F1 to capture, F4 to pin.", "完了しました。F1 でキャプチャ、F4 でピン留めできます。",
+  "설치 완료. 캡처는 F1, 고정은 F4입니다.", "C'est prêt. F1 pour capturer, F4 pour épingler.",
+  "Fertig. F1 zum Aufnehmen, F4 zum Anheften.", "Listo. F1 para capturar, F4 para fijar.",
 
-  "Xong. Bấm F1 để chụp, F3 để ghim.")
+  "Xong. Bấm F1 để chụp, F4 để ghim.")
 X(S_FINISH, "完成", "完成", "Finish", "完了", "완료", "Terminer", "Fertig", "Finalizar", "Hoàn tất")
 X(S_FAILED,
   "安装失败：无法写入程序文件。", "安裝失敗：無法寫入程式檔案。",
@@ -1277,11 +1277,11 @@ X(TIP_REDO, "重做  Ctrl+Y", "重做  Ctrl+Y", "Redo  Ctrl+Y", "やり直し  C
 
   "Làm lại  Ctrl+Y")
 X(TIP_PIN,
-  "贴到屏幕  Ctrl+T / F3", "貼到螢幕  Ctrl+T / F3", "Pin to the screen  Ctrl+T / F3", "画面にピン留め  Ctrl+T / F3",
-  "화면에 고정  Ctrl+T / F3", "Épingler à l'écran  Ctrl+T / F3", "Anheften  Ctrl+T / F3",
-  "Fijar en pantalla  Ctrl+T / F3",
+  "贴到屏幕  Ctrl+T / F4", "貼到螢幕  Ctrl+T / F4", "Pin to the screen  Ctrl+T / F4", "画面にピン留め  Ctrl+T / F4",
+  "화면에 고정  Ctrl+T / F4", "Épingler à l'écran  Ctrl+T / F4", "Anheften  Ctrl+T / F4",
+  "Fijar en pantalla  Ctrl+T / F4",
 
-  "Ghim lên màn hình  Ctrl+T / F3")
+  "Ghim lên màn hình  Ctrl+T / F4")
 X(TIP_SAVE, "保存  Ctrl+S", "儲存  Ctrl+S", "Save  Ctrl+S", "保存  Ctrl+S", "저장  Ctrl+S", "Enregistrer  Ctrl+S",
   "Speichern  Ctrl+S", "Guardar  Ctrl+S",
 

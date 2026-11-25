@@ -48,10 +48,10 @@ There are two portable versions too, with nothing to install: `sniplite_<version
 | --- | --- |
 | **F1** | Capture |
 | **Shift+F1** | Quick capture: the screen under the mouse straight into a file (the folder is set in Settings) |
-| **F3** | Pin the copied image or text to the screen |
-| **Shift+F3** | Hide / show all pins |
-| **F4** | Capture and read the text (with the text recognition module) |
-| **Shift+F4** | Capture and copy the text |
+| **F4** | Pin the copied image or text to the screen |
+| **Shift+F4** | Hide / show all pins |
+| **F2** | Capture and read the text (with the text recognition module) |
+| **F3** | Capture and copy the text |
 | **Enter** | Copy the capture |
 | **Ctrl+S** | Save the capture |
 | **Ctrl+T** | Pin the capture to the screen |
@@ -89,7 +89,7 @@ The parts that have to be fast (capture, composition, drawing and the capture ov
 
 **How do I get the text out of a screenshot?**
 
-Select an area and click the text button (Ctrl+O): the text appears in a panel beside the selection, where you can select, edit and copy it. A table keeps its columns and pastes into a spreadsheet as cells, or as Markdown if you prefer. Ctrl+Shift+C copies the text straight away. It needs the text recognition module (12 MB; PaddleOCR PP-OCRv6 models on ONNX Runtime, running entirely on your computer): install it on the OCR page of Settings, tick it in the installer, or use the portable version with OCR. Until it is installed, the text buttons are not shown. F4 and Shift+F4 start a capture that reads or copies the text right away.
+Select an area and click the text button (Ctrl+O): the text appears in a panel beside the selection, where you can select, edit and copy it. A table keeps its columns and pastes into a spreadsheet as cells, or as Markdown if you prefer. Ctrl+Shift+C copies the text straight away. It needs the text recognition module (12 MB; PaddleOCR PP-OCRv6 models on ONNX Runtime, running entirely on your computer): install it on the OCR page of Settings, tick it in the installer, or use the portable version with OCR. Until it is installed, the text buttons are not shown. F2 and F3 start a capture that reads or copies the text right away.
 
 **How do I take a long screenshot?**
 

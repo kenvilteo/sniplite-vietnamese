@@ -4,6 +4,8 @@
 #include "config.h"
 #include "lang.h"
 
+#define DETECT_DEFAULT 2 /* "elements" of kDetects below: DETECT_ELEMENTS of ov_layout.inc, which C does not see */
+
 static const struct {
     const WCHAR *name;
     UINT vk;
@@ -98,15 +100,17 @@ void config_defaults(Config *c)
     memset(c, 0, sizeof *c);
     hotkey_parse(L"F1", &c->mod[HK_CAPTURE], &c->vk[HK_CAPTURE]);
     hotkey_parse(L"Shift+F1", &c->mod[HK_QUICK], &c->vk[HK_QUICK]);
-    hotkey_parse(L"F3", &c->mod[HK_PIN], &c->vk[HK_PIN]);
-    hotkey_parse(L"Shift+F3", &c->mod[HK_TOGGLE], &c->vk[HK_TOGGLE]);
-    hotkey_parse(L"F4", &c->mod[HK_OCR], &c->vk[HK_OCR]);
-    hotkey_parse(L"Shift+F4", &c->mod[HK_OCRCOPY], &c->vk[HK_OCRCOPY]);
+    hotkey_parse(L"F4", &c->mod[HK_PIN], &c->vk[HK_PIN]);
+    hotkey_parse(L"Shift+F4", &c->mod[HK_TOGGLE], &c->vk[HK_TOGGLE]);
+    hotkey_parse(L"F2", &c->mod[HK_OCR], &c->vk[HK_OCR]);
+    hotkey_parse(L"F3", &c->mod[HK_OCRCOPY], &c->vk[HK_OCRCOPY]);
     c->tray = true;
     c->pin_top = true;
     c->pin_text = true;
     c->auto_update = true;
-    c->exit_ask = true;
+    c->exit_ask = false;
+    c->also_save = true;
+    c->detect = DETECT_DEFAULT;
 }
 
 void config_path(WCHAR *out, int cap) { ini_path(out, cap); }
@@ -114,8 +118,7 @@ void config_path(WCHAR *out, int cap) { ini_path(out, cap); }
 static const WCHAR *kHkKeys[HK_COUNT] = {NULL,           L"hotkey",     L"quick_hotkey",   L"pin_hotkey",
                                          L"toggle_hotkey", L"ocr_hotkey", L"ocr_copy_hotkey"};
 static const WCHAR *kThemes[] = {L"auto", L"light", L"dark"}; /* by THEME_* */
-static const WCHAR *kDetects[] = {L"controls", L"windows", L"elements"}; /* by DETECT_* */
-/* the file names: two or more of y M d H m s in a row stand for that part of the time */
+static const WCHAR *kDetects[] = {L"controls", L"windows", L"elements"}; /* by DETECT_* *//* the file names: two or more of y M d H m s in a row stand for that part of the time */
 static const WCHAR *kNames[NAME_COUNT] = {L"sniplite_yyyy-MM-dd_HH-mm-ss",   L"sniplite_yyyyMMdd_HHmmss",
                                           L"Screenshot_yyyy-MM-dd_HH-mm-ss", L"Screenshot_yyyyMMdd_HHmmss",
                                           L"yyyy-MM-dd_HH-mm-ss",            L"yyyyMMdd_HHmmss",
@@ -185,15 +188,15 @@ static void ini_utf8(const char *text, const char *key, WCHAR *out, int cap)
     }
 }
 
-/* which of the n words of k the setting key holds: the first when it is none of them */
-static int ini_pick(const WCHAR *path, const WCHAR *key, const WCHAR *const *k, int n)
+/* which of the n words of k the setting key holds: word def when there is none, or it is none of them */
+static int ini_pick(const WCHAR *path, const WCHAR *key, const WCHAR *const *k, int n, int def)
 {
     WCHAR v[64];
-    GetPrivateProfileStringW(L"sniplite", key, k[0], v, COUNTOF(v), path);
-    for (int i = n - 1; i > 0; i--)
+    GetPrivateProfileStringW(L"sniplite", key, k[def], v, COUNTOF(v), path);
+    for (int i = n - 1; i >= 0; i--)
         if (arg_eq(v, k[i]))
             return i;
-    return 0;
+    return def;
 }
 
 bool config_load(Config *c)
@@ -218,12 +221,12 @@ bool config_load(Config *c)
     c->pin_top = GetPrivateProfileIntW(L"sniplite", L"pin_top", 1, path) != 0;
     c->pin_text = GetPrivateProfileIntW(L"sniplite", L"pin_text", 1, path) != 0;
     c->auto_update = GetPrivateProfileIntW(L"sniplite", L"auto_update", 1, path) != 0;
-    c->exit_ask = GetPrivateProfileIntW(L"sniplite", L"exit_ask", 1, path) != 0;
-    c->also_save = GetPrivateProfileIntW(L"sniplite", L"also_save", 0, path) != 0;
+    c->exit_ask = GetPrivateProfileIntW(L"sniplite", L"exit_ask", 0, path) != 0;
+    c->also_save = GetPrivateProfileIntW(L"sniplite", L"also_save", 1, path) != 0;
     c->block_fullscreen = GetPrivateProfileIntW(L"sniplite", L"block_fullscreen", 0, path) != 0;
-    c->theme = ini_pick(path, L"theme", kThemes, COUNTOF(kThemes));
-    c->detect = ini_pick(path, L"detect", kDetects, COUNTOF(kDetects));
-    c->name = ini_pick(path, L"file_name", kNames, NAME_COUNT);
+    c->theme = ini_pick(path, L"theme", kThemes, COUNTOF(kThemes), 0);
+    c->detect = ini_pick(path, L"detect", kDetects, COUNTOF(kDetects), DETECT_DEFAULT);
+    c->name = ini_pick(path, L"file_name", kNames, NAME_COUNT, 0);
     char *text = ini_text(path);
     ini_utf8(text, "save_dir", c->save_dir, COUNTOF(c->save_dir));
     if (!c->save_dir[0]) /* as 1.4 called it */

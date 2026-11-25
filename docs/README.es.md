@@ -48,10 +48,10 @@ También hay dos versiones portables, sin instalación: `sniplite_<versión>_por
 | --- | --- |
 | **F1** | Capturar |
 | **Shift+F1** | Captura rápida: la pantalla donde está el ratón, directamente a un archivo (la carpeta se elige en los ajustes) |
-| **F3** | Fijar en pantalla la imagen o el texto copiado |
-| **Shift+F3** | Ocultar / mostrar todas las imágenes fijadas |
-| **F4** | Capturar y leer el texto (con el módulo de reconocimiento de texto) |
-| **Shift+F4** | Capturar y copiar el texto |
+| **F4** | Fijar en pantalla la imagen o el texto copiado |
+| **Shift+F4** | Ocultar / mostrar todas las imágenes fijadas |
+| **F2** | Capturar y leer el texto (con el módulo de reconocimiento de texto) |
+| **F3** | Capturar y copiar el texto |
 | **Enter** | Copiar la captura |
 | **Ctrl+S** | Guardar la captura |
 | **Ctrl+T** | Fijar la captura en pantalla |
@@ -89,7 +89,7 @@ Las partes que deben ser rápidas (captura, composición, dibujo y la pantalla d
 
 **¿Cómo saco el texto de una captura?**
 
-Selecciona una zona y pulsa el botón de texto (Ctrl+O): el texto aparece en un panel junto a la selección, donde puedes seleccionarlo, editarlo y copiarlo. Una tabla conserva sus columnas y se pega en una hoja de cálculo celda por celda, o como Markdown si lo prefieres. Ctrl+Shift+C copia el texto directamente. Hace falta el módulo de reconocimiento de texto (12 MB; los modelos PaddleOCR PP-OCRv6 con ONNX Runtime, todo en tu equipo): instálalo en la pestaña OCR de los ajustes, márcalo en el instalador o usa la versión portable con OCR. Mientras no esté instalado, los botones de texto no se muestran. F4 y Shift+F4 inician una captura que lee o copia el texto al momento.
+Selecciona una zona y pulsa el botón de texto (Ctrl+O): el texto aparece en un panel junto a la selección, donde puedes seleccionarlo, editarlo y copiarlo. Una tabla conserva sus columnas y se pega en una hoja de cálculo celda por celda, o como Markdown si lo prefieres. Ctrl+Shift+C copia el texto directamente. Hace falta el módulo de reconocimiento de texto (12 MB; los modelos PaddleOCR PP-OCRv6 con ONNX Runtime, todo en tu equipo): instálalo en la pestaña OCR de los ajustes, márcalo en el instalador o usa la versión portable con OCR. Mientras no esté instalado, los botones de texto no se muestran. F2 y F3 inician una captura que lee o copia el texto al momento.
 
 **¿Cómo hago una captura larga?**
 
