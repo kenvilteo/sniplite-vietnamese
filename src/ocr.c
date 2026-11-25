@@ -26,8 +26,11 @@
 #define DET_THRESH 0.3f     /* a pixel is text above this */
 #define BOX_THRESH 0.5f     /* a region is a line when its pixels average above this */
 #define BOX_GROW 1.6f       /* the detector marks the core of a line: grow the box back */
-#define REC_H 48
-#define REC_MIN_W 320       /* the width the recognizer was trained at: narrower reads worse (measured) */
+#define REC_H 48            /* PP-OCR recognizer: the height a line is scaled to */
+#define REC_MIN_W 320       /* the width it was trained at: narrower reads worse (measured) */
+#define VIE_H 64            /* VieSVTR: its own height, any width from 32 to 1600 that 4 divides, no padding */
+#define VIE_MIN_W 32
+#define VIE_MAX_W 1600
 #define REC_WORKERS 8       /* at most this many threads read lines at once */
 #define TEXT_SCORE 0.5f     /* a line is kept when its characters average above this */
 #define MAX_BOXES 4000
@@ -47,6 +50,8 @@ static struct {
     char *dict;   /* the recognizer's characters, UTF-8, one per line */
     int *dict_at; /* where each starts; dict_at[ndict] is the end */
     int ndict;
+    bool vie;     /* the recognizer is VieSVTR (Vietnamese), not a PP-OCR one: no character list in the model, logits out */
+    int rec_h;    /* what its input is scaled to */
     int workers;  /* threads reading lines at once */
     WCHAR err[200];
 } G;
@@ -158,16 +163,34 @@ static bool nets_open(const WCHAR *dir, const OrtSessionOptions *det, const OrtS
     return d && r.good;
 }
 
-/* the characters the recognizer knows are stored in the model itself */
+/* The characters of the Vietnamese recognizer (VieSVTR), whose model carries none: VietOCR's 229, one
+ * per line, the space last. Entry i is what class i + 1 means; class 0 is the blank. */
+static const char kVocab[] =
+    "a\nA\nà\nÀ\nả\nẢ\nã\nÃ\ná\nÁ\nạ\nẠ\nă\nĂ\nằ\nẰ\nẳ\nẲ\nẵ\nẴ\nắ\nẮ\nặ\nẶ\nâ\nÂ\nầ\nẦ\nẩ\nẨ\nẫ\nẪ\n"
+    "ấ\nẤ\nậ\nẬ\nb\nB\nc\nC\nd\nD\nđ\nĐ\ne\nE\nè\nÈ\nẻ\nẺ\nẽ\nẼ\né\nÉ\nẹ\nẸ\nê\nÊ\nề\nỀ\nể\nỂ\nễ\nỄ\n"
+    "ế\nẾ\nệ\nỆ\nf\nF\ng\nG\nh\nH\ni\nI\nì\nÌ\nỉ\nỈ\nĩ\nĨ\ní\nÍ\nị\nỊ\nj\nJ\nk\nK\nl\nL\nm\nM\nn\nN\n"
+    "o\nO\nò\nÒ\nỏ\nỎ\nõ\nÕ\nó\nÓ\nọ\nỌ\nô\nÔ\nồ\nỒ\nổ\nỔ\nỗ\nỖ\nố\nỐ\nộ\nỘ\nơ\nƠ\nờ\nỜ\nở\nỞ\nỡ\nỠ\n"
+    "ớ\nỚ\nợ\nỢ\np\nP\nq\nQ\nr\nR\ns\nS\nt\nT\nu\nU\nù\nÙ\nủ\nỦ\nũ\nŨ\nú\nÚ\nụ\nỤ\nư\nƯ\nừ\nỪ\nử\nỬ\n"
+    "ữ\nỮ\nứ\nỨ\nự\nỰ\nv\nV\nw\nW\nx\nX\ny\nY\nỳ\nỲ\nỷ\nỶ\nỹ\nỸ\ný\nÝ\nỵ\nỴ\nz\nZ\n0\n1\n2\n3\n4\n5\n"
+    "6\n7\n8\n9\n!\n\"\n#\n$\n%\n&\n'\n(\n)\n*\n+\n,\n-\n.\n/\n:\n;\n<\n=\n>\n?\n@\n[\n\\\n]\n^\n_\n`\n"
+    "{\n|\n}\n~\n ";
+
+/* The characters a PP-OCR recognizer knows are stored in the model itself. A recognizer that has none is
+ * VieSVTR, and has the list above. */
 static bool dict_read(void)
 {
     OrtModelMetadata *meta = NULL;
     if (!ok(G.o.SessionGetModelMetadata(G.rec.s, &meta)))
         return false;
-    bool got = G.dict || ok(G.o.ModelMetadataLookupCustomMetadataMap(meta, G.alloc, "character", &G.dict));
+    if (!G.dict) {
+        ok(G.o.ModelMetadataLookupCustomMetadataMap(meta, G.alloc, "character", &G.dict)); /* a model without it leaves NULL */
+        G.vie = !G.dict;
+        if (G.vie)
+            G.dict = (char *)kVocab;
+    }
     G.o.ReleaseModelMetadata(meta);
-    if (!got || !G.dict)
-        return fail(L"the recognition model carries no character list");
+    G.rec_h = G.vie ? VIE_H : REC_H;
+    G.err[0] = 0;
     int n = 1, len = 0;
     for (; G.dict[len]; len++)
         n += G.dict[len] == '\n';
@@ -607,10 +630,11 @@ static void rec_fill(const uint32_t *px, int stride, const Box *bx, bool turn, f
     int sw = turn ? ch : cw, sh = turn ? cw : ch; /* the source as the recognizer sees it */
     int *xw = xi + rw;
     resize_map(rw, sw, xi, xw);
-    size_t plane = (size_t)W * REC_H;
-    float step = (float)sh / (float)REC_H;
+    int RH = G.rec_h;
+    size_t plane = (size_t)W * RH;
+    float step = (float)sh / (float)RH;
     const uint32_t *o = px + (size_t)bx->t * stride + bx->l;
-    for (int y = 0; y < REC_H; y++) {
+    for (int y = 0; y < RH; y++) {
         float s = ((float)y + 0.5f) * step - 0.5f;
         if (s < 0)
             s = 0;
@@ -659,13 +683,43 @@ static void add_utf8(Str *s, const char *u, int len)
 /* The recognizer's answer for one line (T steps of C probabilities) as text: the best
  * character of every step, without repeats and blanks. Returns the mean probability
  * of the characters kept, 0 when there are none. */
+/* e^x for x <= 0 as 2^x, to about a tenth of a percent: there is no C runtime to ask */
+static float exp_neg(float x)
+{
+    if (x < -80.0f)
+        return 0;
+    x *= 1.4426950f;
+    int i = (int)x; /* its floor */
+    if ((float)i > x)
+        i--;
+    float f = x - (float)i; /* 0..1 */
+    float m = 1.0f + f * (0.6931472f + f * (0.2402265f + f * (0.0555041f + f * 0.0096181f)));
+    union {
+        float f;
+        int32_t i;
+    } u = {m};
+    if (i < -120)
+        return 0;
+    u.i += (int32_t)((uint32_t)i << 23); /* the exponent */
+    return u.f;
+}
+
+/* what the best of C logits would be as a probability: the one a softmax gives it */
+static float top_probability(const float *l, int C, float best)
+{
+    float sum = 0;
+    for (int i = 0; i < C; i++)
+        sum += exp_neg(l[i] - best);
+    return 1.0f / sum;
+}
+
 static float decode(const float *p, int T, int C, Str *s)
 {
     int last = 0, kept = 0;
     float sum = 0, one = 0;
     for (int i = 0; i < C; i++)
         one += p[i];
-    bool probabilities = one > 0.99f && one < 1.01f;
+    bool probabilities = !G.vie && one > 0.99f && one < 1.01f; /* VieSVTR gives logits */
     for (int t = 0; t < T; t++, p += C) {
         float best;
         int at = argmax(p, C, probabilities, &best);
@@ -674,7 +728,7 @@ static float decode(const float *p, int T, int C, Str *s)
                 add_utf8(s, G.dict + G.dict_at[at - 1], G.dict_at[at] - G.dict_at[at - 1] - 1);
             else
                 str_addn(s, L" ", 1); /* the entry after the list is the space */
-            sum += best;
+            sum += G.vie ? top_probability(p, C, best) : best;
             kept++;
         }
         last = at;
@@ -700,9 +754,12 @@ static bool read_one(Reading *j, int at, int who)
     Scratch *sc = &j->scratch[who];
     int cw = b->r - b->l, ch = b->b - b->t;
     bool turn = ch * 2 >= cw * 3;
-    float want = (float)REC_H * (turn ? (float)ch / (float)cw : (float)cw / (float)ch);
-    int rw = MAXI(1, (int)want + ((float)(int)want < want)), W = MAXI(REC_MIN_W, rw);
-    size_t need = (size_t)W * REC_H * 3;
+    int RH = G.rec_h;
+    float want = (float)RH * (turn ? (float)ch / (float)cw : (float)cw / (float)ch);
+    int rw = MAXI(1, (int)want + ((float)(int)want < want)), W = MAXI(G.vie ? VIE_MIN_W : REC_MIN_W, rw);
+    if (G.vie) /* its width is the line's own, up to a multiple of 4, and the line is squeezed when longer than it reads */
+        rw = W = CLAMPI((rw + 3) & ~3, VIE_MIN_W, VIE_MAX_W);
+    size_t need = (size_t)W * RH * 3;
     if (need > sc->tcap) {
         mem_free(sc->t);
         sc->t = raw_alloc((sc->tcap = need + need / 2) * sizeof(float));
@@ -718,7 +775,7 @@ static bool read_one(Reading *j, int at, int who)
     rec_fill(j->px, j->stride, b, turn, sc->t, W, rw, sc->map);
     OrtValue *res = NULL;
     float *p = NULL;
-    int64_t shape[4] = {1, 3, REC_H, W}, dims[3];
+    int64_t shape[4] = {1, 3, RH, W}, dims[3];
     if (!run(&G.rec, sc->t, shape, &res, &p, dims, 3))
         return false;
     OcrLine *ln = &j->slot[at];

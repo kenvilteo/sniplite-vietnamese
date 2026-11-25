@@ -26,6 +26,19 @@
 #define MODULE_TAG OCR_REPO L"/releases/download/ocr-2/"
 #define MODULE_PATH MODULE_TAG L"sniplite_ocr.zip"
 #define MODULE_BYTES 11985367u
+/* The recognizer that reads Vietnamese is not in that zip: PP-OCRv6's characters lack most of the
+ * tone marks stacked on a vowel (ạ ậ ế ệ ộ ớ ự ...), so it cannot write them. VieSVTR can, and is
+ * CC BY-NC 4.0, so it is not republished here: it is fetched from its author's own page, at the
+ * commit tested, and checked against the size and SHA-256 below. It is named *rec*.onnx like the
+ * one it replaces (src/ocr.c finds a recognizer by that, and knows VieSVTR by its lacking a
+ * character list), and the older one is deleted so that this is the one found. */
+#define VIE_HOST L"huggingface.co"
+#define VIE_PATH L"/ngocthua830/viesvtr/resolve/61bcfb92a1010a01b8d7ed59961419667abe655f/weights/viesvtr_v7.onnx"
+#define VIE_NAME L"viesvtr_rec.onnx"
+#define VIE_BYTES 30682306u
+#define OLD_REC L"PP-OCRv6_rec_tiny.onnx"
+static const uint8_t kVieSha[32] = {0xda, 0x8d, 0xc9, 0xca, 0xc9, 0x38, 0x47, 0x2d, 0x97, 0x37, 0x3e, 0x7e, 0xb8, 0x87, 0x68, 0xe7,
+                                    0xe4, 0xe9, 0x83, 0x00, 0xc4, 0xc4, 0x68, 0x7c, 0x37, 0x66, 0xfb, 0xcb, 0x29, 0xd3, 0x6b, 0x5e};
 /* Beside it, the runtime files by themselves: for a module from before they came with it. */
 #define RUNTIME_PATH MODULE_TAG L"sniplite_ocr_runtime.zip"
 #define RUNTIME_BYTES 334232u
@@ -421,6 +434,7 @@ typedef struct {
     void (*progress)(int, void *);
     void *ctx;
     int shown;
+    uint32_t base, grand; /* bytes already fetched before this one, and all there are: the progress runs on through both */
 } Fetch;
 
 static bool fetch_sink(const void *data, DWORD n, void *ctx)
@@ -430,28 +444,58 @@ static bool fetch_sink(const void *data, DWORD n, void *ctx)
         return false; /* given up, or not the file that was published */
     memcpy(f->buf + f->have, data, n);
     f->have += n;
-    int pct = (int)((uint64_t)f->have * 100 / f->total);
+    int pct = (int)((uint64_t)(f->base + f->have) * 100 / f->grand);
     if (pct != f->shown && f->progress)
         f->progress(f->shown = pct, f->ctx);
     return true;
 }
 
-/* one of the published zips, which has that many bytes, into the module's folder */
-static int get(const WCHAR *path, uint32_t bytes, volatile LONG *cancel, void (*progress)(int percent, void *ctx), void *ctx)
+/* One download of that many bytes: a published zip into the module's folder, or, with one, the single
+ * file it is (checked against its hash, written under its name). before and all are for the progress. */
+static int get_from(const WCHAR *host, const WCHAR *path, uint32_t bytes, const Part *one, uint32_t before, uint32_t all,
+                    volatile LONG *cancel, void (*progress)(int percent, void *ctx), void *ctx)
 {
-    Fetch f = {mem_alloc(bytes), 0, bytes, cancel, progress, ctx, -1};
+    Fetch f = {mem_alloc(bytes), 0, bytes, cancel, progress, ctx, -1, before, all};
     DWORD status;
     if (!f.buf)
         return OCR_GET_WRITE;
-    bool whole = http_fetch(UPDATE_HOST, path, NULL, &status, fetch_sink, &f) && f.have == bytes;
-    int result = *cancel ? OCR_GET_CANCEL : !whole ? OCR_GET_NET : zip_unpack(f.buf, f.have);
+    bool whole = http_fetch(host, path, NULL, &status, fetch_sink, &f) && f.have == bytes;
+    int result = *cancel ? OCR_GET_CANCEL : !whole ? OCR_GET_NET : OCR_GET_OK;
+    if (result == OCR_GET_OK && !one)
+        result = zip_unpack(f.buf, f.have);
+    else if (result == OCR_GET_OK) {
+        uint8_t sha[32];
+        sha256(f.buf, f.have, sha);
+        result = memcmp(sha, one->sha, 32) ? OCR_GET_CHECK : file_write(one->name, f.buf, f.have) ? OCR_GET_OK : OCR_GET_WRITE;
+    }
     mem_free(f.buf);
     return result;
 }
 
+static int get(const WCHAR *path, uint32_t bytes, volatile LONG *cancel, void (*progress)(int percent, void *ctx), void *ctx)
+{
+    return get_from(UPDATE_HOST, path, bytes, NULL, 0, bytes, cancel, progress, ctx);
+}
+
+static const Part kVie = {VIE_NAME, VIE_BYTES, {0}}; /* its hash is kVieSha: a Part's is copied in vie_get */
+
+/* the Vietnamese recognizer, in place of the one the zip brought */
+static int vie_get(volatile LONG *cancel, void (*progress)(int percent, void *ctx), void *ctx)
+{
+    Part p = kVie;
+    memcpy(p.sha, kVieSha, 32);
+    int r = get_from(VIE_HOST, VIE_PATH, VIE_BYTES, &p, MODULE_BYTES, MODULE_BYTES + VIE_BYTES, cancel, progress, ctx);
+    WCHAR old[MAX_PATH * 2];
+    if (r == OCR_GET_OK && part_path(OLD_REC, L"", old, COUNTOF(old)))
+        DeleteFileW(old); /* two recognizers in the folder: the first by name would be read */
+    return r;
+}
+
 int ocr_get(volatile LONG *cancel, void (*progress)(int percent, void *ctx), void *ctx)
 {
-    return get(MODULE_PATH, MODULE_BYTES, cancel, progress, ctx);
+    uint32_t all = MODULE_BYTES + VIE_BYTES;
+    int r = get_from(UPDATE_HOST, MODULE_PATH, MODULE_BYTES, NULL, 0, all, cancel, progress, ctx);
+    return r == OCR_GET_OK ? vie_get(cancel, progress, ctx) : r;
 }
 
 /* ---- carried by the program itself ----
@@ -571,13 +615,15 @@ bool ocr_remove(void)
     for (int i = 0; i < COUNTOF(kNotes); i++)
         if (part_path(kNotes[i], L"", path, COUNTOF(path)))
             DeleteFileW(path);
+    if (part_path(VIE_NAME, L"", path, COUNTOF(path)))
+        DeleteFileW(path);
     RemoveDirectoryW(dir); /* stays when something else is in it */
     return true;
 }
 
 int ocr_size_mb(void)
 {
-    uint64_t sum = 0;
+    uint64_t sum = VIE_BYTES - 4489813; /* the zip's own recognizer is replaced */
     for (int i = 0; i < COUNTOF(kParts); i++)
         sum += kParts[i].size;
     return (int)((sum + 512 * 1024) >> 20);
