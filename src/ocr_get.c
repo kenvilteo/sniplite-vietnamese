@@ -21,7 +21,9 @@
 
 /* The published zip. Its size is known here: for the progress, and nothing else is taken.
  * A changed module is published under a new tag, with both sizes and the hashes below. */
-#define MODULE_TAG UPDATE_REPO L"/releases/download/ocr-2/"
+/* the module stays the original author's release: this fork does not carry it */
+#define OCR_REPO L"/MrTangLuyao/sniplite"
+#define MODULE_TAG OCR_REPO L"/releases/download/ocr-2/"
 #define MODULE_PATH MODULE_TAG L"sniplite_ocr.zip"
 #define MODULE_BYTES 11985367u
 /* Beside it, the runtime files by themselves: for a module from before they came with it. */

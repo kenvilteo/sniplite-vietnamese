@@ -146,6 +146,8 @@ upload_url=YOUR_URL
 upload_token=YOUR_TOKEN
 ```
 
+**Updates** come from this fork's releases only (`src/update.h`, `UPDATE_REPO`), so an update never replaces it with the original sniplite. To publish one: raise `SNIPLITE_VERSION` in `src/common.h`, build, and attach `build\sniplite_win_setup_amd64.exe` to a GitHub release tagged `v<version>`. The text recognition module still downloads from the original repository's `ocr-2` release.
+
 Setting up the server (Cloudflare account, R2, `wrangler deploy`, the token) is described step by step in **[server/README.md](server/README.md)** (Vietnamese).
 
 ## Build it yourself
